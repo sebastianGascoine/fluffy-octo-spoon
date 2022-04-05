@@ -1,7 +1,6 @@
 {
-  "name": "clientServerFormSubmit",
+  "name": "Chess",
   "author": "sebastian",
-  "private": true,
   "version": "0.0.1",
   "dependencies": {
     "express": "^4.15.3"
