@@ -1,75 +1,15 @@
-//<-- -->*/
-function handleCreateClick(){
-    $.ajax({
-      url: "/create",
-      type: "POST",
-      data: {identifier:$("#identifier").val(),name:$("#name").val()},
-      success: function(data){
-          if (data.error)
-            alert("bad create");
-          else
-            alert("good create");
-        } ,
-      dataType: "json"
-    });
-return false;
-}
+$(document).ready(function() {
+    let cell = 0;
 
-function handleReadClick(){
-    $.ajax({
-      url: "/read",
-      type: "GET",
-      data: {identifier:$("#identifier").val()},
-      success: function(data){
-          if (data.error){
-            alert("bad read");
-          } else {
-            alert("good read");
-            $("#name").val(data.name);
-            $("#grade").val(data.grade);
+    for (let r = 0; r < 8; ++r) {
+        const row = $("#board").append('<tr></tr>');
 
-          }
-        } ,
-      dataType: "json"
-    });
-return false;
-}
+        for (let r = 0; r < 8; ++r) {
+            $(row).append(`<td class="cell${cell % 2}"></td>`);
 
-function handleUpdateClick(){
-    $.ajax({
-      url: "/update",
-      type: "PUT",
-      data: {identifier:$("#identifier").val(),name:$("#name").val()},
-      success: function(data){
-          if (data.error)
-            alert("bad update");
-          else
-            alert("good update");
-        } ,
-      dataType: "json"
-    });
-return false;
-}
+            cell++;
+        }
 
-function handleDeleteClick(){
-    $.ajax({
-      url: "/delete/" + $("#identifier").val(),
-      type: "DELETE",
-      success: function(data){
-          if (data.error)
-            alert("bad delete");
-          else
-            alert("good delete");
-        } ,
-      dataType: "json"
-    });
-return false;
-}
-
-$(document).ready(function(){
-  $("#create").click(handleCreateClick);
-  $("#read").click(handleReadClick);
-  $("#update").click(handleUpdateClick);
-  $("#delete").click(handleDeleteClick);
-
+        cell++;
+    }
 });
