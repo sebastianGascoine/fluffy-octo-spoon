@@ -9,8 +9,12 @@
 #board {
     border-spacing: 0;
     border: 2px solid black;
-    user-select: none;
-    -webkit-user-select: none;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* from community wiki stack overflow */
 }
 
 .cell {
