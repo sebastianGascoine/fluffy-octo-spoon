@@ -1,15 +1,60 @@
+* {
+    box-sizing: border-box;
+}
+
 #board {
     border-spacing: 0;
+    border: 2px solid black;
 }
 
-.cell0 {
+.cell {
+    position: relative;
+
+    padding: 0;
     width: 50px;
     height: 50px;
-    background-color: #568b8f;
+
+    text-align: center;
+    line-height: 50px;
 }
 
-.cell1 {
-    width: 50px;
-    height: 50px;
-    background-color: #9fdadf;
+.cell_number {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+
+    padding: 0;
+    margin: 0;
+
+    font-family: sans-serif;
+    font-size: 10px;
+
+    line-height: 10px;
+}
+
+.cell_hover {
+    background-color: blue;
+}
+
+tr:nth-child(odd) .cell:nth-child(odd), tr:nth-child(even) .cell:nth-child(even) {
+    background-color: #F0E8E7;
+}
+tr:nth-child(odd) .cell:nth-child(even), tr:nth-child(even) .cell:nth-child(odd) {
+    background-color: #985650;
+}
+
+tr:nth-child(odd) .cell:nth-child(odd) .cell_number, tr:nth-child(even) .cell:nth-child(even) .cell_number {
+    color: #985650;
+}
+tr:nth-child(odd) .cell:nth-child(even) .cell_number, tr:nth-child(even) .cell:nth-child(odd) .cell_number {
+    color: #F0E8E7;
+}
+
+.piece {
+    z-index: 10;
+
+    width: 40px;
+    height: 40px;
+
+    vertical-align: middle;
 }
