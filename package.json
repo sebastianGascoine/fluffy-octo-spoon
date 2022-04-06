@@ -1,6 +1,6 @@
 {
   "name": "Chess",
-  "author": "sebastian",
+  "author": "sebastian,myles,parker",
   "version": "0.0.1",
   "dependencies": {
     "express": "^4.15.3"
