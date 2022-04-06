@@ -1,21 +1,25 @@
 
-const Student = require('./Student');
+const Student = require('./Game');
 
 let myDatabase = function() {
-    this.students = [];
+    this.board = new Array(8).fill(0).map(() => new Array(8).fill(0));
+    this.games = [];
+    
 }
 
 let studentIndex = 0;
 
 myDatabase.prototype.displayStudents = function() {
     for (let i=0;i<this.students.length;i++) {
-        console.log(this.students[i]);
+        for (let b=0;b<this.students.length;b++){
+        console.log(this.students[i][b]);
+    }
     }
 }
 //similar to create in routes
-myDatabase.prototype.postStudent = function(student) {
-  for (let i=0;i<this.students.length;i++) {
-    if (this.students[i] && this.students[i].id == student.id) {
+myDatabase.prototype.postGame = function(game) {
+  for (let i=0;i<this.games.length;i++) {
+    if (this.games[i] && this.students[i].id == student.id) {
       return false;
     }
   }
