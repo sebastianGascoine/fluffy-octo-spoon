@@ -10,6 +10,7 @@
     border-spacing: 0;
     border: 2px solid black;
     user-select: none;
+    -webkit-user-select: none;
 }
 
 .cell {
