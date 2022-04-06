@@ -36,15 +36,17 @@ $(document).ready(function() {
                 out: function() {
                     $(cell).css('background-color', '');
                 },
-                accept: function() {
-                    return !$(cell).children('.piece').length;
+                accept: function(element) {
+                    console.log(location);
+                    return chessLogic(element,cell,location);
+                    //return !$(cell).children('.piece').length;
                 }
             });
 
             index++;
         }
     }
-
+  /*starting board*/
   {
     $('<img src="chess_pieces/pawn_white.png" alt="pawn" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#a2');
     $('<img src="chess_pieces/pawn_white.png" alt="pawn" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#b2');
@@ -83,4 +85,25 @@ $(document).ready(function() {
     $('<img src="../chess_pieces/knight_black.png" alt="knight" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#g8');
     $('<img src="../chess_pieces/rook_black.png"   alt="rook"   class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#h8');
   }
+  //SEBATIAN GASCOINE
+  function chessLogic(element,cell,location){
+    let r = location.substr(0,1); //letter abcdefgh
+    let c = location.substr(1,1); //number 12345678
+    //console.log("rowsncols "+ r +" "+ c);
+
+    if($(element).prop('alt') == undefined){
+      return false;
+    }
+    if(!$(cell).children('.piece').length || !$(cell).children('.piece').length){
+      return true;
+    }
+
+    if($(element).prop('alt') == "pawn"){ //moves foward 1 or 2 spaces,can move 1 diagonally to take a piece, when it gets to the edge of the board it can be replaced with queen
+      tempstr = r + (c+1);
+      console.log("cell "+ $(cell).prop("id",tempstr).prop('alt'));
+      //if($(cell).prop("id",tempstr))
+
+    }
+  }
+
 });
