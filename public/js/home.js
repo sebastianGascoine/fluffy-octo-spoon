@@ -28,7 +28,7 @@ $(document).ready(function() {
                     $(cell).css('background-color', '');
                     $(ui.draggable).css('left', 0).css('top', 0).appendTo(cell);
 
-                    $("#moves").append('<p>' + location + '</p>')
+                    $("#moves").prepend('<p>' + location + '</p>')
                 },
                 over: function() {
                     $(cell).css('background-color', 'blue');
