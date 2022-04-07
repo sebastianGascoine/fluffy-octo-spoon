@@ -3,8 +3,9 @@
   "author": "sebastian,myles,parker",
   "version": "0.0.1",
   "dependencies": {
+    "body-parser": "~1.18.2",
+    "chess.js": "^0.13.0",
     "express": "^4.15.3",
-    "socket.io": "^2.0.4",
-    "body-parser": "~1.18.2"
+    "socket.io": "^2.0.4"
   }
 }

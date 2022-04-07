@@ -1,5 +1,6 @@
 let path = require("path");
 let express = require("express");
+const chess = require('chess.js');
 let myDatabase = require("./myDatabase");
 const Student = require('./Game');
 
@@ -21,7 +22,8 @@ database = new myDatabase();
 //new code good
 router.post('/create', function(req, res){
    let identifier = Number(req.body.identifier.trim());
-   let name = String(req.body.name.trim());
+   let player = String(req.body.name.trim());
+   
 
     if (identifier == "") {
         res.json({error:true});
@@ -46,6 +48,34 @@ router.post('/create', function(req, res){
 });
 //new code good
 router.get('/read', function(req, res){
+
+    let identifier = Number(req.query.identifier.trim());
+
+    if (req.query.identifier == "") { //empty id
+        res.json({error:true});
+        return;
+    }
+    if (Number.isNaN(identifier)) { //if id is not a #
+        res.json({error:true});
+        return;
+    }
+
+
+    if(database.getStudent(identifier) != null){ //if id input is already in database
+      tempRead = database.getStudent(identifier);
+
+      let drives = String(tempRead.drives);
+      let booldrives = (drives.toLowerCase() === 'true'); //returns true
+      console.log("read id = " + tempRead.id);
+      console.log("read name = " + tempRead.name);
+      res.json({error:false,name:tempRead.name});
+      return;
+    } else{
+      res.json({error:true});
+    }
+
+});
+router.get('/join', function(req, res){
 
     let identifier = Number(req.query.identifier.trim());
 
