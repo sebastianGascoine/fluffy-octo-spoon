@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+     <script src='/socket.io/socket.io.js'></script>
   </head>
   <body>
     <div id="main_content">
@@ -14,6 +15,8 @@
 
       <ul id="moves" style="float: left;"></ul>
     </div>
+        <input type="button" value="Click" onclick="doit()">
+       <ul id='messages'></ul>
   </body>
 
   <script src="js/home.js"></script>

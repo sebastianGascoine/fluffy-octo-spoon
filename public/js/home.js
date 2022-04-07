@@ -1,5 +1,24 @@
 const rows = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ];
 const cols = [ '8', '7', '6', '5', '4', '3', '2', '1' ];
+let ident;
+
+let socket = io();
+   
+
+          socket.on('welcome', function(data) {
+              //ADD SOCKET STUFF HERE            
+          });
+
+
+          socket.on('update', (data) => {
+              //ADD SOCKET STUFF HERE                        
+          });
+
+          function doit() {                
+                //ADD SOCKET STUFF HERE               
+                return false;
+          }
+
 
 $(document).ready(function() {
     let index = 0;
@@ -19,7 +38,7 @@ $(document).ready(function() {
             const location = locationRow + locationCol;
 
             $(cell).prop("id", location);
-
+           
             $(cell).append('<span class="cell_number">' + location + '</span>');
 
             $(cell).droppable({
@@ -44,7 +63,8 @@ $(document).ready(function() {
             index++;
         }
     }
-
+ 
+ 
   {
     $('<img src="chess_pieces/pawn_white.png" alt="pawn" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#a2');
     $('<img src="chess_pieces/pawn_white.png" alt="pawn" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#b2');

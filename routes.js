@@ -1,7 +1,7 @@
 let path = require("path");
 let express = require("express");
 let myDatabase = require("./myDatabase");
-const Student = require('./Student');
+const Student = require('./Game');
 
 
 //Look at below web page for info on express.Router()

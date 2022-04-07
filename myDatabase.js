@@ -1,5 +1,6 @@
 
 const Student = require('./Game');
+//import { Chess } from 'chess.js'
 
 let myDatabase = function() {
     this.board = new Array(8).fill(0).map(() => new Array(8).fill(0));
@@ -9,7 +10,7 @@ let myDatabase = function() {
 
 let studentIndex = 0;
 
-myDatabase.prototype.displayStudents = function() {
+myDatabase.prototype.displayboard = function() {
     for (let i=0;i<this.students.length;i++) {
         for (let b=0;b<this.students.length;b++){
         console.log(this.students[i][b]);
