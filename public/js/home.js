@@ -17,6 +17,7 @@ $(document).ready(function() {
             const locationCol = cols[locationColNumber];
 
             const location = locationRow + locationCol;
+            var oldloc = location;
 
             $(cell).prop("id", location);
 
@@ -28,7 +29,7 @@ $(document).ready(function() {
                     $(cell).css('background-color', '');
                     $(ui.draggable).css('left', 0).css('top', 0).appendTo(cell);
 
-                    $("#moves").prepend('<p>' + location + '</p>')
+                    $("#moves").prepend('<p>' + location + '</p>');
                 },
                 over: function() {
                     $(cell).css('background-color', 'blue');
@@ -37,8 +38,9 @@ $(document).ready(function() {
                     $(cell).css('background-color', '');
                 },
                 accept: function(element) {
-                    console.log(location);
-                    return chessLogic(element,cell,location);
+                    if(!(chessLogic(element,cell,location,oldloc)) == true){
+                      return true;
+                    }
                     //return !$(cell).children('.piece').length;
                 }
             });
@@ -47,7 +49,8 @@ $(document).ready(function() {
         }
     }
   /*starting board*/
-  {
+  { //white pieces
+    /*
     $('<img src="chess_pieces/pawn_white.png" alt="pawn" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#a2');
     $('<img src="chess_pieces/pawn_white.png" alt="pawn" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#b2');
     $('<img src="chess_pieces/pawn_white.png" alt="pawn" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#c2');
@@ -63,10 +66,11 @@ $(document).ready(function() {
     $('<img src="chess_pieces/queen_white.png"  alt="queen"  class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#d1');
     $('<img src="chess_pieces/king_white.png"   alt="king"   class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#e1');
     $('<img src="chess_pieces/bishop_white.png" alt="bishop" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#f1');
-    $('<img src="chess_pieces/knight_white.png" alt="knight" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#g1');
+    */$('<img src="chess_pieces/knight_white.png" alt="knight" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#g1');
     $('<img src="chess_pieces/rook_white.png"   alt="rook"   class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#h1');
   }
-  {
+  /*
+  { //black pieces
     $('<img src="../chess_pieces/pawn_black.png" alt="pawn" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#a7');
     $('<img src="../chess_pieces/pawn_black.png" alt="pawn" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#b7');
     $('<img src="../chess_pieces/pawn_black.png" alt="pawn" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#c7');
@@ -85,24 +89,30 @@ $(document).ready(function() {
     $('<img src="../chess_pieces/knight_black.png" alt="knight" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#g8');
     $('<img src="../chess_pieces/rook_black.png"   alt="rook"   class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#h8');
   }
+  */
   //SEBATIAN GASCOINE
-  function chessLogic(element,cell,location){
+  function chessLogic(element,cell,location,oldloc){
+    console.log(oldloc + ' ' + location);
     let r = location.substr(0,1); //letter abcdefgh
     let c = location.substr(1,1); //number 12345678
-    //console.log("rowsncols "+ r +" "+ c);
-
+    //console.log(!$(cell).children('.piece').length);
     if($(element).prop('alt') == undefined){
       return false;
     }
-    if(!$(cell).children('.piece').length || !$(cell).children('.piece').length){
+    if($(cell).children('.piece').length){
       return true;
     }
 
     if($(element).prop('alt') == "pawn"){ //moves foward 1 or 2 spaces,can move 1 diagonally to take a piece, when it gets to the edge of the board it can be replaced with queen
-      tempstr = r + (c+1);
-      console.log("cell "+ $(cell).prop("id",tempstr).prop('alt'));
-      //if($(cell).prop("id",tempstr))
-
+      //console.log("hi");
+    }
+    if($(element).prop('alt') == "rook"){ //moves only horizontally and vertically
+      tempcellr = oldloc.substr(0,1);
+      tempcellc = oldloc.substr(1);
+      if(tempcellr == r || tempcellc == c){
+        return 0;
+      }
+      return 1;
     }
   }
 
