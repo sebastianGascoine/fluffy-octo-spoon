@@ -25,6 +25,7 @@ $(document).ready(function() {
 
             $(cell).droppable({
                 tolerance: 'pointer',
+
                 drop: function(event, ui) {
                     $(cell).css('background-color', '');
                     $(ui.draggable).css('left', 0).css('top', 0).appendTo(cell);
