@@ -24,6 +24,9 @@ $(document).ready(function() {
 
             $(cell).droppable({
                 tolerance: 'pointer',
+                activate: function(event,ui){
+                  oldloc = location;
+                },
                 drop: function(event, ui) {
                     $(cell).css('background-color', '');
                     $(ui.draggable).css('left', 0).css('top', 0).appendTo(cell);
@@ -49,9 +52,9 @@ $(document).ready(function() {
     }
   /*starting board*/
   { //white pieces
-    /*
+
     $('<img src="chess_pieces/pawn_white.png" alt="pawn" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#a2');
-    $('<img src="chess_pieces/pawn_white.png" alt="pawn" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#b2');
+    /*$('<img src="chess_pieces/pawn_white.png" alt="pawn" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#b2');
     $('<img src="chess_pieces/pawn_white.png" alt="pawn" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#c2');
     $('<img src="chess_pieces/pawn_white.png" alt="pawn" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#d2');
     $('<img src="chess_pieces/pawn_white.png" alt="pawn" class="piece">').draggable({ revert: 'invalid', containment: '#board' }).appendTo('#e2');
@@ -103,7 +106,12 @@ $(document).ready(function() {
     }
 
     if($(element).prop('alt') == "pawn"){ //moves foward 1 or 2 spaces,can move 1 diagonally to take a piece, when it gets to the edge of the board it can be replaced with queen
-      //console.log("hi");
+      tempcellr = oldloc.substr(0,1);
+      tempcellc = oldloc.substr(1);
+      if(tempcellr == r){
+        return 0;
+      }
+      return 1;
     }
     if($(element).prop('alt') == "rook"){ //moves only horizontally and vertically
       tempcellr = oldloc.substr(0,1);
