@@ -1,53 +1,81 @@
 
-const Student = require('./Student');
+const Student = require('./Game');
+
 
 let myDatabase = function() {
-    this.students = [];
+    this.board = new Array(8).fill(0).map(() => new Array(8).fill(0));
+    this.games = [];
+    
 }
+/*
+ * .newgame(obj)[.id /.players(string [names separated by a '/' ] ) /.board(FEN string)]
+ * .getgame(id)
+ * .putgame(obj)[.id /.players(string)[names separated by a '/' ] /.board(FEN string)]
+ * .deletegame(id)
+ * .getPlayers(id) returns 2 string values
+ * .getboard(id)  returns FEN string
+ */
 
-let studentIndex = 0;
+let gameIndex = 0;
 
-myDatabase.prototype.displayStudents = function() {
-    for (let i=0;i<this.students.length;i++) {
-        console.log(this.students[i]);
-    }
-}
-//similar to create in routes
-myDatabase.prototype.postStudent = function(student) {
-  for (let i=0;i<this.students.length;i++) {
-    if (this.students[i] && this.students[i].id == student.id) {
+myDatabase.prototype.newGame = function(game) {
+  for (let i=0;i<this.games.length;i++) {
+    if (this.games[i] && this.games[i].id == game.id) {
       return false;
     }
   }
-    this.students[studentIndex++] = new Student(student.id,student.name,student.grade,student.drives);
+    this.games[gameIndex++] = new game(game.id,game.players,game.board);
     return true;
 }
 //similar to read
-myDatabase.prototype.getStudent = function(id) {
-  for (let i=0;i<this.students.length;i++) {
-    if (this.students[i] && id == this.students[i].id)
+myDatabase.prototype.getGame = function(id) {
+  for (let i=0;i<this.games.length;i++) {
+    if (this.games[i] && id == this.games[i].id)
         {
-      return(new Student(this.students[i].id,this.students[i].name,this.students[i].grade,this.students[i].drives));
+      return(new game(this.games[i].id,this.games[i].players,this.games[i].board));
+        }
+  }
+    return null;
+}
+myDatabase.prototype.getPlayers = function(id) {
+  for (let i=0;i<this.games.length;i++) {
+    if (this.games[i] && id == this.games[i].id)
+        {
+             let obj = new game(this.games[i].players);
+             let string = (String(obj));
+             let myArray = string.split("/");
+             let player1 = myArray[0];
+             let player2 = myArray[0];
+             return(player1,player2);
+        }
+  }
+    return null;
+}
+myDatabase.prototype.getBoard = function(id) {
+  for (let i=0;i<this.games.length;i++) {
+    if (this.games[i] && id == this.games[i].id)
+        {
+      return(String(new game(this.games[i].board)));
         }
   }
     return null;
 }
 //similar to update
-myDatabase.prototype.putStudent = function(student) {
-  for (let i=0;i<this.students.length;i++) {
-    if (this.students[i] && this.students[i].id == student.id) {
-      this.students[i] = new Student(student.id,student.name,student.grade,student.drives);
+myDatabase.prototype.putGame = function(game) {
+  for (let i=0;i<this.games.length;i++) {
+    if (this.games[i] && this.games[i].id == game.id) {
+      this.games[i] = new game(game.id, game.players, game.board);
       return true;
     }
   }
   return false;
 }
 //delete student
-myDatabase.prototype.deleteStudent = function(id) {
-  for (let i=0;i<this.students.length;i++) {
-    if (this.students[i] && id == this.students[i].id) {
-              let tempPtr = this.students[i];
-        this.students[i] = undefined;
+myDatabase.prototype.deleteGame = function(id) {
+  for (let i=0;i<this.games.length;i++) {
+    if (this.games[i] && id == this.games[i].id) {
+              let tempPtr = this.games[i];
+        this.games[i] = undefined;
                 return tempPtr;
     }
   }
