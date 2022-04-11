@@ -18,18 +18,16 @@ $(document).ready(function() {
 
             const location = locationRow + locationCol;
             var oldloc = location;
-
             $(cell).prop("id", location);
 
             $(cell).append('<span class="cell_number">' + location + '</span>');
 
             $(cell).droppable({
                 tolerance: 'pointer',
-
                 drop: function(event, ui) {
                     $(cell).css('background-color', '');
                     $(ui.draggable).css('left', 0).css('top', 0).appendTo(cell);
-
+                    oldloc = location;
                     $("#moves").prepend('<p>' + location + '</p>');
                 },
                 over: function() {
