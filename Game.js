@@ -1,11 +1,10 @@
-let Game = function(id,players,board,moves) {
+let Game = function(id,players,board) {
     this.id = id;
     this.players = players;
-    this.board = board; 
-    this.moves = moves; 
-  
-    
+    this.board = board;
+
+
+
 }
 
 module.exports = Game;
-  

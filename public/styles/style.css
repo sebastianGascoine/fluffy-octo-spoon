@@ -8,13 +8,10 @@
 
 #board {
     border-spacing: 0;
-    border: 2px solid black;
-    -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* from community wiki stack overflow */
+
+    display: inline;
 }
 
 .cell {
@@ -46,6 +43,17 @@
     background-color: blue;
 }
 
+.cell_background {
+    width: 100px;
+    height: 100px;
+
+    z-index: 2;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 tr:nth-child(odd) .cell:nth-child(odd), tr:nth-child(even) .cell:nth-child(even) {
     background-color: #F0E8E7;
 }
@@ -63,8 +71,8 @@ tr:nth-child(odd) .cell:nth-child(even) .cell_number, tr:nth-child(even) .cell:n
 .piece {
     z-index: 10;
 
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
 
     vertical-align: middle;
 }
