@@ -13,7 +13,7 @@ let router = express.Router();
 //response is info sending to client from server.
 
 router.get("/",function(req,res){
-    res.sendFile(path.resolve(__dirname + "/public/views/index.html"));  //changed
+    res.sendFile(path.resolve(__dirname + "/public/views/load.html"));  //changed
 });
 //////////////////////////////////////////////////////////////
 let index = 0;
