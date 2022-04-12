@@ -2,6 +2,7 @@ const rows = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ];
 const cols = [ '8', '7', '6', '5', '4', '3', '2', '1' ];
 
 $(document).ready(function() {
+    $("#fenbutton").click(handlestuff);
     let index = 0;
 
     for (let r = 0; r < 8; ++r) {
@@ -269,4 +270,40 @@ function chessLogic(element, cell) {
 
 function hasPiece(cellName) {
     return $('#' + cellName).children('.piece').length;
+}
+function handlestuff(){
+  let fen = '';
+  let index = 0;
+  let fennum = 0;
+  /*$("#board tr td .piece").each(function(){ //$(this).attr"name" + ' ' + 'chess_color' + ' ' +
+    if(index % 8 == 0){
+      fen += '/';
+    }
+    //if($(this).attr('chess-name') == )
+    index++;
+  });*/
+  $("#board tr td").each(function(){
+    $(this).find('.piece').each(function(){
+      if(index % 8 == 0){
+        fen += '/';
+      }
+      if($(this).attr('chess-color') == "black"){
+        if($(this).attr('chess-name') == "knight"){
+          fen += $(this).attr('chess-name').substr(1,1);
+        }else {
+          fen += $(this).attr('chess-name').substr(0,1);
+        }
+      } else
+      {
+        if($(this).attr('chess-name') == "knight"){
+          fen += $(this).attr('chess-name').substr(1,1).toUpperCase();
+        }else {
+          fen += $(this).attr('chess-name').substr(0,1).toUpperCase();
+        }
+      }
+      index++;
+      //console.log($(this).attr('chess-name'));
+    })
+  });
+  console.log(fen);
 }
