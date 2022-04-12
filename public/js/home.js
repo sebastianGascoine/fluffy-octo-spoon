@@ -275,35 +275,37 @@ function handlestuff(){
   let fen = '';
   let index = 0;
   let fennum = 0;
-  /*$("#board tr td .piece").each(function(){ //$(this).attr"name" + ' ' + 'chess_color' + ' ' +
-    if(index % 8 == 0){
-      fen += '/';
-    }
-    //if($(this).attr('chess-name') == )
-    index++;
-  });*/
   $("#board tr td").each(function(){
-    $(this).find('.piece').each(function(){
+
+    $(this).each(function(){
+      console.log("hi");
       if(index % 8 == 0){
         fen += '/';
       }
-      if($(this).attr('chess-color') == "black"){
-        if($(this).attr('chess-name') == "knight"){
-          fen += $(this).attr('chess-name').substr(1,1);
+      if($(this).find('.piece').attr('chess-color') == undefined){
+        fen += '1';
+      }
+      else if($(this).find('.piece').attr('chess-color') == "black"){
+        if($(this).find('.piece').attr('chess-name') == "knight"){
+          fen += $(this).find('.piece').attr('chess-name').substr(1,1);
         }else {
-          fen += $(this).attr('chess-name').substr(0,1);
+          fen += $(this).find('.piece').attr('chess-name').substr(0,1);
         }
-      } else
+      }
+      else
       {
-        if($(this).attr('chess-name') == "knight"){
-          fen += $(this).attr('chess-name').substr(1,1).toUpperCase();
-        }else {
-          fen += $(this).attr('chess-name').substr(0,1).toUpperCase();
+        if($(this).find('.piece').attr('chess-name') == "knight"){
+          fen += $(this).find('.piece').attr('chess-name').substr(1,1).toUpperCase();
+        }
+        else {
+          fen += $(this).find('.piece').attr('chess-name').substr(0,1).toUpperCase();
         }
       }
       index++;
       //console.log($(this).attr('chess-name'));
     })
+    //console.log(fen + " here");
   });
+  
   console.log(fen);
 }
