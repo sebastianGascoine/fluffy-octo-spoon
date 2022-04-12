@@ -8,7 +8,4 @@ let Game = function(id,players,board,moves) {
 }
 
 module.exports = Game;
-   // test 
-   // another test 
-   // more testing 
-   
+  

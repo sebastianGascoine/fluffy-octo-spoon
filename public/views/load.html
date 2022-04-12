@@ -5,78 +5,91 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html>
-    <head>
-        <title>Home</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-        <style type="text/css">
-            #main_content{
-                color: white;
-                margin: auto;
-                width: 50%;
-                padding: 70px 0;
-                text-align: center;
-            }
-            body{
-                
-           background-color: black;
-               
-            }
-            .button {
-  color: white;
-  border: 2px solid #008CBA; /* Green */
-  padding: 15px 32px;
-  background-color: black;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  transition-duration: 0.4s;
-  border-radius:3px;
-}
-.button:hover {
-  background-color: #008CBA; /* Green */
-  color: white;
-}
 
-input[type=text] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
-}
-input[type=text]:focus {
-  background-color: lightblue;
-}
+<head>
+    <title>Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <style type="text/css">
 
+    #main_content {
+        color: white;
+        margin: auto;
+        width: 50%;
+        padding: 70px 0;
+        text-align: center;
+    }
+
+    body {
+
+        background-color: black;
+
+    }
+    
+    logo{
+        margin: auto;
+    }
+
+    .button {
+        color: white;
+        border: 2px solid #008CBA;
+        /* Green */
+        padding: 15px 32px;
+        background-color: black;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        transition-duration: 0.4s;
+        border-radius: 3px;
+    }
+
+    .button:hover {
+        background-color: #008CBA;
+        /* Green */
+        color: white;
+    }
+
+    input[type=text] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+    }
+
+    input[type=text]:focus {
+        background-color: lightblue;
+    }
     </style>
-        
-    </head>
-    <body>
-        <div id="main_content" >
-         <div id="user_content">
-           <input id="join" type="button" value="Join Game" onclick="joinFunc()" class="button"/>
-            <input id="make" type="button" value="Create Game" onclick="createFunc()" class="button"/>
-             <input id="import" type="button" value="Import Game From FEN String" onclick="fenFunc()"  class="button"/>
-      </div>
-            <div id="input_fields">
-                <div id="1" style="display:none">
-                    <input id="joinInput" type="text" placeholder="game ID" />
-                    <input id="playerName" type="text" placeholder="Your Name" />
-                    </div>
-                <div id="2" style="display:none">
-                    <input id="fenInput" type="text" placeholder="FEN String" />
-                    <input id="gameId" type="text" placeholder="game ID" />
-                    <input id="playerName" type="text" placeholder="Your Name" />
-                </div>
-                <div id="3" style="display:none"> 
-                    <input id="gameId" type="text" placeholder="game ID" />
-                    <input id="playerName" type="text" placeholder="Your Name" />
-                </div>
-                
-                
+</head>
+
+<body>
+    <logo>
+       <img src="./../resources/logo.svg ">
+    </logo>
+    <div id="main_content">
+        <div id="user_content">
+            <input id="join" type="button" value="Join Game" onclick="joinFunc()" class="button" />
+            <input id="make" type="button" value="Create Game" onclick="createFunc()" class="button" />
+            <input id="import" type="button" value="Import Game From FEN String" onclick="fenFunc()" class="button" />
+        </div>
+        <div id="input_fields">
+            <div id="1" style="display:none">
+                <input id="joinInput" type="text" placeholder="game ID" />
+                <input id="playerName" type="text" placeholder="Your Name" />
             </div>
-    </body>
-    <script src="js/home2.js"></script>
+            <div id="2" style="display:none">
+                <input id="fenInput" type="text" placeholder="FEN String" />
+                <input id="gameId" type="text" placeholder="game ID" />
+                <input id="playerName" type="text" placeholder="Your Name" />
+            </div>
+            <div id="3" style="display:none">
+                <input id="gameId" type="text" placeholder="game ID" />
+                <input id="playerName" type="text" placeholder="Your Name" />
+            </div>
+        </div>
+</body>
+<script src="js/home2.js"></script>
+
 </html>
