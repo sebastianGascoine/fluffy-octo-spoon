@@ -3,6 +3,15 @@
 
 
 
+
+
+    #body_main{
+
+        -webkit-user-select: none; /* Safari */
+            user-select: none;
+    }
+
+
     .text-align {
         /*color: white;*/
         margin: auto;

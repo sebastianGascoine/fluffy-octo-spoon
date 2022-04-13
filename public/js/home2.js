@@ -30,18 +30,27 @@ function fenVis() {
     $("#2").toggleClass("active");
     $("#3").removeClass("active");
 }
+isdark = true;
 
 function lightdark() {
-  // Get the checkbox
-  console.log('here');
 
+    console.log('here');
 
-  //  $("#body_main").removeClass("darkmode");
+    if (isdark = true) {
+
+        $("img")
+
+    } else if (isdark = false) {
+
+    }
+
+    //  $("#body_main").removeClass("darkmode");
     $("#body_main").toggleClass("lightmode");
+    $("#btn").toggleClass("lightmode");
+    $("#btn").toggleClass("darkmode");
 
 
-
-   // $("#body_main").removeClass("lightmode");
+    // $("#body_main").removeClass("lightmode");
     $("#body_main").toggleClass("darkmode");
 
-  }
+}
