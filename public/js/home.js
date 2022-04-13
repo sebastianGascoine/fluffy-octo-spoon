@@ -286,7 +286,7 @@ function getLocation(rowNumber, colNumber) {
 
 function chessLogic(element, cell) {
     console.log($(cell).prop('id'));
-}    
+}
 
 function hasPiece(cellName) {
     return $('#' + cellName).children('.piece').length;
@@ -298,13 +298,11 @@ function handlestuff(){
 $("#board tr td").each(function(){
 
     $(this).each(function(){
-      console.log("hi");
       if(index % 8 == 0){
         fen += '/';
       }
       if($(this).find('.piece').attr('chess-color') == undefined){
         fen += '1';
-        fen += "1";
       }
       else if($(this).find('.piece').attr('chess-color') == "black"){
         if($(this).find('.piece').attr('chess-name') == "knight"){
@@ -328,15 +326,18 @@ $("#board tr td").each(function(){
     })
     //console.log(fen + " here");
   });
-
-  fentemp = '';
-  for (let i=0; i<fen.length;i++){
-    if(isNaN(fen.substr(i-1,1)) == false && isNaN(fen.substr(i-1,1))){
-
-    } else {
-      fentemp += fen.substr(i, 1);
-    }
-  }
-  fen = fentemp;
+  fen = fen.replaceAll('11111111', '8');
+  fen = fen.replaceAll('1111111', '7');
+  fen = fen.replaceAll('111111', '6');
+  fen = fen.replaceAll('11111', '5');
+  fen = fen.replaceAll('1111', '4');
+  fen = fen.replaceAll('111', '3');
+  fen = fen.replaceAll('11', '2');
+//  fen += ' w'; // ' w' = white turn, ' b' = black turn
+//  if(startingpos){ //starting board
+//    fen += ' - -' + 0 /*PLACEHOLDER # OF TURNS*/ + 1/*PLACEHOLDER # OF TURNS*/ ;
+//  !!!no castling because thats annoying to do also ennnenennenennnee somthing idk what it means so not gonna do it!!!
+//  }
+//  if()
   console.log(fen);
 }

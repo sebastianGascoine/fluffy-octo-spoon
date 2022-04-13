@@ -14,6 +14,9 @@ let router = express.Router();
 router.get("/",function(req,res){
     res.sendFile(path.resolve(__dirname + "/public/views/load.html"));  //changed
 });
+router.get("/justtotest",function(req,res){
+    res.sendFile(path.resolve(__dirname + "/public/views/index.html"));  //changed
+});
 //////////////////////////////////////////////////////////////
 let index = 0;
 database = new myDatabase();
@@ -22,7 +25,7 @@ database = new myDatabase();
 router.post('/create', function(req, res){
    let identifier = Number(req.body.identifier.trim());
    let player = String(req.body.name.trim());
-   
+
 
     if (identifier == "") {
         res.json({error:true});
