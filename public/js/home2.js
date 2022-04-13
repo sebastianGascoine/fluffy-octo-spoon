@@ -27,3 +27,18 @@ function fenVis() {
     $("#2").toggleClass("active");
     $("#3").removeClass("active");
 }
+
+function lightdark() {
+  // Get the checkbox
+  console.log('here');
+ 
+  
+  //  $("#body_main").removeClass("darkmode");
+    $("#body_main").toggleClass("lightmode");
+    
+
+  
+   // $("#body_main").removeClass("lightmode");
+    $("#body_main").toggleClass("darkmode");
+    
+  }
