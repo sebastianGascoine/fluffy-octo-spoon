@@ -37,8 +37,7 @@ $(document).ready(function() {
 
             $(cell).prop("id", location);
 
-
-            //$(cell).append('<span class="cell_number">' + location + '</span>');
+            $(cell).append('<span class="cell_number">' + location + '</span>');
 
             $(cell).append('<span class="cell_background"></span>');
 
@@ -46,7 +45,9 @@ $(document).ready(function() {
                 tolerance: 'pointer',
                 activate: function(event, ui) {
                     //$('#' + $(ui.draggable).attr('chess-location')).children('.cell_background').css('background-color', '#FFFFFF20');
-                    for (const move of possibleMoves(ui.draggable)) {
+                    const moves = possibleMoves(ui.draggable);
+
+                    for (const move of [...moves.moves, ...moves.specialMoves]) {
                         $('#' + move).children('.cell_background').css('background-color', '#00000060');
                     }
                 },
@@ -62,6 +63,16 @@ $(document).ready(function() {
                     $("#moves").prepend('<p>' + location + '</p>');
                     $(ui.draggable).attr('chess-location', location);
                     $(ui.draggable).attr('chess-moved', true);
+
+                    if (locationColNumber === 0 && $(ui.draggable).attr('chess-name') === 'pawn' && $(ui.draggable).attr('chess-color') === 'white') {
+                        $(ui.draggable).attr('chess-name', 'queen');
+                        $(ui.draggable).prop('src', '../chess_pieces/queen_white.png');
+                    }
+
+                    if (locationColNumber === 7 && $(ui.draggable).attr('chess-name') === 'pawn' && $(ui.draggable).attr('chess-color') === 'black') {
+                        $(ui.draggable).attr('chess-name', 'queen');
+                        $(ui.draggable).prop('src', '../chess_pieces/queen_black.png');
+                    }
                 },
                 over: function() {
                     $(cell).children('.cell_background').css('border', '4px solid #00000060');
@@ -70,7 +81,9 @@ $(document).ready(function() {
                     $(cell).children('.cell_background').css('border', '');
                 },
                 accept: function(element) {
-                    return possibleMoves(element).includes(location);
+                    const moves = possibleMoves(element);
+
+                    return [...moves.moves, ...moves.specialMoves].includes(location);
                 }
             });
 
@@ -129,6 +142,7 @@ function possibleMoves(piece) {
     const locationColNumber = cols.indexOf(locationCol);
 
     const moves = [];
+    const specialMoves = [];
 
     if ($(piece).attr('chess-name') === 'pawn') {
         const direction = $(piece).attr('chess-color') === 'white' ? -1 : 1;
@@ -147,8 +161,8 @@ function possibleMoves(piece) {
         const attack1 = getLocation(locationRowNumber - 1, locationColNumber + direction);
         const attack2 = getLocation(locationRowNumber + 1, locationColNumber + direction);
 
-        if (hasPiece(attack1)) moves.push(attack1);
-        if (hasPiece(attack2)) moves.push(attack2);
+        if (hasPiece(attack1) && getPiece(attack1).attr('chess-color') !== $(piece).attr('chess-color')) moves.push(attack1);
+        if (hasPiece(attack2) && getPiece(attack2).attr('chess-color') !== $(piece).attr('chess-color')) moves.push(attack2);
     }
 
     if ($(piece).attr('chess-name') === 'king') {
@@ -164,7 +178,46 @@ function possibleMoves(piece) {
         nearbyMoves.push(getLocation(locationRowNumber + 1, locationColNumber + 1)); // SE
         nearbyMoves.push(getLocation(locationRowNumber - 1, locationColNumber + 1)); // SW
 
-        for (const nearbyMove of nearbyMoves) if (!hasPiece(nearbyMove)) moves.push(nearbyMove);
+        for (const nearbyMove of nearbyMoves) {
+            if (hasPiece(nearbyMove) && getPiece(nearbyMove).attr('chess-color') === $(piece).attr('chess-color')) continue;
+            moves.push(nearbyMove);
+        }
+
+        if (!$(piece).attr('chess-moved')) {
+            if ($(piece).attr('chess-color') === 'white') {
+                if (!hasPiece('f1') && !hasPiece('g1') && hasPiece('h1')) {
+                    const possibleRook = getPiece('h1');
+
+                    if (!possibleRook.attr('chess-moved') && possibleRook.attr('chess-name') === 'rook' && possibleRook.attr('chess-color') === 'white') {
+                        specialMoves.push('g1');
+                    }
+                }
+                if (!hasPiece('d1') && !hasPiece('c1') && !hasPiece('b1') && hasPiece('a1')) {
+                    const possibleRook = getPiece('a1');
+
+                    if (!possibleRook.attr('chess-moved') && possibleRook.attr('chess-name') === 'rook' && possibleRook.attr('chess-color') === 'white') {
+                        specialMoves.push('c1');
+                    }
+                }
+            }
+
+            if ($(piece).attr('chess-color') === 'black') {
+                if (!hasPiece('f8') && !hasPiece('g8') && hasPiece('h8')) {
+                    const possibleRook = getPiece('h8');
+
+                    if (!possibleRook.attr('chess-moved') && possibleRook.attr('chess-name') === 'rook' && possibleRook.attr('chess-color') === 'black') {
+                        specialMoves.push('g8');
+                    }
+                }
+                if (!hasPiece('d8') && !hasPiece('c8') && !hasPiece('b8') && hasPiece('a8')) {
+                    const possibleRook = getPiece('a8');
+
+                    if (!possibleRook.attr('chess-moved') && possibleRook.attr('chess-name') === 'rook' && possibleRook.attr('chess-color') === 'black') {
+                        specialMoves.push('c8');
+                    }
+                }
+            }
+        }
     }
 
     if ($(piece).attr('chess-name') === 'knight') {
@@ -182,96 +235,211 @@ function possibleMoves(piece) {
         nearbyMoves.push(getLocation(locationRowNumber - 2, locationColNumber + 1)); // W
         nearbyMoves.push(getLocation(locationRowNumber - 2, locationColNumber - 1)); // W
 
-        for (const nearbyMove of nearbyMoves) if (!hasPiece(nearbyMove)) moves.push(nearbyMove);
+        for (const nearbyMove of nearbyMoves) {
+            if (hasPiece(nearbyMove) && getPiece(nearbyMove).attr('chess-color') === $(piece).attr('chess-color')) continue;
+            moves.push(nearbyMove);
+        }
     }
 
     if ($(piece).attr('chess-name') === 'rook') {
         for (let row = locationRowNumber - 1; row >= 0; row--) {
-            if (hasPiece(getLocation(row, locationColNumber))) break;
+            const blockingPiece = getPiece(getLocation(row, locationColNumber));
+
+            if (blockingPiece.length) {
+                if (blockingPiece.attr('chess-color') !== $(piece).attr('chess-color'))
+                    moves.push(getLocation(row, locationColNumber));
+                break;
+            }
+
             moves.push(getLocation(row, locationColNumber));
         }
 
         for (let col = locationColNumber - 1; col >= 0; col--) {
-            if (hasPiece(getLocation(locationRowNumber, col))) break;
+            const blockingPiece = getPiece(getLocation(locationRowNumber, col));
+
+            if (blockingPiece.length) {
+                if (blockingPiece.attr('chess-color') !== $(piece).attr('chess-color'))
+                    moves.push(getLocation(locationRowNumber, col));
+                break;
+            }
+
             moves.push(getLocation(locationRowNumber, col));
         }
 
         for (let row = locationRowNumber + 1; row < rows.length; row++) {
-            if (hasPiece(getLocation(row, locationColNumber))) break;
+            const blockingPiece = getPiece(getLocation(row, locationColNumber));
+
+            if (blockingPiece.length) {
+                if (blockingPiece.attr('chess-color') !== $(piece).attr('chess-color'))
+                    moves.push(getLocation(row, locationColNumber));
+                break;
+            }
+
             moves.push(getLocation(row, locationColNumber));
         }
 
         for (let col = locationColNumber + 1; col < cols.length; col++) {
-            if (hasPiece(getLocation(locationRowNumber, col))) break;
+            const blockingPiece = getPiece(getLocation(locationRowNumber, col));
+
+            if (blockingPiece.length) {
+                if (blockingPiece.attr('chess-color') !== $(piece).attr('chess-color'))
+                    moves.push(getLocation(locationRowNumber, col));
+                break;
+            }
+
             moves.push(getLocation(locationRowNumber, col));
         }
     }
 
     if ($(piece).attr('chess-name') === 'bishop') {
         for (let row = locationRowNumber - 1, col = locationColNumber - 1; row >= 0, col >= 0; row--, col--) {
-            if (hasPiece(getLocation(row, col))) break;
+            const blockingPiece = getPiece(getLocation(row, col));
+
+            if (blockingPiece.length) {
+                if (blockingPiece.attr('chess-color') !== $(piece).attr('chess-color'))
+                    moves.push(getLocation(row, col));
+                break;
+            }
+
             moves.push(getLocation(row, col));
         }
 
         for (let row = locationRowNumber + 1, col = locationColNumber + 1; row < rows.length, col < cols.length; row++, col++) {
-            if (hasPiece(getLocation(row, col))) break;
+            const blockingPiece = getPiece(getLocation(row, col));
+
+            if (blockingPiece.length) {
+                if (blockingPiece.attr('chess-color') !== $(piece).attr('chess-color'))
+                    moves.push(getLocation(row, col));
+                break;
+            }
+
             moves.push(getLocation(row, col));
         }
 
         for (let row = locationRowNumber + 1, col = locationColNumber - 1; row < rows.length, col >= 0; row++, col--) {
-            if (hasPiece(getLocation(row, col))) break;
+            const blockingPiece = getPiece(getLocation(row, col));
+
+            if (blockingPiece.length) {
+                if (blockingPiece.attr('chess-color') !== $(piece).attr('chess-color'))
+                    moves.push(getLocation(row, col));
+                break;
+            }
+
             moves.push(getLocation(row, col));
         }
 
         for (let row = locationRowNumber - 1, col = locationColNumber + 1; row >= 0, col < cols.length; row--, col++) {
-            if (hasPiece(getLocation(row, col))) break;
+            const blockingPiece = getPiece(getLocation(row, col));
+
+            if (blockingPiece.length) {
+                if (blockingPiece.attr('chess-color') !== $(piece).attr('chess-color'))
+                    moves.push(getLocation(row, col));
+                break;
+            }
+
             moves.push(getLocation(row, col));
         }
     }
 
     if ($(piece).attr('chess-name') === 'queen') {
         for (let row = locationRowNumber - 1, col = locationColNumber - 1; row >= 0, col >= 0; row--, col--) {
-            if (hasPiece(getLocation(row, col))) break;
+            const blockingPiece = getPiece(getLocation(row, col));
+
+            if (blockingPiece.length) {
+                if (blockingPiece.attr('chess-color') !== $(piece).attr('chess-color'))
+                    moves.push(getLocation(row, col));
+                break;
+            }
+
             moves.push(getLocation(row, col));
         }
 
         for (let row = locationRowNumber + 1, col = locationColNumber + 1; row < rows.length, col < cols.length; row++, col++) {
-            if (hasPiece(getLocation(row, col))) break;
+            const blockingPiece = getPiece(getLocation(row, col));
+
+            if (blockingPiece.length) {
+                if (blockingPiece.attr('chess-color') !== $(piece).attr('chess-color'))
+                    moves.push(getLocation(row, col));
+                break;
+            }
+
             moves.push(getLocation(row, col));
         }
 
         for (let row = locationRowNumber + 1, col = locationColNumber - 1; row < rows.length, col >= 0; row++, col--) {
-            if (hasPiece(getLocation(row, col))) break;
+            const blockingPiece = getPiece(getLocation(row, col));
+
+            if (blockingPiece.length) {
+                if (blockingPiece.attr('chess-color') !== $(piece).attr('chess-color'))
+                    moves.push(getLocation(row, col));
+                break;
+            }
+
             moves.push(getLocation(row, col));
         }
 
         for (let row = locationRowNumber - 1, col = locationColNumber + 1; row >= 0, col < cols.length; row--, col++) {
-            if (hasPiece(getLocation(row, col))) break;
+            const blockingPiece = getPiece(getLocation(row, col));
+
+            if (blockingPiece.length) {
+                if (blockingPiece.attr('chess-color') !== $(piece).attr('chess-color'))
+                    moves.push(getLocation(row, col));
+                break;
+            }
+            
             moves.push(getLocation(row, col));
         }
 
         for (let row = locationRowNumber - 1; row >= 0; row--) {
-            if (hasPiece(getLocation(row, locationColNumber))) break;
+            const blockingPiece = getPiece(getLocation(row, locationColNumber));
+
+            if (blockingPiece.length) {
+                if (blockingPiece.attr('chess-color') !== $(piece).attr('chess-color'))
+                    moves.push(getLocation(row, locationColNumber));
+                break;
+            }
+
             moves.push(getLocation(row, locationColNumber));
         }
 
         for (let col = locationColNumber - 1; col >= 0; col--) {
-            if (hasPiece(getLocation(locationRowNumber, col))) break;
+            const blockingPiece = getPiece(getLocation(locationRowNumber, col));
+
+            if (blockingPiece.length) {
+                if (blockingPiece.attr('chess-color') !== $(piece).attr('chess-color'))
+                    moves.push(getLocation(locationRowNumber, col));
+                break;
+            }
+
             moves.push(getLocation(locationRowNumber, col));
         }
 
         for (let row = locationRowNumber + 1; row < rows.length; row++) {
-            if (hasPiece(getLocation(row, locationColNumber))) break;
+            const blockingPiece = getPiece(getLocation(row, locationColNumber));
+
+            if (blockingPiece.length) {
+                if (blockingPiece.attr('chess-color') !== $(piece).attr('chess-color'))
+                    moves.push(getLocation(row, locationColNumber));
+                break;
+            }
+
             moves.push(getLocation(row, locationColNumber));
         }
 
         for (let col = locationColNumber + 1; col < cols.length; col++) {
-            if (hasPiece(getLocation(locationRowNumber, col))) break;
+            const blockingPiece = getPiece(getLocation(locationRowNumber, col));
+
+            if (blockingPiece.length) {
+                if (blockingPiece.attr('chess-color') !== $(piece).attr('chess-color'))
+                    moves.push(getLocation(locationRowNumber, col));
+                break;
+            }
+
             moves.push(getLocation(locationRowNumber, col));
         }
     }
 
-    return moves;
+    return { moves: moves, specialMoves: specialMoves };
 }
 
 function getLocation(rowNumber, colNumber) {
@@ -291,6 +459,19 @@ function chessLogic(element, cell) {
 function hasPiece(cellName) {
     return $('#' + cellName).children('.piece').length;
 }
+
+function getPiece(cellName) {
+    return $('#' + cellName).children('.piece');
+}
+
+function isInDanger(cellName) {
+    if (!hasPiece(cellName)) return false;
+
+    const piece = getPiece(cellName);
+
+    //TODO
+}
+
 function handlestuff(){
   let fen = '';
   let index = 0;

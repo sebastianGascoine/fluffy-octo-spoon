@@ -1,5 +1,7 @@
 * {
     box-sizing: border-box;
+    -webkit-user-select: none; /* Safari */
+            user-select: none; /* from community wiki stack overflow */
 }
 
 #main_content {
@@ -8,9 +10,6 @@
 
 #board {
     border-spacing: 0;
-    -webkit-user-select: none; /* Safari */
-            user-select: none; /* from community wiki stack overflow */
-
     display: inline;
 }
 
