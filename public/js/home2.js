@@ -30,17 +30,25 @@ function fenVis() {
     $("#2").toggleClass("active");
     $("#3").removeClass("active");
 }
-isdark = true;
+let isdark = true;
 
 function lightdark() {
 
     console.log('here');
 
-    if (isdark = true) {
+    if (isdark) {
+        console.log(isdark);
 
-        $("img")
+        $("#image").attr("src", "./../resources/logo.svg")
 
-    } else if (isdark = false) {
+        isdark = !isdark;
+
+    } else {
+
+        console.log(isdark);
+        $("#image").attr("src", "./../resources/logoDark.svg")
+        console.log("hi");
+        isdark = !isdark;
 
     }
 
@@ -52,5 +60,19 @@ function lightdark() {
 
     // $("#body_main").removeClass("lightmode");
     $("#body_main").toggleClass("darkmode");
+
+}
+
+function join() {
+
+}
+
+function create() {
+
+
+}
+
+function createFEN() {
+
 
 }
