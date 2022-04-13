@@ -21,7 +21,9 @@ let socket = io();
 
 
 $(document).ready(function() {
-    $("#fenbutton").click(handlestuff);
+  $("#fenbutton").click(boardtofen);
+  $("#fenbutton2").click(fentoboard);
+
     let index = 0;
 
     for (let r = 0; r < 8; ++r) {
@@ -131,8 +133,7 @@ $(document).ready(function() {
 function placePiece(name, color, location) {
     $(`<img src="../chess_pieces/${name}_${color}.png" chess-name="${name}" chess-color="${color}" chess-location="${location}" class="piece">`).draggable({ revert: 'invalid', containment: '#board' }).appendTo('#' + location);
 }
-
-function handlestuff(){
+function boardtofen(){
   let fen = '';
   let index = 0;
   let fennum = 0;
@@ -183,5 +184,87 @@ $("#board tr td").each(function(){
   }
     fen += ' - -' + toString(numMovesW) + toSring(numMovesB); */
     fen += ' - -' +' 0 ' + '1';
+  console.log(fen);
+  return fen;
+}
+
+/////////////////fen to board
+function fentoboard(){
+
+  //replace with the actual fen string
+  let fen = '/rnbqkbnr/pppppppp/8/1N6/P7/8/1PPPPPPP/R1BQKBNR w - - 0 1'
+{
+  fen = fen.replaceAll('8', '11111111');
+  fen = fen.replaceAll('7', '1111111');
+  fen = fen.replaceAll('6', '111111');
+  fen = fen.replaceAll('5', '11111');
+  fen = fen.replaceAll('4', '1111');
+  fen = fen.replaceAll('3', '111');
+  fen = fen.replaceAll('2', '11');
+  fen = fen.replaceAll('/', '');
+}
+  let index = 0;
+  let fennum = 0;
+$("#board tr td").each(function(){
+
+    $(this).each(function(){ //clear space and replace with actual one
+      let tmp = fen.substr(index,1);
+      $(cell).children('.piece').remove();
+      if(isNaN(tmp) == false){
+          //leave empty
+      }
+      else if(tmp.toUpperCase() === tmp){ //white pieces
+        if(tmp === 'R'){        //rook
+          
+        }
+        else if (tmp === 'N') { //knight
+
+        }
+        else if (tmp === 'B') { //bishop
+
+        }
+        else if (tmp === 'Q') { //queen
+
+        }
+        else if (tmp === 'K') { //king
+
+        }
+        else {                  //pawn
+
+        }
+      }
+      else { //black pieces
+        if(tmp === 'r'){        //rook
+
+        }
+        else if (tmp === 'n') { //knight
+
+        }
+        else if (tmp === 'b') { //bishop
+
+        }
+        else if (tmp === 'q') { //queen
+
+        }
+        else if (tmp === 'k') { //king
+
+        }
+        else {                  //pawn
+
+        }
+      }
+      index++;
+    })
+  });
+
+  //fen += ' w';  //need to make : turn , numMovesB , numMovesW
+/*  if(turn == 1){
+    fen = fen.replace(' b',' w';); //
+  }
+  else {
+    fen = fen.replace(' w',' b';); //
+  }
+    fen += ' - -' + toString(numMovesW) + toSring(numMovesB);
+    fen += ' - -' +' 0 ' + '1';*/
   console.log(fen);
 }
