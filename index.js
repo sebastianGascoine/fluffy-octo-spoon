@@ -5,7 +5,7 @@ var routes = require("./routes");
 let http = require('http');
 let app = express();
 let server = http.createServer(app);
-let io = require('socket.io').listen(server);
+let io = require('socket.io')(server);
 
 
 app.use(bodyParser.urlencoded({ extended: true }));

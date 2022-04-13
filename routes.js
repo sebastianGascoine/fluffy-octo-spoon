@@ -1,6 +1,5 @@
 let path = require("path");
 let express = require("express");
-const chess = require('chess.js');
 let myDatabase = require("./myDatabase");
 const Student = require('./Game');
 
