@@ -286,7 +286,7 @@ function getLocation(rowNumber, colNumber) {
 
 function chessLogic(element, cell) {
     console.log($(cell).prop('id'));
-}
+}    
 
 function hasPiece(cellName) {
     return $('#' + cellName).children('.piece').length;
@@ -295,7 +295,7 @@ function handlestuff(){
   let fen = '';
   let index = 0;
   let fennum = 0;
-  $("#board tr td").each(function(){
+$("#board tr td").each(function(){
 
     $(this).each(function(){
       console.log("hi");
@@ -304,6 +304,7 @@ function handlestuff(){
       }
       if($(this).find('.piece').attr('chess-color') == undefined){
         fen += '1';
+        fen += "1";
       }
       else if($(this).find('.piece').attr('chess-color') == "black"){
         if($(this).find('.piece').attr('chess-name') == "knight"){
@@ -322,10 +323,20 @@ function handlestuff(){
         }
       }
       index++;
+      fennum++;
       //console.log($(this).attr('chess-name'));
     })
     //console.log(fen + " here");
   });
 
+  fentemp = '';
+  for (let i=0; i<fen.length;i++){
+    if(isNaN(fen.substr(i-1,1)) == false && isNaN(fen.substr(i-1,1))){
+
+    } else {
+      fentemp += fen.substr(i, 1);
+    }
+  }
+  fen = fentemp;
   console.log(fen);
 }
