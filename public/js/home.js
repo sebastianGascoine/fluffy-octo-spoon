@@ -333,11 +333,14 @@ $("#board tr td").each(function(){
   fen = fen.replaceAll('1111', '4');
   fen = fen.replaceAll('111', '3');
   fen = fen.replaceAll('11', '2');
-//  fen += ' w'; // ' w' = white turn, ' b' = black turn
-//  if(startingpos){ //starting board
-//    fen += ' - -' + 0 /*PLACEHOLDER # OF TURNS*/ + 1/*PLACEHOLDER # OF TURNS*/ ;
-//  !!!no castling because thats annoying to do also ennnenennenennnee somthing idk what it means so not gonna do it!!!
-//  }
-//  if()
+  fen += ' w';  //need to make : turn , numMovesB , numMovesW
+/*  if(turn == 1){
+    fen = fen.replace(' b',' w';); //
+  }
+  else {
+    fen = fen.replace(' w',' b';); //
+  }
+    fen += ' - -' + toString(numMovesW) + toSring(numMovesB); */
+    fen += ' - -' +' 0 ' + '1';
   console.log(fen);
 }

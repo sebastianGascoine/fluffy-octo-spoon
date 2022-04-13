@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -8,6 +8,7 @@ function sleep(ms) {
 }
 
 function joinVis() {
+    console.log('join')
     // await sleep(2000);
     $("#2").removeClass("active"); //
     $("#1").toggleClass("active");
@@ -15,6 +16,7 @@ function joinVis() {
 }
 
 function createVis() {
+    console.log("create");
     //  await sleep(2000);
     $("#1").removeClass("active");
     $("#3").toggleClass("active");
@@ -22,6 +24,7 @@ function createVis() {
 }
 
 function fenVis() {
+    console.log('import')
     //await sleep(2000);
     $("#1").removeClass("active");
     $("#2").toggleClass("active");
@@ -31,14 +34,14 @@ function fenVis() {
 function lightdark() {
   // Get the checkbox
   console.log('here');
- 
-  
+
+
   //  $("#body_main").removeClass("darkmode");
     $("#body_main").toggleClass("lightmode");
-    
 
-  
+
+
    // $("#body_main").removeClass("lightmode");
     $("#body_main").toggleClass("darkmode");
-    
+
   }
