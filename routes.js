@@ -14,6 +14,10 @@ router.get('/board',function(req, res){
     res.sendFile(path.resolve(__dirname + '/public/views/board.html'));  //changed
 });
 
+router.get('/cool',function(req, res){
+    res.sendFile(path.resolve(__dirname + '/public/views/cool.html'));  //changed
+});
+
 //////////////////////////////////////////////////////////////
 
 router.post('/create', function(req, res){
