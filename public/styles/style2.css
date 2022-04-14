@@ -13,7 +13,7 @@
 
 
     .text-align {
-        /*color: white;*/
+        
         margin: auto;
         width: 50%;
         padding: 70px 0;
@@ -22,7 +22,7 @@
 
     .title {
         font-family: 'Roboto Mono', monospace;
-       /* color: white; */
+      
        
 
     }
@@ -30,7 +30,7 @@
     
 
     .logo {
-        /*color: white;*/
+        
         display: block;
         margin-left: auto;
         margin-right: auto;
@@ -38,11 +38,10 @@
     }
 
     .button {
-        /*color: white;*/
-        /*border: 2px solid white;*/
+        
         font-family: 'Roboto Mono', monospace;
         padding: 15px 32px;
-        /*background-color: black;*/
+        
         text-align: center;
         text-decoration: none;
         display: inline-block;
@@ -54,8 +53,7 @@
 
     .button:hover {
         background-color: #008CBA;
-        /* Green */
-        /*color: white;*/
+        
     }
 
     .animate {}
@@ -90,26 +88,26 @@
         /*background-color: black;*/
     }
     .darkmode{
-        transition: opacity 1s ease-out;
+        transition-duration: 0.4s;
         background-color: black;
         color: white;
 
     }
     .darkBordered{
-        transition: opacity 1s ease-out;
+        transition-duration: 0.4s;
         border: 2px solid white;
 
     }
 
     .lightmode{
-        transition: opacity 1s ease-out;
+       
         background-color: white;
         color: black;
 
     }
 
     .lightBordered{
-        transition: opacity 1s ease-out;
+        
          border: 2px solid black;
 
     }
@@ -179,4 +177,8 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.dma{
+
 }

@@ -13,7 +13,8 @@ and open the template in the editor.
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
     <link rel="stylesheet" href="./../styles/style2.css">
     <!-- <link rel="image" type="image/svg+xml" href="./../resources/logoDark.svg"> -->
-    <img  id=" image" src="./../resources/logoDark.svg " alt="./../resources/logoDark.svg"class="logo input" width="65" height="122">
+    <img  id=" image2" src="./../resources/logoDark.svg " alt="./../resources/logoDark.svg"class="logo input" width="65" height="122">
+    <img  id=" image1" src="./../resources/logo.svg " alt="./../resources/logo.svg"class="logo input" width="65" height="122">
         
 </head>
 
@@ -25,35 +26,35 @@ and open the template in the editor.
                 <span class="slider round" onclick="lightdark()"></span>
             </label>
         </div>
-        <img  id=" image" src="./../resources/logo.svg " alt="./../resources/logoDark.svg"class="logo" width="65" height="122">
+        <img  id="image" src="./../resources/logo.svg " class="logo" width="65" height="122">
         <h1 class="title "> CHESS </h1>
-            <div id="btn">
-                <input id="join" type="button" value="Join Game" onclick="joinVis()" class="button darkmode darkBordered" />
-                <input id="make" type="button" value="Create Game" onclick="createVis()" class="button darkmode darkBordered" />
-                <input id="import" type="button" value="Import Game" onclick="fenVis()" class="button darkmode darkBordered" />
+            <div id="bdr"  >
+                <input id="join" type="button" value="Join Game" onclick="joinVis()" class="button darkmode darkBordered dma" />
+                <input id="make" type="button" value="Create Game" onclick="createVis()" class="button darkmode darkBordered dma" />
+                <input id="import" type="button" value="Import Game" onclick="fenVis()" class="button darkmode darkBordered dma" />
             </div>
         </div>
         <div id="input_fields">
             <div id="1" class="input">
-                <input id="joinInput" type="text" placeholder="game ID" class=" darkmode darkBordered" />
-                <input id="playerName" type="text" placeholder="Your Name" class=" darkmode darkBordered" />
-                <div id="btn">
-                    <input id="join" type="button" value="Join Game" onclick="join()" class="button darkmode darkBordered" />
+                 <div id="bdr" >
+                <input id="joinInput" type="text" placeholder="game ID" class=" darkmode darkBordered dma" />
+                <input id="playerName" type="text" placeholder="Your Name" class=" darkmode darkBordered dma" />
+               
+                    <input id="join" type="button" value="Join Game" onclick="join()" class="button darkmode darkBordered dma" />
                 </div>
             </div>
             <div id="2" class="input">
-                <input id="fenInput" type="text" placeholder="FEN String" class=" darkmode darkBordered" />
-                <input id="gameId" type="text" placeholder="game ID" class=" darkmode darkBordered" />
-                <input id="playerName" type="text" placeholder="Your Name" class=" darkmode darkBordered" />
-                <div id="btn">
-                    <input id="make" type="button" value="Create And Import Game" onclick="createFEN()" class="button darkmode darkBordered" />
+                 <div id="bdr" >
+                <input id="fenInput" type="text" placeholder="FEN String" class=" darkmode darkBordered dma" />
+                <input id="gameId" type="text" placeholder="game ID" class=" darkmode darkBordered dma" />
+                <input id="playerName" type="text" placeholder="Your Name" class=" darkmode darkBordered dma darkBordered" />
                 </div>
             </div>
             <div id="3" class="input">
-                <input id="gameId" type="text" placeholder="game ID" class=" darkmode darkBordered" />
-                <input id="playerName" type="text" placeholder="Your Name" class=" darkmode darkBordered" />
-                <div id="btn">
-                    <input id="make" type="button" value="Create Game" onclick="create()" class="button darkmode darkBordered" />
+                <div id="bdr" >
+                <input id="gameId" type="text" placeholder="game ID" class=" darkmode darkBordered dma" />
+                <input id="playerName" type="text" placeholder="Your Name" class=" darkmode darkBordered dma" />                
+                    <input id="make" type="button" value="Create Game" onclick="create()" class="button darkmode darkBordered dma" />
                 </div>
             </div>
         </div>

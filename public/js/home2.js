@@ -39,27 +39,25 @@ function lightdark() {
     if (isdark) {
         console.log(isdark);
 
-        $("#image").attr("src", "./../resources/logo.svg")
-
-        isdark = !isdark;
+        $("#image").attr("src", "./../resources/logoDark.svg");
+        $('.darkmode').css("color", "black");
+        $('.darkmode').css("background-color", "white");
+        $('.darkBordered').css("border", "2px solid black");
 
     } else {
-
         console.log(isdark);
-        $("#image").attr("src", "./../resources/logoDark.svg")
-        console.log("hi");
-        isdark = !isdark;
-
+        $("#image").attr("src", "./../resources/logo.svg")
+        $('.darkmode').css("color", "white");
+        $('.darkmode').css("background-color", "black");
+        $('.darkBordered').css("border", "2px solid white");
     }
 
-    //  $("#body_main").removeClass("darkmode");
-    $("#body_main").toggleClass("lightmode");
-    $("#btn").toggleClass("lightmode");
-    $("#btn").toggleClass("darkmode");
+  //  $("#body_main").toggleClass("lightmode");
+    
 
+  //  $("#body_main").toggleClass("darkmode");
 
-    // $("#body_main").removeClass("lightmode");
-    $("#body_main").toggleClass("darkmode");
+    isdark = !isdark;
 
 }
 
@@ -76,3 +74,9 @@ function createFEN() {
 
 
 }
+$(document).ready(function() {
+
+    $("#image").attr("src", "./../resources/logo.svg")
+
+    console.log('cheese');
+});
