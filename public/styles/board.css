@@ -43,14 +43,18 @@
 }
 
 .cell_background {
-    width: 100px;
-    height: 100px;
+    width: 40px;
+    height: 40px;
 
-    z-index: 2;
+    z-index: 20;
 
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 30px;
+    left: 30px;
+
+    pointer-events: none;
+
+    border-radius: 20px;
 }
 
 tr:nth-child(odd) .cell:nth-child(odd), tr:nth-child(even) .cell:nth-child(even) {

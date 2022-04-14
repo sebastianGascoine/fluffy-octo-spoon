@@ -43,7 +43,7 @@ $(document).ready(function() {
                     const moves = possibleMoves(ui.draggable);
 
                     for (const move of [...moves.moves, ...moves.specialMoves]) {
-                        $('#' + move).children('.cell_background').css('background-color', '#00000060');
+                        $('#' + move).children('.cell_background').css('background-color', '#00000080');
                     }
                 },
                 deactivate: function(event, ui) {
@@ -70,7 +70,7 @@ $(document).ready(function() {
                     }
                 },
                 over: function() {
-                    $(cell).children('.cell_background').css('border', '4px solid #00000060');
+                    $(cell).children('.cell_background').css('border', '4px solid #000000A0');
                 },
                 out: function() {
                     $(cell).children('.cell_background').css('border', '');
