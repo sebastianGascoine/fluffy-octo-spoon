@@ -190,7 +190,10 @@ $("#board tr td").each(function(){
 
 /////////////////fen to board
 function fentoboard(){
-
+/*let board = [ 'a8', 'b8', 'c8', 'd8', 'e8', 'f8', 'g8', 'h8' , 'a7', 'b7', 'c7', 'd7', 'e7', 'f7', 'g7', 'h7' ,
+                'a6', 'b6', 'c6', 'd6', 'e6', 'f6', 'g6', 'h6' , 'a5', 'b5', 'c5', 'd5', 'e5', 'f5', 'g5', 'h5' ,
+                'a4', 'b4', 'c4', 'd4', 'e4', 'f4', 'g4', 'h4' , 'a3', 'b3', 'c3', 'd3', 'e3', 'f3', 'g3', 'h3' ,
+                'a2', 'b2', 'c2', 'd2', 'e2', 'f2', 'g2', 'h2' , 'a2', 'b2', 'c2', 'd2', 'e2', 'f2', 'g2', 'h2' ]*/
   //replace with the actual fen string
   let fen = '/rnbqkbnr/pppppppp/8/1N6/P7/8/1PPPPPPP/R1BQKBNR w - - 0 1'
 {
@@ -209,62 +212,61 @@ $("#board tr td").each(function(){
 
     $(this).each(function(){ //clear space and replace with actual one
       let tmp = fen.substr(index,1);
-      $(cell).children('.piece').remove();
+      $(this).children('.piece').remove();
       if(isNaN(tmp) == false){
           //leave empty
       }
       else if(tmp.toUpperCase() === tmp){ //white pieces
         if(tmp === 'R'){        //rook
-          
+          placePiece('rook',   'white',$(this).attr('id'));
+
         }
         else if (tmp === 'N') { //knight
+          placePiece('knight', 'white', $(this).attr('id'));
 
         }
         else if (tmp === 'B') { //bishop
+          placePiece('bishop', 'white', $(this).attr('id'));
 
         }
         else if (tmp === 'Q') { //queen
+          placePiece('queen',  'white', $(this).attr('id'));
 
         }
         else if (tmp === 'K') { //king
+          placePiece('king',   'white',$(this).attr('id'));
 
         }
         else {                  //pawn
-
+          placePiece('pawn', 'white',$(this).attr('id'));
         }
       }
       else { //black pieces
         if(tmp === 'r'){        //rook
-
+          placePiece('rook','black',$(this).attr('id'));
         }
         else if (tmp === 'n') { //knight
+          placePiece('knight', 'black',$(this).attr('id'));
 
         }
         else if (tmp === 'b') { //bishop
+          placePiece('bishop', 'black', $(this).attr('id'));
 
         }
         else if (tmp === 'q') { //queen
+          placePiece('queen',  'black', $(this).attr('id'));
 
         }
         else if (tmp === 'k') { //king
+          placePiece('king',   'black',$(this).attr('id'));
 
         }
         else {                  //pawn
-
+          placePiece('pawn', 'black',$(this).attr('id'));
         }
       }
       index++;
     })
   });
-
-  //fen += ' w';  //need to make : turn , numMovesB , numMovesW
-/*  if(turn == 1){
-    fen = fen.replace(' b',' w';); //
-  }
-  else {
-    fen = fen.replace(' w',' b';); //
-  }
-    fen += ' - -' + toString(numMovesW) + toSring(numMovesB);
-    fen += ' - -' +' 0 ' + '1';*/
   console.log(fen);
 }
