@@ -46,7 +46,7 @@ function lightdark() {
 
     } else {
         console.log(isdark);
-        $("#image").attr("src", "./../resources/logo.svg")
+        $("#image").attr("src", "./../resources/logo.svg");
         $('.darkmode').css("color", "white");
         $('.darkmode').css("background-color", "black");
         $('.darkBordered').css("border", "2px solid white");
@@ -62,20 +62,37 @@ function lightdark() {
 }
 
 function join() {
+    const gameID = $('#gameIdCreate').val();
+    const name = $('#playerNameCreate').val();
 
+    window.location.href = '/play?gameID=' + gameID + '&name=' + name;
 }
 
 function create() {
+    const gameID = $('#gameIdCreate').val();
+    const name = $('#playerNameCreate').val();
 
-
+    $.ajax({
+        url: "/create",
+        type: "POST",
+        data: { gameID, name },
+        success: function(data) {
+            if (data.error) {
+                alert('errorrrrrrrrrrrr');
+                return;
+            }
+            
+            window.location.href = '/play?gameID=' + gameID + '&name=' + name;
+        },
+        dataType: "json"
+    });   
 }
 
 function createFEN() {
-
-
+    alert('createFEN');
 }
-$(document).ready(function() {
 
+$(document).ready(function() {
     $("#image").attr("src", "./../resources/logo.svg")
 
     console.log('cheese');

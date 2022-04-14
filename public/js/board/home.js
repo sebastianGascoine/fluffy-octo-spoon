@@ -4,21 +4,14 @@ let ident;
 
 let socket = io();
 
+socket.on('welcome', function(data) {
+    //ADD SOCKET STUFF HERE
+});
 
-          socket.on('welcome', function(data) {
-              //ADD SOCKET STUFF HERE
-          });
 
-
-          socket.on('update', (data) => {
-              //ADD SOCKET STUFF HERE
-          });
-
-          function doit() {
-                //ADD SOCKET STUFF HERE     s
-                return false;
-          }
-
+socket.on('update', (data) => {
+    //ADD SOCKET STUFF HERE
+});
 
 $(document).ready(function() {
   $("#fenbutton").click(boardtofen);
@@ -39,7 +32,7 @@ $(document).ready(function() {
 
             $(cell).prop("id", location);
 
-            $(cell).append('<span class="cell_number">' + location + '</span>');
+            // $(cell).append('<span class="cell_number">' + location + '</span>');
 
             $(cell).append('<span class="cell_background"></span>');
 
