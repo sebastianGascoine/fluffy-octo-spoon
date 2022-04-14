@@ -1,24 +1,19 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var myDatabase = require("./myDatabase");
-var routes = require("./routes");
-let http = require('http');
-let app = express();
-let server = http.createServer(app);
-let io = require('socket.io')(server);
+const express = require('express');
+const bodyParser = require('body-parser');
+const myDatabase = require("./myDatabase");
+const routes = require("./routes");
+const morgan = require('morgan');
+const http = require('http');
 
+const app = express();
+const server = http.createServer(app);
+const io = require('socket.io')(server);
 
+app.use(morgan('short'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 app.use('/', express.static('./public'));
-app.use('/db', express.static('./myDatabase'));
-
-app.use(routes);
-
-
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 app.use(routes);
 
 io.on('connection', function(socket) {
@@ -27,14 +22,11 @@ io.on('connection', function(socket) {
 
     socket.on('update', function (data) {
         // Broadcast to everyone (including self)
-        io.emit('update', data.ident );
+        io.emit('update', data.ident);
     });
 });
 
+const port = process.env.PORT || 3000;
 
-let port = process.env.PORT || 3000;
-
-//app.listen(port);
 server.listen(port);
-console.log("hosted on port "+ port);
-
+console.log('Hosted on port ' + port);

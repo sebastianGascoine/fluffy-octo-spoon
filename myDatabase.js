@@ -45,8 +45,8 @@ myDatabase.prototype.getPlayers = function(id) {
              let string = (String(obj));
              let myArray = string.split("/");
              let player1 = myArray[0];
-             let player2 = myArray[0];
-             return(player1,player2);
+             let player2 = myArray[1];
+             return [ player1, player2 ];
         }
   }
     return null;

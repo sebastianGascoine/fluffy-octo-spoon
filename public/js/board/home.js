@@ -39,7 +39,7 @@ $(document).ready(function() {
 
             $(cell).prop("id", location);
 
-            $(cell).append('<span class="cell_number">' + location + '</span>');
+            // $(cell).append('<span class="cell_number">' + location + '</span>');
 
             $(cell).append('<span class="cell_background"></span>');
 
