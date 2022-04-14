@@ -24,7 +24,7 @@ router.post('/create', function(req, res){
     // Starting FEN String
     if (!req.body.fen) fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
-    let game = new Game(gameID, '', fen);
+    let game = new Game(gameID, [], fen);
 
     let success = shared.database.newGame(game);
 
@@ -40,6 +40,8 @@ router.get('/play', function(req, res){
     let gameID = String(req.query.gameID).trim();
     let name   = String(req.query.name).trim();
 
+    console.log(gameID, name);
+
     let game = shared.database.getGame(gameID);
 
     if (!game) {
@@ -47,17 +49,18 @@ router.get('/play', function(req, res){
         return;
     }
 
-    const players = game.players.split('/');
+    console.log(game);
 
-    if (players.length == 2) {
+    if (game.players.length == 2) {
         res.send('Game full');
         return;   
     }
 
-    players.push(name);
-    game.players = players.join('/');
+    game.players.push(name);
 
     shared.database.putGame(game);
+
+    console.log(game);
 
     res.sendFile(path.resolve(__dirname + '/public/views/board.html'));
 });

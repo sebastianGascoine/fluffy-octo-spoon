@@ -62,8 +62,8 @@ function lightdark() {
 }
 
 function join() {
-    const gameID = $('#gameIdCreate').val();
-    const name = $('#playerNameCreate').val();
+    const gameID = $('#joinInput').val();
+    const name = $('#playerNameJoin').val();
 
     window.location.href = '/play?gameID=' + gameID + '&name=' + name;
 }

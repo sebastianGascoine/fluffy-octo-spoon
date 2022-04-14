@@ -37,15 +37,9 @@ myDatabase.prototype.getGame = function(id) {
 }
 myDatabase.prototype.getPlayers = function(id) {
   for (let i=0;i<this.games.length;i++) {
-    if (this.games[i] && id == this.games[i].id)
-        {
-             let obj = new Game(this.games[i].players);
-             let string = (String(obj));
-             let myArray = string.split("/");
-             let player1 = myArray[0];
-             let player2 = myArray[1];
-             return [ player1, player2 ];
-        }
+    if (this.games[i] && id == this.games[i].id) {
+      return this.games[i].players;
+    }
   }
     return null;
 }
