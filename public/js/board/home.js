@@ -1,16 +1,12 @@
 const rows = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ];
 const cols = [ '8', '7', '6', '5', '4', '3', '2', '1' ];
-let ident;
+
+const params = new URLSearchParams(location.search);
 
 let socket = io();
 
-socket.on('welcome', function(data) {
-    //ADD SOCKET STUFF HERE
-});
-
-
-socket.on('update', (data) => {
-    //ADD SOCKET STUFF HERE
+socket.on('move', function(data) {
+    fentoboard(data.fen);
 });
 
 $(document).ready(function() {
@@ -68,6 +64,8 @@ $(document).ready(function() {
                         $(ui.draggable).attr('chess-name', 'queen');
                         $(ui.draggable).prop('src', '../chess_pieces/queen_black.png');
                     }
+
+                    setTimeout(() => socket.emit('move', { fen: boardtofen() }), 1);
                 },
                 over: function() {
                     $(cell).children('.cell_background').css('border', '4px solid #000000A0');
@@ -124,6 +122,12 @@ $(document).ready(function() {
 });
 
 function placePiece(name, color, location) {
+    const currentPiece = $('#' + location + ' img');
+
+    if (currentPiece.attr('chess-name') == name && currentPiece.attr('chess-color') == color && currentPiece.attr('chess-location') == location) {
+      return;
+    }
+    $('#' + location).remove('img');
     $(`<img src="../chess_pieces/${name}_${color}.png" chess-name="${name}" chess-color="${color}" chess-location="${location}" class="piece">`).draggable({ revert: 'invalid', containment: '#board' }).appendTo('#' + location);
 }
 function boardtofen(){
@@ -182,32 +186,26 @@ $("#board tr td").each(function(){
 }
 
 /////////////////fen to board
-function fentoboard(){
-/*let board = [ 'a8', 'b8', 'c8', 'd8', 'e8', 'f8', 'g8', 'h8' , 'a7', 'b7', 'c7', 'd7', 'e7', 'f7', 'g7', 'h7' ,
-                'a6', 'b6', 'c6', 'd6', 'e6', 'f6', 'g6', 'h6' , 'a5', 'b5', 'c5', 'd5', 'e5', 'f5', 'g5', 'h5' ,
-                'a4', 'b4', 'c4', 'd4', 'e4', 'f4', 'g4', 'h4' , 'a3', 'b3', 'c3', 'd3', 'e3', 'f3', 'g3', 'h3' ,
-                'a2', 'b2', 'c2', 'd2', 'e2', 'f2', 'g2', 'h2' , 'a2', 'b2', 'c2', 'd2', 'e2', 'f2', 'g2', 'h2' ]*/
-  //replace with the actual fen string
-  let fen = '/rnbqkbnr/pppppppp/8/1N6/P7/8/1PPPPPPP/R1BQKBNR w - - 0 1'
-{
-  fen = fen.replaceAll('8', '11111111');
-  fen = fen.replaceAll('7', '1111111');
-  fen = fen.replaceAll('6', '111111');
-  fen = fen.replaceAll('5', '11111');
-  fen = fen.replaceAll('4', '1111');
-  fen = fen.replaceAll('3', '111');
-  fen = fen.replaceAll('2', '11');
-  fen = fen.replaceAll('/', '');
-}
+function fentoboard(fen) {
+  {
+    fen = fen.replaceAll('8', '11111111');
+    fen = fen.replaceAll('7', '1111111');
+    fen = fen.replaceAll('6', '111111');
+    fen = fen.replaceAll('5', '11111');
+    fen = fen.replaceAll('4', '1111');
+    fen = fen.replaceAll('3', '111');
+    fen = fen.replaceAll('2', '11');
+    fen = fen.replaceAll('/', '');
+  }
   let index = 0;
   let fennum = 0;
 $("#board tr td").each(function(){
 
     $(this).each(function(){ //clear space and replace with actual one
       let tmp = fen.substr(index,1);
-      $(this).children('.piece').remove();
+      
       if(isNaN(tmp) == false){
-          //leave empty
+        $(this).children('.piece').remove();
       }
       else if(tmp.toUpperCase() === tmp){ //white pieces
         if(tmp === 'R'){        //rook

@@ -7,11 +7,10 @@ module.exports = function(httpServer) {
 
 	server.on('connection', function(socket) {
 	    // Use socket to communicate with this particular client only, sending it it's own id
-	    socket.emit('welcome', { message: 'Welcome!', id: socket.id });
+	    //socket.emit('welcome', { message: 'Welcome!', id: socket.id });
 
-	    socket.on('update', function (data) {
-	        // Broadcast to everyone (including self)
-	        server.emit('update', data.ident);
+	    socket.on('move', function (data) {
+	        server.emit('move', data);
 	    });
 	});
 }
