@@ -115,6 +115,10 @@
     }
 
     .topRight { position: absolute; top: 5px; right: 5px; text-align: right; }
+    .superTopRight { position: absolute; top: 0px; right: 0px; text-align: right;
+        color: #292929;
+
+     }
 
     /* The switch - the box around the slider */
 .switch {
