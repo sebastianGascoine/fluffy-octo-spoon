@@ -53,7 +53,7 @@ function lightdark() {
     }
 
   //  $("#body_main").toggleClass("lightmode");
-    
+
 
   //  $("#body_main").toggleClass("darkmode");
 
@@ -85,15 +85,33 @@ function create() {
                 })
                 return;
             }
-            
-            window.location.href = '/play?gameID=' + gameID + '&name=' + name;
+
+            window.location.href = '/play?gameID=' + gameID + '&name=' + name + '&fenstr=' + null;
         },
         dataType: "json"
-    });   
+    });
 }
 
 function createFEN() {
     alert('createFEN');
+    const gameID = $('#gameIdImport').val();
+    const name = $('#playerNameImport').val();
+    const fen = $('#fenInputImport').val();
+    $.ajax({
+        url: "/createfen",
+        type: "POST",
+        data: { gameID, name, fen },
+        success: function(data) {
+            if (data.error) {
+                alert('errorrrrrrrrrrrr');
+                return;
+            }
+
+            window.location.href = '/play?gameID=' + gameID + '&name=' + name +'&fenstr=' + fen;
+        },
+        dataType: "json"
+    });
+
 }
 
 $(document).ready(function() {
