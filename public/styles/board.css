@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100&display=swap');
+
 * {
     box-sizing: border-box;
     -webkit-user-select: none; /* Safari */
             user-select: none; /* from community wiki stack overflow */
+            font-family: 'Roboto Mono', monospace;
 }
 
 #main_content {
@@ -35,6 +38,13 @@ body{
   width: 20em;
 }
 
+  .swal2-popup {
+    -webkit-user-select: text;
+     -moz-user-select: text;
+      -ms-user-select: text;
+          user-select: text;
+
+}
 .cell {
     position: relative;
 

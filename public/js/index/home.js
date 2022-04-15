@@ -78,7 +78,11 @@ function create() {
         data: { gameID, name },
         success: function(data) {
             if (data.error) {
-                alert('errorrrrrrrrrrrr');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Incorrect/Missing ID or name'                    
+                })
                 return;
             }
             

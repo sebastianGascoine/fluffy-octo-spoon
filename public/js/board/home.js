@@ -1,8 +1,7 @@
+
 const rows = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' ];
 const cols = [ '8', '7', '6', '5', '4', '3', '2', '1' ];
-
 const params = new URLSearchParams(location.search);
-
 let socket = io();
 
 socket.on('move', function(data) {
@@ -12,6 +11,7 @@ socket.on('move', function(data) {
 $(document).ready(function() {
   $("#fenbutton").click(boardtofen);
   $("#fenbutton2").click(fentoboard);
+  $("#export").click(exportgame);
 
     let index = 0;
 
@@ -129,6 +129,17 @@ function placePiece(name, color, location) {
     }
     $('#' + location).remove('img');
     $(`<img src="../chess_pieces/${name}_${color}.png" chess-name="${name}" chess-color="${color}" chess-location="${location}" class="piece">`).draggable({ revert: 'invalid', containment: '#board' }).appendTo('#' + location);
+}
+function exportgame(){
+
+Swal.fire({
+  title: 'Done!',
+  text: boardtofen(),
+  icon: 'success',
+  confirmButtonText: 'Cool'
+})
+
+
 }
 function boardtofen(){
   let fen = '';
