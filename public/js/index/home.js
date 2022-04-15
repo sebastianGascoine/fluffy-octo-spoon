@@ -82,7 +82,7 @@ function create() {
                 return;
             }
 
-            window.location.href = '/play?gameID=' + gameID + '&name=' + name;
+            window.location.href = '/play?gameID=' + gameID + '&name=' + name + '&imported=' + 'n';
         },
         dataType: "json"
     });
@@ -92,7 +92,7 @@ function createFEN() {
     alert('createFEN');
     const gameID = $('#gameIdImport').val();
     const name = $('#playerNameImport').val();
-    const fen = $('#playerNameImport').val();
+    const fen = $('#fenInputImport').val();
     $.ajax({
         url: "/createfen",
         type: "POST",
@@ -103,11 +103,11 @@ function createFEN() {
                 return;
             }
 
-            window.location.href = '/play?gameID=' + gameID + '&name=' + name;
+            window.location.href = '/play?gameID=' + gameID + '&name=' + name +'&imported=' + 'y';
         },
         dataType: "json"
     });
-  }
+
 }
 
 $(document).ready(function() {

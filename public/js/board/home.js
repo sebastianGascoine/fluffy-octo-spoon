@@ -84,6 +84,11 @@ $(document).ready(function() {
         }
     }
 
+  if()
+  {
+    fentoboard()
+  }
+  else {
     placePiece('pawn', 'white', 'a2');
     placePiece('pawn', 'white', 'b2');
     placePiece('pawn', 'white', 'c2');
@@ -119,6 +124,7 @@ $(document).ready(function() {
     placePiece('bishop', 'black', 'f8');
     placePiece('knight', 'black', 'g8');
     placePiece('rook',   'black', 'h8');
+  }
 });
 
 function placePiece(name, color, location) {
@@ -203,7 +209,7 @@ $("#board tr td").each(function(){
 
     $(this).each(function(){ //clear space and replace with actual one
       let tmp = fen.substr(index,1);
-      
+
       if(isNaN(tmp) == false){
         $(this).children('.piece').remove();
       }
