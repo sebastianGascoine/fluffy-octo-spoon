@@ -4,7 +4,8 @@ const shared = require('./shared');
 
 const router = express.Router();
 
-const Game = require('./Game');
+const Game = require('./database/Game');
+const Player = require('./database/Player');
 
 router.get('/',function(req, res){
     res.sendFile(path.resolve(__dirname + '/public/views/index.html'));  //changed
@@ -39,6 +40,7 @@ router.post('/create', function(req, res){
 
     res.json({ error: false });
 });
+
 router.post('/createfen', function(req, res){
     let gameID = String(req.body.gameID).trim();
     let name   = String(req.body.name).trim();
@@ -58,9 +60,10 @@ router.post('/createfen', function(req, res){
 
     res.json({ error: false });
 });
-router.get('/play', function(req, res){
-    let gameID = String(req.query.gameID).trim();
-    let name   = String(req.query.name).trim();
+
+router.post('/play', function(req, res){
+    let gameID = String(req.body.gameID).trim();
+    let name   = String(req.body.name).trim();
 
     console.log(gameID, name);
 
@@ -78,11 +81,13 @@ router.get('/play', function(req, res){
         return;
     }
 
-    game.players.push(name);
+    let player = new Player(name);
+
+    game.players.push(player);
 
     shared.database.putGame(game);
 
-    console.log(game);
+    console.log(game, player);
 
     res.sendFile(path.resolve(__dirname + '/public/views/board.html'));
 });
