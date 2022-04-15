@@ -2,9 +2,11 @@
 
 * {
     box-sizing: border-box;
-    -webkit-user-select: none; /* Safari */
-            user-select: none; /* from community wiki stack overflow */
-            font-family: 'Roboto Mono', monospace;
+    -webkit-user-select: none;
+    /* Safari */
+    user-select: none;
+    /* from community wiki stack overflow */
+    font-family: 'Roboto Mono', monospace;
 }
 
 #main_content {
@@ -12,7 +14,7 @@
 }
 
 
-body{
+body {
     background-color: black;
 }
 
@@ -20,11 +22,12 @@ body{
     border-spacing: 0;
     display: inline;
     margin: auto;
-        /*width: 50%;*/
-        /*padding: 70px 70px;*/
-        text-align: center;
+    /*width: 50%;*/
+    /*padding: 70px 70px;*/
+    text-align: center;
 }
-#moves{
+
+#moves {
     width: -moz-fit-content;
     width: fit-content;
     padding: 5px;
@@ -32,19 +35,21 @@ body{
     color: white;
     text-align: left;
 }
+
 .container {
-  border: 2px solid #ccc;
-  padding: 10px;
-  width: 20em;
+    border: 2px solid #ccc;
+    padding: 10px;
+    width: 20em;
 }
 
-  .swal2-popup {
+.swal2-popup {
     -webkit-user-select: text;
-     -moz-user-select: text;
-      -ms-user-select: text;
-          user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
 
 }
+
 .cell {
     position: relative;
 
@@ -89,18 +94,24 @@ body{
     border-radius: 20px;
 }
 
-tr:nth-child(odd) .cell:nth-child(odd), tr:nth-child(even) .cell:nth-child(even) {
+tr:nth-child(odd) .cell:nth-child(odd),
+tr:nth-child(even) .cell:nth-child(even) {
     background-color: #F0E8E7;
 }
-tr:nth-child(odd) .cell:nth-child(even), tr:nth-child(even) .cell:nth-child(odd) {
+
+tr:nth-child(odd) .cell:nth-child(even),
+tr:nth-child(even) .cell:nth-child(odd) {
     background-color: #985650;
 }
 
-tr:nth-child(odd) .cell:nth-child(odd) .cell_number, tr:nth-child(even) .cell:nth-child(even) .cell_number {
+tr:nth-child(odd) .cell:nth-child(odd) .cell_number,
+tr:nth-child(even) .cell:nth-child(even) .cell_number {
     color: #985650;
 }
-tr:nth-child(odd) .cell:nth-child(even) .cell_number, tr:nth-child(even) .cell:nth-child(odd) .cell_number {
-    color: green ;
+
+tr:nth-child(odd) .cell:nth-child(even) .cell_number,
+tr:nth-child(even) .cell:nth-child(odd) .cell_number {
+    color: green;
 }
 
 .piece {

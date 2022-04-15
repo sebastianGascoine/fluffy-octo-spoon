@@ -52,10 +52,10 @@ function lightdark() {
         $('.darkBordered').css("border", "2px solid white");
     }
 
-  //  $("#body_main").toggleClass("lightmode");
+    //  $("#body_main").toggleClass("lightmode");
 
 
-  //  $("#body_main").toggleClass("darkmode");
+    //  $("#body_main").toggleClass("darkmode");
 
     isdark = !isdark;
 
@@ -81,7 +81,7 @@ function create() {
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: 'Incorrect/Missing ID or name'                    
+                    text: 'Incorrect/Missing ID or name'
                 })
                 return;
             }
@@ -107,7 +107,7 @@ function createFEN() {
                 return;
             }
 
-            window.location.href = '/play?gameID=' + gameID + '&name=' + name +'&fenstr=' + fen;
+            window.location.href = '/play?gameID=' + gameID + '&name=' + name + '&fenstr=' + fen;
         },
         dataType: "json"
     });

@@ -5,61 +5,64 @@
    and open the template in the editor.
    -->
 <html>
-   <head>
-      <title>Home</title>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
-      <link rel="stylesheet" href="styles/index.css">
-      <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css">
-      <script src="sweetalert2.min.js"></script>
-      <link rel="stylesheet" href="sweetalert2.min.css">
-      <img id=" image2" src="./../resources/logoDark.svg " alt="./../resources/logoDark.svg" class="logo input" width="65" height="122">
-      <img id=" image1" src="./../resources/logo.svg " alt="./../resources/logo.svg" class="logo input" width="65" height="122">
-   </head>
-   <body id="body_main" class="darkmode text-align" \>
-      <div id="main_content">
-         <a href="/cool" class="superTopRight" >c</a>
-         <div class="topRight">
+
+<head>
+    <title>Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <link rel="stylesheet" href="styles/index.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css">
+    <script src="sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="sweetalert2.min.css">
+    <img id=" image2" src="./../resources/logoDark.svg " alt="./../resources/logoDark.svg" class="logo input" width="65" height="122">
+    <img id=" image1" src="./../resources/logo.svg " alt="./../resources/logo.svg" class="logo input" width="65" height="122">
+</head>
+
+<body id="body_main" class="darkmode text-align" \>
+    <div id="main_content">
+        <a href="/cool" class="superTopRight">c</a>
+        <div class="topRight">
             <label class="switch">
-            <input id="slider" type="checkbox">
-            <span class="slider round" onclick="lightdark()"></span>
+                <input id="slider" type="checkbox">
+                <span class="slider round" onclick="lightdark()"></span>
             </label>
-         </div>
-         <img id="image" src="./../resources/logo.svg " class="logo" width="65" height="122">
-         <h1 class="title "> CHESS </h1>
-         <div id="bdr">
+        </div>
+        <img id="image" src="./../resources/logo.svg " class="logo" width="65" height="122">
+        <h1 class="title "> CHESS </h1>
+        <div id="bdr">
             <input id="join" type="button" value="Join Game" onclick="joinVis()" class="button darkmode darkBordered dma" />
             <input id="make" type="button" value="Create Game" onclick="createVis()" class="button darkmode darkBordered dma" />
             <input id="import" type="button" value="Import Game" onclick="fenVis()" class="button darkmode darkBordered dma" />
-         </div>
-      </div>
-      <div id="input_fields">
-         <div id="1" class="input">
+        </div>
+    </div>
+    <div id="input_fields">
+        <div id="1" class="input">
             <div id="bdr">
-               <input id="joinInput" type="text" placeholder="game ID" class=" darkmode darkBordered dma" />
-               <input id="playerNameJoin" type="text" placeholder="Your Name" class=" darkmode darkBordered dma" />
-               <input id="join" type="button" value="Join Game" onclick="join()" class="button darkmode darkBordered dma" />
+                <input id="joinInput" type="text" placeholder="game ID" class=" darkmode darkBordered dma" />
+                <input id="playerNameJoin" type="text" placeholder="Your Name" class=" darkmode darkBordered dma" />
+                <input id="join" type="button" value="Join Game" onclick="join()" class="button darkmode darkBordered dma" />
             </div>
-         </div>
-         <div id="2" class="input">
+        </div>
+        <div id="2" class="input">
             <div id="bdr">
-               <input id="fenInputImport" type="text" placeholder="FEN String" class=" darkmode darkBordered dma" />
-               <input id="gameIdImport" type="text" placeholder="game ID" class=" darkmode darkBordered dma" />
-               <input id="playerNameImport" type="text" placeholder="Your Name" class=" darkmode darkBordered dma darkBordered" />
-               <input id="make" type="button" value="Create Game" onclick="createFEN()" class="button darkmode darkBordered dma" />
+                <input id="fenInputImport" type="text" placeholder="FEN String" class=" darkmode darkBordered dma" />
+                <input id="gameIdImport" type="text" placeholder="game ID" class=" darkmode darkBordered dma" />
+                <input id="playerNameImport" type="text" placeholder="Your Name" class=" darkmode darkBordered dma darkBordered" />
+                <input id="make" type="button" value="Create Game" onclick="createFEN()" class="button darkmode darkBordered dma" />
             </div>
-         </div>
-         <div id="3" class="input">
+        </div>
+        <div id="3" class="input">
             <div id="bdr">
-               <input id="gameIdCreate" type="text" placeholder="game ID" class=" darkmode darkBordered dma" />
-               <input id="playerNameCreate" type="text" placeholder="Your Name" class=" darkmode darkBordered dma" />
-               <input id="make" type="button" value="Create Game" onclick="create()" class="button darkmode darkBordered dma" />
+                <input id="gameIdCreate" type="text" placeholder="game ID" class=" darkmode darkBordered dma" />
+                <input id="playerNameCreate" type="text" placeholder="Your Name" class=" darkmode darkBordered dma" />
+                <input id="make" type="button" value="Create Game" onclick="create()" class="button darkmode darkBordered dma" />
             </div>
-         </div>
-      </div>
-      <a href="/board" class="button darkmode darkBordered">Board</a>
-   </body>
-   <script src="js/index/home.js"></script>
+        </div>
+    </div>
+    <a href="/board" class="button darkmode darkBordered">Board</a>
+</body>
+<script src="js/index/home.js"></script>
+
 </html>
