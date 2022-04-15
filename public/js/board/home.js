@@ -84,9 +84,9 @@ $(document).ready(function() {
         }
     }
 
-  if()
+  if(params.has('fenstr'))
   {
-    fentoboard()
+    fentoboard(params.get('fenstr'));
   }
   else {
     placePiece('pawn', 'white', 'a2');

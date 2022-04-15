@@ -82,7 +82,7 @@ function create() {
                 return;
             }
 
-            window.location.href = '/play?gameID=' + gameID + '&name=' + name + '&imported=' + 'n';
+            window.location.href = '/play?gameID=' + gameID + '&name=' + name + '&fenstr=' + null;
         },
         dataType: "json"
     });
@@ -103,7 +103,7 @@ function createFEN() {
                 return;
             }
 
-            window.location.href = '/play?gameID=' + gameID + '&name=' + name +'&imported=' + 'y';
+            window.location.href = '/play?gameID=' + gameID + '&name=' + name +'&fenstr=' + fen;
         },
         dataType: "json"
     });
