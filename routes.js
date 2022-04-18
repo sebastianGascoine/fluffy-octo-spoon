@@ -30,13 +30,13 @@ router.post('/create', function(req, res){
     if (!req.body.fen) fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
     let game = new Game(gameID, [], fen);
-
     let success = shared.database.newGame(game);
 
     if (!success) {
         res.json({ error: true });
         return;
     }
+    console.log('here1');
 
     res.json({ error: false });
 });
@@ -57,13 +57,12 @@ router.post('/createfen', function(req, res){
         res.json({ error: true });
         return;
     }
-
     res.json({ error: false });
 });
 
-router.post('/play', function(req, res){
-    let gameID = String(req.body.gameID).trim();
-    let name   = String(req.body.name).trim();
+router.get('/play', function(req, res){
+    let gameID = String(req.query.gameID).trim();
+    let name   = String(req.query.name).trim();
 
     console.log(gameID, name);
 

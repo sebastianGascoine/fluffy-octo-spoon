@@ -86,7 +86,7 @@ function create() {
                 return;
             }
 
-            window.location.href = '/play?gameID=' + gameID + '&name=' + name + '&fenstr=' + null;
+            window.location.href = '/play?gameID=' + gameID + '&name=' + name;
         },
         dataType: "json"
     });
