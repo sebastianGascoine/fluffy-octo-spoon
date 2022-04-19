@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Ajax</title>
+    <title>Chess</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="styles/board.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -16,16 +16,25 @@
 
 <body>
     <div id="main_content">
-        <table id="board"></table>
-        <div class="container">
-            <ul id="moves" style="float: left;"></ul>
+        <div id="center_content">
+            <div id="board_container">
+                <span id="player2">Waiting for Opponent...</span>
+
+                <table id="board"></table>
+
+                <span id="player1"></span>
+            </div>
+            <div id="chat_container">
+                <div id="chat_view"></div>
+                <input id="chat_input" type="text" placeholder="Enter message...">
+            </div>
         </div>
+
+        <input type="button" id="export" value="Export Game as FEN">
+        <p id="fen" style="color: white;"></p>
     </div>
-    <input type="button" id="fenbutton" value="buttonto test fen">
-    <input type="button" id="fenbutton2" value="fen test buttonto">
-    <input type="button" id="export" value="Export Game as FEN">
+
+    <script src="js/board/home.js"></script>
 </body>
-<script src="js/board/logic.js"></script>
-<script src="js/board/home.js"></script>
 
 </html>

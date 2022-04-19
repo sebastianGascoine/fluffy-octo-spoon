@@ -1,16 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;400;700&display=swap');
 
 * {
     box-sizing: border-box;
-    -webkit-user-select: none;
-    /* Safari */
-    user-select: none;
-    /* from community wiki stack overflow */
     font-family: 'Roboto Mono', monospace;
 }
 
 #main_content {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -18,13 +17,76 @@ body {
     background-color: black;
 }
 
+#center_content {
+    display: flex;
+
+    margin-top: 50px;
+}
+
+#board_container {
+    display: flex;
+    flex-direction: column;
+
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+#chat_container {
+    display: flex;
+    flex-direction: column;
+
+    color: white;
+    font-size: 16px;
+    font-weight: 400;
+
+    margin: 25px 10px;
+
+    overflow-y: scoll;
+}
+
+#chat_view {
+    border: 2px dotted white;
+    border-bottom: none;
+
+    width: 400px;
+    height: 600px;
+
+    overflow-x: wrap;
+    overflow-y: auto;
+}
+
+#chat_view p {
+    height: 16px;
+    line-height: 16px;
+
+    margin: 0;
+    padding: 5px;
+}
+
+#chat_input {
+    height: 40px;
+
+    border: 2px solid white;
+    color: white;
+    background-color: black;
+
+    font-size: 16px;
+
+    padding: 0 10px;
+}
+
 #board {
     border-spacing: 0;
     display: inline;
-    margin: auto;
-    /*width: 50%;*/
-    /*padding: 70px 70px;*/
     text-align: center;
+
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#player2 {
+    text-align: right;
 }
 
 #moves {
@@ -54,11 +116,11 @@ body {
     position: relative;
 
     padding: 0;
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
 
     text-align: center;
-    line-height: 100px;
+    line-height: 80px;
 }
 
 .cell_number {
@@ -80,14 +142,14 @@ body {
 }
 
 .cell_background {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
 
     z-index: 20;
 
     position: absolute;
-    top: 30px;
-    left: 30px;
+    top: 25px;
+    left: 25px;
 
     pointer-events: none;
 
@@ -117,8 +179,8 @@ tr:nth-child(even) .cell:nth-child(odd) .cell_number {
 .piece {
     z-index: 10;
 
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
 
     vertical-align: middle;
 }

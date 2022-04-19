@@ -7,88 +7,97 @@ const router = express.Router();
 const Game = require('./database/Game');
 const Player = require('./database/Player');
 
-router.get('/',function(req, res){
+router.get('/',function(req, res) {
     res.sendFile(path.resolve(__dirname + '/public/views/index.html'));  //changed
 });
 
-router.get('/board',function(req, res){
+router.get('/board',function(req, res) {
     res.sendFile(path.resolve(__dirname + '/public/views/board.html'));  //changed
 });
 
-router.get('/cool',function(req, res){
+router.get('/cool',function(req, res) {
     res.sendFile(path.resolve(__dirname + '/public/views/cool.html'));  //changed
 });
 
-//////////////////////////////////////////////////////////////
-
-router.post('/create', function(req, res){
+router.post('/create', function(req, res) {
     let gameID = String(req.body.gameID).trim();
     let name   = String(req.body.name).trim();
     let fen    = String(req.body.fen).trim();
 
-    // Starting FEN String
-    if (!req.body.fen) fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+    if (!gameID) {
+        res.json({ 
+            error: true, 
+            errorCode: 1,
+            errorMessage: "Missing a Game ID" 
+        });
+        return;
+    }
+
+    if (!name) {
+        res.json({ 
+            error: true, 
+            errorCode: 2,
+            errorMessage: "Missing a Player Name" 
+        });
+        return;
+    }
+
+    if (!fen) {
+        res.json({ 
+            error: true, 
+            errorCode: 3,
+            errorMessage: "Missing a FEN String" 
+        });
+        return;
+    }
+
+    // TODO: Need to validate FEN String
 
     let game = new Game(gameID, [], fen);
     let success = shared.database.newGame(game);
 
     if (!success) {
-        res.json({ error: true });
+        res.json({ 
+            error: true, 
+            errorCode: 4,
+            errorMessage: "Duplicate of existing Game ID" 
+        });
         return;
     }
-    console.log('here1');
 
     res.json({ error: false });
 });
 
-router.post('/createfen', function(req, res){
+router.post('/join', function(req, res) {
     let gameID = String(req.body.gameID).trim();
     let name   = String(req.body.name).trim();
-    let fen    = String(req.body.fen).trim();
-
-    // Starting FEN String
-    //if (!req.body.fen) fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
-
-    let game = new Game(gameID, [], fen);
-
-    let success = shared.database.newGame(game);
-
-    if (!success) {
-        res.json({ error: true });
-        return;
-    }
-    res.json({ error: false });
-});
-
-router.get('/play', function(req, res){
-    let gameID = String(req.query.gameID).trim();
-    let name   = String(req.query.name).trim();
-
-    console.log(gameID, name);
 
     let game = shared.database.getGame(gameID);
 
     if (!game) {
-        res.send('Unknown game');
+        res.json({ 
+            error: true, 
+            errorCode: 5,
+            errorMessage: "Game does not exist" 
+        });
         return;
     }
-
-    console.log(game);
 
     if (game.players.length == 2) {
-        res.send('Game full');
+        res.json({ 
+            error: true, 
+            errorCode: 6,
+            errorMessage: "Game already has two players" 
+        });
         return;
     }
 
-    let player = new Player(name);
-
+    let player = new Player(name, game.players.length ? 'b' : 'w');
     game.players.push(player);
-
+    
     shared.database.putGame(game);
 
-    console.log(game, player);
-
-    res.sendFile(path.resolve(__dirname + '/public/views/board.html'));
+    res.json({ error: false, code: player.uuid });
 });
 
 module.exports = router;
