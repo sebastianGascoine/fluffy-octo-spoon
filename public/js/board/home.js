@@ -253,11 +253,11 @@ function placePiece(name, color, location) {
 
 
     // if (cheese == true) {
-       $(`<img src="../chess_pieces/${name}_${color}.png" chess-name="${name}" chess-color="${color}" chess-location="${location}" class="piece" draggable="false">`).draggable({ revert: 'invalid', containment: '#board' }).appendTo('#' + location);
+        $(`<img src="../chess_pieces/better/${name}_${color}.png" chess-name="${name}" chess-color="${color}" chess-location="${location}" class="piece" draggable="false">`).draggable({ revert: 'invalid', containment: '#board' }).appendTo('#' + location);
 
     // } else {
 
-    //    $(`<img src="../chess_pieces/${name}_${color}.svg" chess-name="${name}" chess-color="${color}" chess-location="${location}" class="piece" draggable="false" width="65" height="122" >`).draggable({ revert: 'invalid', containment: '#board' }).appendTo('#' + location);
+     //   $(`<img src="../chess_pieces/default/${name}_${color}.svg" chess-name="${name}" chess-color="${color}" chess-location="${location}" class="piece" draggable="false">`).draggable({ revert: 'invalid', containment: '#board' }).appendTo('#' + location);
    // }
 
 }
