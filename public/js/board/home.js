@@ -37,9 +37,9 @@ socket.on('opponent', function(data) {
 
 socket.on('state', function(data) {
     console.log('Received state update');
-
+    
     state = data;
-
+    
     fenToBoard(state.fen);
 
     $('#fen').text(state.fen);
@@ -48,7 +48,8 @@ socket.on('state', function(data) {
         $('.piece').draggable('disable');
         $('#player1').text(names[0]);
         $('#player2').text(names[1] + ' (Their Turn)');
-    } else {
+    }
+    else {
         $('.piece').draggable('enable');
         $('#player1').text(names[0] + ' (Your Turn)');
         $('#player2').text(names[1]);
@@ -111,7 +112,7 @@ function createCell(row, rank, file) {
             const pieceFile = files.indexOf(pieceLocation[1]);
 
             const from = { rank: pieceRank, file: pieceFile };
-            const to = { rank: rank, file: file };
+            const to   = { rank: rank, file: file };
 
             setTimeout(() => socket.emit('move', { code: params.get('code'), game: params.get('game'), move: { from, to } }), 1);
 
@@ -132,8 +133,8 @@ function createCell(row, rank, file) {
             const pieceRank = ranks.indexOf(pieceLocation[0]);
             const pieceFile = files.indexOf(pieceLocation[1]);
 
-            return state.moves.find(move => move.from.rank == pieceRank && move.from.file == pieceFile &&
-                move.to.rank == rank && move.to.file == file);
+            return state.moves.find(move => move.from.rank == pieceRank && move.from.file == pieceFile
+             && move.to.rank == rank && move.to.file == file);
         }
     });
 }
@@ -158,8 +159,7 @@ function fenToBoard(fen) {
             const number = parseInt(boardLine[i]);
 
             if (isNaN(number)) rank.push(boardLine[i]);
-            else
-                for (let j = 0; j < number; ++j) rank.push(' ');
+            else for (let j = 0; j < number; ++j) rank.push(' ');
         }
 
         board = [rank, ...board];
@@ -248,8 +248,9 @@ function placePiece(name, color, location) {
 
     if (currentPiece.attr('chess-name') == name && currentPiece.attr('chess-color') == color)
         return;
-
+    
     $('#' + location).find('.piece').remove();
+<<<<<<< HEAD
 
 
     // if (cheese == true) {
@@ -260,4 +261,7 @@ function placePiece(name, color, location) {
     //    $(`<img src="../chess_pieces/${name}_${color}.svg" chess-name="${name}" chess-color="${color}" chess-location="${location}" class="piece" draggable="false" width="65" height="122" >`).draggable({ revert: 'invalid', containment: '#board' }).appendTo('#' + location);
    // }
 
+=======
+    $(`<img src="../chess_pieces/${name}_${color}.png" chess-name="${name}" chess-color="${color}" chess-location="${location}" class="piece" draggable="false">`).draggable({ revert: 'invalid', containment: '#board' }).appendTo('#' + location);
+>>>>>>> parent of 61b3a62 (stufff)
 }
