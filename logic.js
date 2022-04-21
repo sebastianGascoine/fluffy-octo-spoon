@@ -362,7 +362,7 @@ function getPossibleMoves(fen, detectCheck = true) {
 
         	if (currentTurn === 'w') appliedFen = setBoard(appliedFen, setPiece(appliedFen, { rank: enPassant.rank - 1, file: enPassant.file }, ''));
         	if (currentTurn === 'b') appliedFen = setBoard(appliedFen, setPiece(appliedFen, { rank: enPassant.rank + 1, file: enPassant.file }, ''));
-        } 
+        }
 
         if (move.enPassant) appliedFen = setEnPassant(appliedFen, cellObjectToString(move.enPassant));
         else appliedFen = setEnPassant(appliedFen, '-');
@@ -388,13 +388,16 @@ function areEnemies(piece1, piece2) {
 
 function getPiece(fen, cell) {
 	if (cell.rank < 0 || cell.rank >= 8) return null;
-
+	//console.log(cell.rank);
 	const board = getBoard(fen).split('/');
 
-	const boardRank = board[8 - cell.rank - 1];
+	const boardRank = board[8 - parseInt(cell.rank) - 1];
+	//for (var i = 0; i < boardRank.length; i++) { if(!isNaN(boardRank[i])){console.log(boardRank[i]);} }
+	//console.log('---------------------');
+  /* found issue  cant parseInt a letter */
 
 	for (let fileNumber = 0, fileIndex = 0; fileNumber < 8; ++fileIndex, ++fileNumber) {
-		const number = parseInt(boardRank[fileIndex]);
+		const number = Number(boardRank[fileIndex]);
 
 		if (isNaN(number)) {
 			if (fileNumber === cell.file) {
@@ -450,7 +453,7 @@ function setPiece(fen, cell, piece) {
 
 		board = [rank, ...board];
 	}
-
+/*another issue not sure why*/
 	board[cell.rank][cell.file] = piece ? piece : ' ';
 
 	let reconstructFen = [];
@@ -470,7 +473,7 @@ function setPiece(fen, cell, piece) {
 
 	    reconstructFen = [reconstructRank, ...reconstructFen];
 	}
-	
+
 	return reconstructFen.join('/');
 }
 
