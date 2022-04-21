@@ -4,6 +4,8 @@ const files = ['1', '2', '3', '4', '5', '6', '7', '8'];
 const params = new URLSearchParams(location.search);
 const socket = io();
 
+let better = false;
+let bettercheck = better;
 let color;
 let state = {};
 let names = [];
@@ -39,7 +41,6 @@ socket.on('state', function(data) {
     console.log('Received state update');
 
     state = data;
-
     fenToBoard(state.fen);
 
     $('#fen').text(state.fen);
@@ -242,22 +243,40 @@ function getHalfmoveClock(fen) {
 function getFullmoveNumber(fen) {
     return parseInt(fen.split(' ')[5]);
 }
-
 function placePiece(name, color, location) {
     const currentPiece = $('#' + location + ' img');
 
-    if (currentPiece.attr('chess-name') == name && currentPiece.attr('chess-color') == color)
+    if (currentPiece.attr('chess-name') == name && currentPiece.attr('chess-color') == color && better == bettercheck)
         return;
 
     $('#' + location).find('.piece').remove();
 
 
-    // if (cheese == true) {
-  //      $(`<img src="../chess_pieces/better/${name}_${color}.png" chess-name="${name}" chess-color="${color}" chess-location="${location}" class="piece" draggable="false">`).draggable({ revert: 'invalid', containment: '#board' }).appendTo('#' + location);
+    if (better == true) {
+        $(`<img src="../chess_pieces/better/${name}_${color}.png" chess-name="${name}" chess-color="${color}" chess-location="${location}" class="piece" draggable="false">`).draggable({ revert: 'invalid', containment: '#board' }).appendTo('#' + location);
 
-    // } else {
-
+    } else {
         $(`<img src="../chess_pieces/${name}_${color}.svg" chess-name="${name}" chess-color="${color}" chess-location="${location}" class="piece" draggable="false" width="65" height="122" >`).draggable({ revert: 'invalid', containment: '#board' }).appendTo('#' + location);
-   // }
+    }
 
+
+}
+socket.on('clicked', function(data, callback) {
+      console.log("YOU CLICKED");
+      state = data;
+      fenToBoard(state.fen);
+      callback('received ' + data);
+});
+function betterimg(){
+  if(better == true){
+    better = false;
+  }
+  else{
+    better = true;
+  }
+	socket.emit('clicked',function(response){
+    console.log("response:")
+    console.log(response);
+  });
+  console.log("found image changer");
 }
