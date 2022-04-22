@@ -87,8 +87,19 @@ module.exports = function(httpServer) {
 	        if (logic.getPiece(game.board, move.from) == 'r' && move.from.rank == 7 && move.from.file == 7) nextFen = logic.setCastleOptions(nextFen, logic.getCastleOptions(nextFen).replace('k', ''));
 
 	        nextFen = logic.setCurrentTurn(nextFen, nextTurn);
-	        nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, move.to, logic.getPiece(nextFen, move.from)));
-	        nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, move.from, ''));
+
+	        if (logic.getPiece(game.board, move.from) == 'P' && move.to.rank == 7) {
+	        	nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, move.to, 'Q'));
+	        	nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, move.from, ''));
+	        }
+	        else if (logic.getPiece(game.board, move.from) == 'p' && move.to.rank == 0) {
+	        	nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, move.to, 'q'));
+	        	nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, move.from, ''));
+	        }
+			else {
+		        nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, move.to, logic.getPiece(nextFen, move.from)));
+		        nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, move.from, ''));
+	    	}
 
 	        if (move.doesEnPassant) {
 	        	const enPassant = logic.cellStringToObject(logic.getEnPassant(nextFen));
