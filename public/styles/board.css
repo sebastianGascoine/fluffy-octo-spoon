@@ -109,6 +109,7 @@ body {
     -ms-user-select: text;
     user-select: text;
 
+
 }
 
 .cell {
@@ -139,6 +140,25 @@ body {
 .cell_hover {
     background-color: blue;
 }
+
+.button {
+    color: white;
+    border: 2px solid white;
+    font-family: 'Roboto Mono', monospace;
+    padding: 15px 32px;
+    background-color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition-duration: 0.4s;
+    border-radius: 3px;
+    margin: 8px 8px;
+}
+
+.button:hover {
+    background-color: #008CBA;
+    }
 
 .cell_background {
     width: 30px;
