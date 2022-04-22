@@ -131,7 +131,7 @@ module.exports = function(httpServer) {
 	        	let checkmate = false;
 
 	        	for (const alternateMove of alternateNextMoves)
-	        		if (logic.getPiece(alternateNextFen, move.to) == 'K' || logic.getPiece(alternateNextFen, move.to) == 'k') checkmate = true;
+	        		if (logic.getPiece(alternateNextFen, alternateMove.to) == 'K' || logic.getPiece(alternateNextFen, alternateMove.to) == 'k') checkmate = true;
 
 				game.players.forEach(player => player.socket.emit('gameover', { checkmate, winner: currTurn }));	        	
 	        }
