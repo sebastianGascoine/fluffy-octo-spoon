@@ -57,6 +57,7 @@ module.exports = function(httpServer) {
 
 	    	if (!move) return;
 
+	    	const currTurn = logic.getCurrentTurn(game.board);
 	        const nextTurn = logic.getCurrentTurn(game.board) == 'w' ? 'b' : 'w';
 
 	        let nextFen = game.board;
@@ -120,7 +121,22 @@ module.exports = function(httpServer) {
 
 	        const nextMoves = logic.getPossibleMoves(nextFen);
 
-	    	game.players.forEach(player => player.socket.emit('state', { fen: game.board, moves: nextMoves, turn: nextTurn }));
+	        if (nextMoves.length == 0) {
+	        	const alternateNextFen = nextFen;
+
+	        	alternateNextFen = logic.setCurrentTurn(alternateNextFen, currTurn);
+
+	        	const alternateNextMoves = logic.getPossibleMoves(alternateNextFen);
+
+	        	let checkmate = false;
+
+	        	for (const alternateMove of alternateNextMoves)
+	        		if (logic.getPiece(alternateNextFen, move.to) == 'K' || logic.getPiece(alternateNextFen, move.to) == 'k') checkmate = true;
+
+				game.players.forEach(player => player.socket.emit('gameover', { checkmate, winner: currTurn }));	        	
+	        }
+
+	    	else game.players.forEach(player => player.socket.emit('state', { fen: game.board, moves: nextMoves, turn: nextTurn }));
 	    });
 
 		socket.on('chat', function (data) {
