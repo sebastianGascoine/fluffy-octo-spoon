@@ -150,7 +150,7 @@ module.exports = function(httpServer) {
 
 	    	const name = player.name;
 
-	    	game.players.forEach(player => player.socket.emit('chat', { name, text }));
+	    	game.players.forEach(player => player.socket?.emit('chat', { name, text }));
 	    });
 	});
 }

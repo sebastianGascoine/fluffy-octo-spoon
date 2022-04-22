@@ -274,7 +274,8 @@ function betterimg() {
 }
 
 socket.on('gameover', function(data) {
-
+    console.log(data);
+    
     if (data.checkmate) {
         if (color == data.winner) {
             Swal.fire({
@@ -294,12 +295,14 @@ socket.on('gameover', function(data) {
             });
         }
     }
-    Swal.fire({
-        title: 'Stalemate!',
-        text: 'Stalemate!',
-        icon: 'info',
-        confirmButtonText: 'Cool',
-        background: '#000'
-    });
+    else {
+        Swal.fire({
+            title: 'Stalemate!',
+            text: 'Stalemate!',
+            icon: 'info',
+            confirmButtonText: 'Cool',
+            background: '#000'
+        });
+    }
 
 });
