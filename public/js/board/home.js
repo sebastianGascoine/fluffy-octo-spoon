@@ -245,6 +245,7 @@ function getHalfmoveClock(fen) {
 function getFullmoveNumber(fen) {
     return parseInt(fen.split(' ')[5]);
 }
+
 function placePiece(name, color, location, force = false) {
     const currentPiece = $('#' + location + ' img');
 
@@ -271,3 +272,34 @@ function betterimg() {
     fenToBoard(state.fen, true);
     console.log("found image changer");
 }
+
+socket.on('gameover', function(data) {
+
+    if (data.checkmate) {
+        if (color == data.winner) {
+            Swal.fire({
+                title: 'Done!',
+                text: 'You Win!',
+                icon: 'success',
+                confirmButtonText: 'Cool',
+                background: '#000'
+            });
+        } else {
+            Swal.fire({
+                title: 'Checkmate!',
+                text: 'You Lose!',
+                icon: 'error',
+                confirmButtonText: 'Cool',
+                background: '#000'
+            });
+        }
+    }
+    Swal.fire({
+        title: 'Stalemate!',
+        text: 'Stalemate!',
+        icon: 'info',
+        confirmButtonText: 'Cool',
+        background: '#000'
+    });
+
+});
