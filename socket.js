@@ -122,7 +122,7 @@ module.exports = function(httpServer) {
 	        const nextMoves = logic.getPossibleMoves(nextFen);
 
 	        if (nextMoves.length == 0) {
-	        	const alternateNextFen = nextFen;
+	        	let alternateNextFen = nextFen;
 
 	        	alternateNextFen = logic.setCurrentTurn(alternateNextFen, currTurn);
 
