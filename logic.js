@@ -354,8 +354,19 @@ function getPossibleMoves(fen, detectCheck = true) {
         if (getPiece(appliedFen, move.from) == 'r' && move.from.rank == 7 && move.from.file == 7) appliedFen = setCastleOptions(appliedFen, getCastleOptions(appliedFen).replace('k', ''));
 
         appliedFen = setCurrentTurn(appliedFen, nextTurn);
-		appliedFen = setBoard(appliedFen, setPiece(appliedFen, move.to, getPiece(appliedFen, move.from)));
-		appliedFen = setBoard(appliedFen, setPiece(appliedFen, move.from, ''));
+
+    	if (getPiece(appliedFen, move.from) == 'P' && move.to.rank == 7) {
+        	appliedFen = setBoard(appliedFen, setPiece(appliedFen, move.to, 'Q'));
+        	appliedFen = setBoard(appliedFen, setPiece(appliedFen, move.from, ''));
+        }
+        else if (getPiece(appliedFen, move.from) == 'p' && move.to.rank == 0) {
+        	appliedFen = setBoard(appliedFen, setPiece(appliedFen, move.to, 'q'));
+        	appliedFen = setBoard(appliedFen, setPiece(appliedFen, move.from, ''));
+        }
+		else {
+	        appliedFen = setBoard(appliedFen, setPiece(appliedFen, move.to, getPiece(appliedFen, move.from)));
+	        appliedFen = setBoard(appliedFen, setPiece(appliedFen, move.from, ''));
+    	}
 
 		if (move.doesEnPassant) {
         	const enPassant = cellStringToObject(getEnPassant(appliedFen));

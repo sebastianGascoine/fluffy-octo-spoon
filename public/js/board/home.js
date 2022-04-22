@@ -5,9 +5,8 @@ const params = new URLSearchParams(location.search);
 const socket = io();
 
 let better = false;
-let bettercheck = better;
 let color;
-let state = {};
+let state;
 let names = [];
 
 socket.on('setup', function(data) {
@@ -77,6 +76,8 @@ $(document).ready(function() {
 
         $('#chat_input').val('');
     });
+
+    $('.piece').draggable('disable');
 
     socket.emit('join', { code: params.get('code'), game: params.get('game') });
 });
@@ -149,7 +150,7 @@ function getLocation(rank, file) {
     return rankName + fileName;
 }
 
-function fenToBoard(fen) {
+function fenToBoard(fen, force = false) {
     let board = [];
 
     for (let boardLine of getBoard(fen).split('/')) {
@@ -171,37 +172,37 @@ function fenToBoard(fen) {
             const piece = board[rank][file];
 
             if (piece === 'R') { //rook
-                placePiece('rook', 'white', getLocation(rank, file));
+                placePiece('rook', 'white', getLocation(rank, file), force);
 
             } else if (piece === 'N') { //knight
-                placePiece('knight', 'white', getLocation(rank, file));
+                placePiece('knight', 'white', getLocation(rank, file), force);
 
             } else if (piece === 'B') { //bishop
-                placePiece('bishop', 'white', getLocation(rank, file));
+                placePiece('bishop', 'white', getLocation(rank, file), force);
 
             } else if (piece === 'Q') { //queen
-                placePiece('queen', 'white', getLocation(rank, file));
+                placePiece('queen', 'white', getLocation(rank, file), force);
 
             } else if (piece === 'K') { //king
-                placePiece('king', 'white', getLocation(rank, file));
+                placePiece('king', 'white', getLocation(rank, file), force);
             } else if (piece === 'P') { //pawn
-                placePiece('pawn', 'white', getLocation(rank, file));
+                placePiece('pawn', 'white', getLocation(rank, file), force);
             } else if (piece === 'r') { //rook
-                placePiece('rook', 'black', getLocation(rank, file));
+                placePiece('rook', 'black', getLocation(rank, file), force);
             } else if (piece === 'n') { //knight
-                placePiece('knight', 'black', getLocation(rank, file));
+                placePiece('knight', 'black', getLocation(rank, file), force);
 
             } else if (piece === 'b') { //bishop
-                placePiece('bishop', 'black', getLocation(rank, file));
+                placePiece('bishop', 'black', getLocation(rank, file), force);
 
             } else if (piece === 'q') { //queen
-                placePiece('queen', 'black', getLocation(rank, file));
+                placePiece('queen', 'black', getLocation(rank, file), force);
 
             } else if (piece === 'k') { //king
-                placePiece('king', 'black', getLocation(rank, file));
+                placePiece('king', 'black', getLocation(rank, file), force);
 
             } else if (piece === 'p') { //pawn
-                placePiece('pawn', 'black', getLocation(rank, file));
+                placePiece('pawn', 'black', getLocation(rank, file), force);
             } else {
                 $('#' + getLocation(rank, file)).find('.piece').remove();
             }
@@ -216,7 +217,8 @@ function exportgame() {
         title: 'Done!',
         text: state.fen,
         icon: 'success',
-        confirmButtonText: 'Cool'
+        confirmButtonText: 'Cool',
+        background: '#000'
     });
 }
 
@@ -243,16 +245,16 @@ function getHalfmoveClock(fen) {
 function getFullmoveNumber(fen) {
     return parseInt(fen.split(' ')[5]);
 }
-function placePiece(name, color, location) {
+function placePiece(name, color, location, force = false) {
     const currentPiece = $('#' + location + ' img');
 
-    if (currentPiece.attr('chess-name') == name && currentPiece.attr('chess-color') == color && better == bettercheck)
+    if (!force && currentPiece.attr('chess-name') == name && currentPiece.attr('chess-color') == color)
         return;
 
     $('#' + location).find('.piece').remove();
 
 
-    if (better == true) {
+    if (better) {
         $(`<img src="../chess_pieces/better/${name}_${color}.png" chess-name="${name}" chess-color="${color}" chess-location="${location}" class="piece" draggable="false">`).draggable({ revert: 'invalid', containment: '#board' }).appendTo('#' + location);
 
     } else {
@@ -261,22 +263,11 @@ function placePiece(name, color, location) {
 
 
 }
-socket.on('clicked', function(data, callback) {
-      console.log("YOU CLICKED");
-      state = data;
-      fenToBoard(state.fen);
-      callback('received ' + data);
-});
-function betterimg(){
-  if(better == true){
-    better = false;
-  }
-  else{
-    better = true;
-  }
-	socket.emit('clicked',function(response){
-    console.log("response:")
-    console.log(response);
-  });
-  console.log("found image changer");
+
+function betterimg() {
+    if (!state) return;
+
+    better = !better;
+    fenToBoard(state.fen, true);
+    console.log("found image changer");
 }

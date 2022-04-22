@@ -30,11 +30,12 @@ module.exports = function(httpServer) {
 	    	if (game.players.length == 2) {
 	    		game.players[0].socket?.emit('opponent', { name: game.players[1].name });
 	    		game.players[1].socket?.emit('opponent', { name: game.players[0].name });
+
+	    		const moves = logic.getPossibleMoves(game.board);
+
+	    		game.players[0].socket.emit('state', { fen: game.board, moves: moves, turn: logic.getCurrentTurn(game.board) });
+	    		game.players[1].socket.emit('state', { fen: game.board, moves: moves, turn: logic.getCurrentTurn(game.board) });
 	    	}
-
-	    	const moves = logic.getPossibleMoves(game.board);
-
-	    	socket.emit('state', { fen: game.board, moves: moves, turn: logic.getCurrentTurn(game.board) });
 	    });
 
 	    socket.on('move', function (data) {
