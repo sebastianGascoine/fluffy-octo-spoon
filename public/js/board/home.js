@@ -6,11 +6,13 @@ const socket = io();
 
 let better = false;
 let color;
+let colorFull;
 let state;
 let names = [];
 
 socket.on('setup', function(data) {
     color = data.color;
+    colorFull = color == 'w' ? 'white' : 'black';
 
     if (color === 'w') {
         for (let rank = ranks.length - 1; rank >= 0; --rank) {
@@ -45,11 +47,11 @@ socket.on('state', function(data) {
     $('#fen').text(state.fen);
 
     if (state.turn !== color) {
-        $('.piece').draggable('disable');
+        $(`.piece[chess-color=${colorFull}]`).draggable('disable');
         $('#player1').text(names[0]);
         $('#player2').text(names[1] + ' (Their Turn)');
     } else {
-        $('.piece').draggable('enable');
+        $(`.piece[chess-color=${colorFull}]`).draggable('enable');
         $('#player1').text(names[0] + ' (Your Turn)');
         $('#player2').text(names[1]);
     }
@@ -76,8 +78,6 @@ $(document).ready(function() {
 
         $('#chat_input').val('');
     });
-
-    $('.piece').draggable('disable');
 
     socket.emit('join', { code: params.get('code'), game: params.get('game') });
 });
@@ -254,15 +254,22 @@ function placePiece(name, color, location, force = false) {
 
     $('#' + location).find('.piece').remove();
 
+    const folder = better ? 'better' : 'default';
+    const extension = better ? 'png' : 'svg';
 
-    if (better) {
-        $(`<img src="../chess_pieces/better/${name}_${color}.png" chess-name="${name}" chess-color="${color}" chess-location="${location}" class="piece" draggable="false">`).draggable({ revert: 'invalid', containment: '#board' }).appendTo('#' + location);
+    const piece = $(`<img src="../chess_pieces/${folder}/${name}_${color}.${extension}" chess-name="${name}" chess-color="${color}" chess-location="${location}" class="piece" draggable="false">`)
+        .mouseenter(function(event) {
+            if (color != colorFull) return;
+            $(this).css('filter', `drop-shadow(black 0px 0px 3px)`);
+        })
+        .mouseleave(function(event) {
+            if (color != colorFull) return;
+            $(this).css('filter', '');
+        });
 
-    } else {
-        $(`<img src="../chess_pieces/${name}_${color}.svg" chess-name="${name}" chess-color="${color}" chess-location="${location}" class="piece" draggable="false" width="65" height="122" >`).draggable({ revert: 'invalid', containment: '#board' }).appendTo('#' + location);
-    }
+    if (color == colorFull) piece.draggable({ revert: 'invalid', containment: '#board' });
 
-
+    piece.appendTo('#' + location);
 }
 
 function betterimg() {
@@ -275,7 +282,7 @@ function betterimg() {
 
 socket.on('gameover', function(data) {
     console.log(data);
-    
+
     if (data.checkmate) {
         if (color == data.winner) {
             Swal.fire({
