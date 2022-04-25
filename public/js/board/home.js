@@ -281,7 +281,8 @@ function betterimg() {
 }
 
 socket.on('gameover', function(data) {
-    console.log(data);
+    state.moves = [];
+    state.turn = color == 'w' ? 'b' : 'w';
 
     if (data.checkmate) {
         if (color == data.winner) {

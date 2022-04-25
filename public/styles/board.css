@@ -53,13 +53,14 @@ body {
     height: 600px;
     overflow-x: wrap;
     overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
 }
 
 #chat_view p {
-    height: 16px;
-    line-height: 16px;
     margin: 0;
-    padding: 5px;
+    word-wrap: break-word;
 }
 
 #chat_input {
