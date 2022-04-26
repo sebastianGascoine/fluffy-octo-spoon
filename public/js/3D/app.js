@@ -1,3 +1,23 @@
+
+import * as THREE from 'three';
+import GLTFLoader from 'three-gltf-loader';
+var loader = new GLTFLoader();
+
+// ------------------------------------------------
+// GLB LOADING
+// ------------------------------------------------
+
+loader.load( '../Items/Chess3D_Black.glb', function ( gltf )
+{
+    sword = gltf.scene;  // sword 3D object is loaded
+    sword.scale.set(2, 2, 2);
+    sword.position.y = 4;
+    scene.add(sword);
+} );
+
+
+
+
 // ------------------------------------------------
 // BASIC SETUP
 // ------------------------------------------------
@@ -31,7 +51,7 @@ var material = new THREE.MeshBasicMaterial( { color: "#433F81" } );
 var cube = new THREE.Mesh( geometry, material );
 
 // Add cube to Scene
-scene.add( cube );
+ scene.add( cube );
 
 // Render Loop
 var render = function () {
