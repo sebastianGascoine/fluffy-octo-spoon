@@ -213,13 +213,20 @@ function fenToBoard(fen, force = false) {
 }
 
 function exportgame() {
+    try{
     Swal.fire({
         title: 'Done!',
         text: state.fen,
         icon: 'success',
         confirmButtonText: 'Cool',
         background: '#000'
+    
+
     });
+}
+catch(err) {
+    console.log(err);
+}
 }
 
 function getBoard(fen) {
