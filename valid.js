@@ -82,23 +82,31 @@ function ValidateFEN(id){
  for(let i=0;i<id.length;i++){
    let temp = id.charAt(i);
    if(temp == '/'){
-     if(p != 8)
+     if(p != 8){
        return true; //
+       console.log('maybehere')
+    }
 
      p = 0;
      r++;
    }
    else
    {
-     if(typeof temp === 'number'){
+    if(isNaN(temp)){
+       p++;
+       n = false;
+    }
+    else
+     {
+       if(n){
+         return true;
+       }
        p += Number(temp);
        n = true;
-     }
-     else
-       p++;
+    }
    }
 
-
+   console.log(`${p} test ${id.charAt(i)}`)
  }
  return false;
 }
