@@ -59,8 +59,8 @@ router.post('/create', function(req, res) {
     if (ValidateFEN(fen)) {
         res.json({
             error: true,
-            errorCode: 3,
-            errorMessage: "Missing a FEN String"
+            errorCode: 4,
+            errorMessage: "Not a FEN String"
         });
         return;
     }
@@ -177,13 +177,18 @@ Other:
 //true = error
 function ValidateFEN(id){
  console.log('validateFEN OCCURING');
- /* board check */
+/* board check */
  let r = 0;             /* 1A */
  let p = 0;             /* 1B */
  let n = false;         /* 1C */
-/* king check */
+/* king  check */
  let kb = false;        /* 2A */
  let kw = false;        /* 2A */
+/* check check */
+/* pawns check */
+/* castl check */
+/* bishp check */
+/* */
  for(let i=0;i<id.length;i++){
    let temp = id.charAt(i);
    if(temp == '/'){
