@@ -29,42 +29,42 @@ router.post('/create', function(req, res) {
     let fen    = String(req.body.fen).trim();
 
     if (!gameID) {
-        res.json({ 
-            error: true, 
+        res.json({
+            error: true,
             errorCode: 1,
-            errorMessage: "Missing a Game ID" 
+            errorMessage: "Missing a Game ID"
         });
         return;
     }
 
     if (!name) {
-        res.json({ 
-            error: true, 
+        res.json({
+            error: true,
             errorCode: 2,
-            errorMessage: "Missing a Player Name" 
+            errorMessage: "Missing a Player Name"
         });
         return;
     }
 
     if (!fen) {
-        res.json({ 
-            error: true, 
+        res.json({
+            error: true,
             errorCode: 3,
-            errorMessage: "Missing a FEN String" 
+            errorMessage: "Missing a FEN String"
         });
         return;
     }
 
     // TODO: Need to validate FEN String
-
+    fen = ValidateFEN(fen);
     let game = new Game(gameID, [], fen);
     let success = shared.database.newGame(game);
 
     if (!success) {
-        res.json({ 
-            error: true, 
+        res.json({
+            error: true,
             errorCode: 4,
-            errorMessage: "Duplicate of existing Game ID" 
+            errorMessage: "Duplicate of existing Game ID"
         });
         return;
     }
@@ -79,29 +79,37 @@ router.post('/join', function(req, res) {
     let game = shared.database.getGame(gameID);
 
     if (!game) {
-        res.json({ 
-            error: true, 
+        res.json({
+            error: true,
             errorCode: 5,
-            errorMessage: "Game does not exist" 
+            errorMessage: "Game does not exist"
         });
         return;
     }
 
     if (game.players.length == 2) {
-        res.json({ 
-            error: true, 
+        res.json({
+            error: true,
             errorCode: 6,
-            errorMessage: "Game already has two players" 
+            errorMessage: "Game already has two players"
         });
         return;
     }
 
     let player = new Player(name, game.players.length ? 'b' : 'w');
     game.players.push(player);
-    
+
     shared.database.putGame(game);
 
     res.json({ error: false, code: player.uuid });
 });
+
+
+function ValidateFEN(id){
+ console.log('validateFEN OCCURING');
+
+
+}
+
 
 module.exports = router;
