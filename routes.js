@@ -62,7 +62,7 @@ router.post('/create', function(req, res) {
         res.json({
             error: true,
             errorCode: 4,
-            errorMessage: "Not a FEN String"
+            errorMessage: valid.errorcode()
         });
         return;
     }
