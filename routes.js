@@ -3,7 +3,6 @@ const express = require('express');
 const shared = require('./shared');
 const valid  = require('./valid');
 
-
 const router = express.Router();
 
 const Game = require('./database/Game');
@@ -15,14 +14,6 @@ router.get('/',function(req, res) {
 
 router.get('/board',function(req, res) {
     res.sendFile(path.resolve(__dirname + '/public/views/board.html'));  //changed
-});
-
-router.get('/cool',function(req, res) {
-    res.sendFile(path.resolve(__dirname + '/public/views/cool.html'));  //changed
-});
-
-router.get('/3d',function(req, res) {
-    res.sendFile(path.resolve(__dirname + '/public/views/threejstest.html'));  //changed
 });
 
 router.post('/create', function(req, res) {
@@ -96,7 +87,7 @@ router.post('/join', function(req, res) {
         return;
     }
 
-    if (game.players.length == 2) {
+    if (game.players.length === 2) {
         res.json({
             error: true,
             errorCode: 6,
