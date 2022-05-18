@@ -88,13 +88,14 @@ let o = false;
        p = 0;
        continue;
     }
+    
     if(o){ //
      console.log(temp + ' ' + 'other')
      if(temp == 'b' ||temp == 'w'){
        console.log('turn true' + temp);
      }
     }
-
+    else {
     if(temp == '/'){
      if(p != 8 && r!=0){
        errCode = `Amount of pieces/space in row ${r} Incorrect`;
@@ -113,7 +114,7 @@ let o = false;
        else
        {
           if(n){
-            console.log('error number' + n);
+            console.log('error number' + n + temp);
             errCode = `Two Numbers Together At Row ${r} Column ${p}`;
             return true;
           }
@@ -122,14 +123,15 @@ let o = false;
        }
     }
    console.log(`${p} test ${temp}`);
+  }
  }
 
   if(Number(r) != 7){
     if(r > 7)
-      errCode = `Too Little Rows`
+      errCode = `Too Little Rows ${r}`
 
     if(r < 7)
-      errCode = `Too Many Rows`
+      errCode = `Too Many Rows ${r}`
 
     return true;
   }
