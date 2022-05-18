@@ -64,6 +64,7 @@ Other:
 9A   Make sure the FEN contains all the parts that are needed (e.g active color, castling ability, en passant square, etc).
 */
 //true = error
+let errCode = ''; //errcode to respond to client
 function ValidateFEN(id){
  console.log('validateFEN OCCURING');
 /* board check */
@@ -79,28 +80,63 @@ function ValidateFEN(id){
 /* bishp check */
 /* Clock check */
 /* other check */
+let o = false;
  for(let i=0;i<id.length;i++){
    let temp = id.charAt(i);
-   if(temp == '/'){
-     if(p != 8)
-       return true; //
-
-     p = 0;
-     r++;
-   }
-   else
-   {
-     if(typeof temp === 'number'){
-       p += Number(temp);
-       n = true;
+    if (temp == ' '){
+       o = true;
+       p = 0;
+       continue;
+    }
+    if(o){ //
+     console.log(temp + ' ' + 'other')
+     if(temp == 'b' ||temp == 'w'){
+       console.log('turn true' + temp);
      }
-     else
-       p++;
-   }
+    }
 
-
+    if(temp == '/'){
+     if(p != 8 && r!=0){
+       errCode = `Amount of pieces/space in row ${r} Incorrect`;
+       return true; //
+     }
+      p = 0;
+      r++;
+      n = false;
+    }
+    else
+    {
+       if(isNaN(temp)){
+          p++;
+          n = false;
+       }
+       else
+       {
+          if(n){
+            console.log('error number' + n);
+            errCode = `Two Numbers Together At Row ${r} Column ${p}`;
+            return true;
+          }
+          p += Number(temp);
+          n = true;
+       }
+    }
+   console.log(`${p} test ${temp}`);
  }
- return false;
-}
 
+  if(Number(r) != 7){
+    if(r > 7)
+      errCode = `Too Little Rows`
+
+    if(r < 7)
+      errCode = `Too Many Rows`
+
+    return true;
+  }
+  return false; //valid fen
+}
+function errorcode(){
+  return(errCode);
+}
 module.exports.ValidateFEN = ValidateFEN;
+module.exports.errorcode = errorcode;
