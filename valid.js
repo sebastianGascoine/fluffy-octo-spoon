@@ -14,7 +14,8 @@ Checks:
 Pawns:
 4A   There are no more than 8 pawns from each color.
 
-4B   There aren't any pawns in first or last rank (row) since they're either in a wrong start position or they should have promoted.
+4B   There aren't any pawns in first or last rank (row)
+     since they're either in a wrong start position or they should have promoted.
 
 4C   In the case of en passant square; see if it was legally created
      (e.g it must be on the x3 or x6 rank, there must be a pawn (from the correct color) in front of it,
@@ -41,9 +42,11 @@ Pawns:
      B to G 2=1, 3=2, 4=4, 5=6, 6=9 ___ A and H 2=1, 3=3, 4=6, 5=10, 6=15, for example, if you see 5 pawns in A or H,
      the other player must be missing at least 10 pieces from his 15 captureable pieces.
 
-4I   if there are white pawns in a2 and a3, there can't legally be one in b2, and this idea can be further expanded to cover more possibilities.
+4I   if there are white pawns in a2 and a3, there can't legally be one in b2,
+     and this idea can be further expanded to cover more possibilities.
 Castling:
-5A   If the king or rooks are not in their starting position; the castling ability for that side is lost (in the case of king, both are lost).
+5A   If the king or rooks are not in their starting position;
+     the castling ability for that side is lost (in the case of king, both are lost).
 Bishops:
 6A   Look for bishops in the first and last ranks (rows) trapped by pawns that haven't moved, for example:
      a bishop (any color) trapped behind 3 pawns.
@@ -63,68 +66,98 @@ Half/Full move Clocks:
 Other:
 9A   Make sure the FEN contains all the parts that are needed (e.g active color, castling ability, en passant square, etc).
 */
-//true = error
-let errCode = ''; //errcode to respond to client
+/*
+    true = error
+    errCode is what is sent back to the client
+*/
+let errCode = '';
 function ValidateFEN(id){
  console.log('validateFEN OCCURING');
 /* board check */
- let r = 0;             /* 1A */
+ let r = 0;             /* 1A DONE*/
  let p = 0;             /* 1B */
  let n = false;         /* 1C */
 /* king  check */
- let kb = false;        /* 2A */
- let kw = false;        /* 2A */
+ let kb = 0;        /* 2A */
+ let kw = 0;        /* 2A */
 /* check check */
+
 /* pawns check */
 /* castl check */
 /* bishp check */
 /* Clock check */
 /* other check */
 let o = false;
+if(id.charAt(1) == '/')
+  id = id.substring(1)
+
+console.log(id)
  for(let i=0;i<id.length;i++){
    let temp = id.charAt(i);
-    if (temp == ' '){
+    if (temp == ' '){ //need a better way to check
        o = true;
        p = 0;
        continue;
     }
-    
     if(o){ //
      console.log(temp + ' ' + 'other')
-     if(temp == 'b' ||temp == 'w'){
-       console.log('turn true' + temp);
+     if(temp != 'b' ||temp != 'w'){
+       errCode = `${temp} is Not a Color for Chess`
      }
     }
     else {
-    if(temp == '/'){
-     if(p != 8 && r!=0){
-       errCode = `Amount of pieces/space in row ${r} Incorrect`;
-       return true; //
-     }
-      p = 0;
-      r++;
-      n = false;
-    }
-    else
-    {
-       if(isNaN(temp)){
-          p++;
-          n = false;
+///CHECK FOR AMT OF ROWS/////////////////
+      if(temp == '/'){
+       if(p != 8){
+         errCode = `Amount of pieces/space in row ${r} Incorrect`;
+         return true;
        }
-       else
-       {
-          if(n){
-            console.log('error number' + n + temp);
-            errCode = `Two Numbers Together At Row ${r} Column ${p}`;
-            return true;
+        p = 0;
+        r++;
+        n = false;
+      }
+///pieces//////////////
+      else if(isNaN(temp)){
+
+////king/////////////////////////////////////
+        if(temp.toUpperCase() == 'K'){
+          if(temp.toUpperCase() == temp){
+            if(kw >= 0)
+              kw++;
           }
-          p += Number(temp);
-          n = true;
-       }
+          else if(temp.toUpperCase() != temp){
+            if(kb >= 0)
+              kb++;
+          }
+        }
+///king////////////////////////////////////
+
+///end of pieces////////////////////
+        p++
+        n = false;
+      }
+//////spaces////////////////////////////////
+      else{
+        if(n){
+          console.log('error number' + n + temp);
+          errCode = `Two Number Spacers Together At Row ${r} Column ${p}`;
+          return true;
+        }
+        p += Number(temp);
+        n = true;
+      }
+/////spaces/////////////////////////////////
     }
-   console.log(`${p} test ${temp}`);
-  }
  }
+///AFTER LOOP CHECKS/////////////////////////
+  if(kb > 1){
+    errCode = `Too many Black King Pieces`
+    return true;
+  } //kings
+  if(kw > 1){
+    errCode = 'Too Many White King Pieces'
+    return true;
+  }
 
   if(Number(r) != 7){
     if(r > 7)
@@ -134,7 +167,10 @@ let o = false;
       errCode = `Too Many Rows ${r}`
 
     return true;
-  }
+  } //rows
+
+
+////////////////////////
   return false; //valid fen
 }
 function errorcode(){
