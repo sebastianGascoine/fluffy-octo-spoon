@@ -25,6 +25,10 @@ router.get('/3d',function(req, res) {
     res.sendFile(path.resolve(__dirname + '/public/views/threejstest.html'));  //changed
 });
 
+router.get('/login',function(req, res) {
+    res.sendFile(path.resolve(__dirname + '/public/views/login.html'));  //changed
+});
+
 router.post('/create', function(req, res) {
     let gameID = String(req.body.gameID).trim();
     let name   = String(req.body.name).trim();
