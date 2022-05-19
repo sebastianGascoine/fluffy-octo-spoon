@@ -44,9 +44,6 @@ Pawns:
 
 4I   if there are white pawns in a2 and a3, there can't legally be one in b2,
      and this idea can be further expanded to cover more possibilities.
-Castling:
-5A   If the king or rooks are not in their starting position;
-     the castling ability for that side is lost (in the case of king, both are lost).
 Bishops:
 6A   Look for bishops in the first and last ranks (rows) trapped by pawns that haven't moved, for example:
      a bishop (any color) trapped behind 3 pawns.
@@ -78,18 +75,20 @@ function ValidateFEN(id){
  let p = 0;             /* 1B */
  let n = false;         /* 1C */
 /* king  check */
- let kb = 0;        /* 2A */
- let kw = 0;        /* 2A */
+ let kb = 0;            /* 2A */
+ let kw = 0;            /* 2A */
 /* check check */
 
 /* pawns check */
+let pb = 0;             /* 4A */
+let pw = 0;             /* 4A */
 /* castl check */
 /* bishp check */
 /* Clock check */
 /* other check */
 let o = false;
-if(id.charAt(1) == '/')
-  id = id.substring(1)
+if(id.charAt(0) == '/')
+  id = id.substring(1);
 
 console.log(id)
  for(let i=0;i<id.length;i++){
@@ -119,7 +118,7 @@ console.log(id)
 ///pieces//////////////
       else if(isNaN(temp)){
 
-////king/////////////////////////////////////
+////king -->////////////////////////////////
         if(temp.toUpperCase() == 'K'){
           if(temp.toUpperCase() == temp){
             if(kw >= 0)
@@ -130,8 +129,18 @@ console.log(id)
               kb++;
           }
         }
-///king////////////////////////////////////
+////pawns-->////////////////////////////////
+        if(temp.toUpperCase() == 'P'){
+          if(r == 0 || r == 7){
+            errCode = `${temp} Pawn at Row ${r} Incorrect`
+            return true;
+          }
+          if(temp.toUpperCase() == temp)
+              pw++;
 
+          else if(temp.toUpperCase() != temp)
+              pb++;
+        }
 ///end of pieces////////////////////
         p++
         n = false;
@@ -159,7 +168,16 @@ console.log(id)
     return true;
   }
 
-  if(Number(r) != 7){
+  if(pb > 8){
+    errCode = `Too many Black Pawn Pieces`
+    return true;
+  } //pawns
+  if(pw > 8){
+    errCode = 'Too Many White Pawn Pieces'
+    return true;
+  }
+
+  if(r != 7){
     if(r > 7)
       errCode = `Too Little Rows ${r}`
 
@@ -171,6 +189,7 @@ console.log(id)
 
 
 ////////////////////////
+
   return false; //valid fen
 }
 function errorcode(){
