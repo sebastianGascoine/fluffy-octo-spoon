@@ -10,7 +10,6 @@ Kings:
 Checks:
 3A   Non-active color is not in check.
 3B   Active color is checked less than 3 times (triple check is impossible);
-3C   in case of 2 that it is never pawn+(pawn, bishop, knight), bishop+bishop, knight+knight.
 Pawns:
 4A   There are no more than 8 pawns from each color.
 
@@ -44,6 +43,10 @@ Pawns:
 
 4I   if there are white pawns in a2 and a3, there can't legally be one in b2,
      and this idea can be further expanded to cover more possibilities.
+Castling:
+5A   If the king or rooks are not in their starting position;
+     the castling ability for that side is lost (in the case of king, both are lost).
+
 Bishops:
 6A   Look for bishops in the first and last ranks (rows) trapped by pawns that haven't moved, for example:
      a bishop (any color) trapped behind 3 pawns.
@@ -72,16 +75,16 @@ function ValidateFEN(id){
  console.log('validateFEN OCCURING');
 /* board check */
  let r = 0;             /* 1A DONE*/
- let p = 0;             /* 1B */
- let n = false;         /* 1C */
+ let p = 0;             /* 1B DONE*/
+ let n = false;         /* 1C DONE*/
 /* king  check */
- let kb = 0;            /* 2A */
- let kw = 0;            /* 2A */
+ let kb = 0;            /* 2A DONE*/
+ let kw = 0;            /* 2A DONE*/
 /* check check */
 
 /* pawns check */
-let pb = 0;             /* 4A */
-let pw = 0;             /* 4A */
+let pb = 0;             /* 4A DONE*/
+let pw = 0;             /* 4A DONE*/
 /* castl check */
 /* bishp check */
 /* Clock check */
@@ -132,7 +135,7 @@ console.log(id)
 ////pawns-->////////////////////////////////
         if(temp.toUpperCase() == 'P'){
           if(r == 0 || r == 7){
-            errCode = `${temp} Pawn at Row ${r} Incorrect`
+            errCode = `Pawn at Row ${r} Impossible`
             return true;
           }
           if(temp.toUpperCase() == temp)
@@ -149,7 +152,7 @@ console.log(id)
       else{
         if(n){
           console.log('error number' + n + temp);
-          errCode = `Two Number Spacers Together At Row ${r} Column ${p}`;
+          errCode = `Two Number Spacers Together At Row ${r}`;
           return true;
         }
         p += Number(temp);
