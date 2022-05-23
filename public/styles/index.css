@@ -42,12 +42,16 @@
     border-radius: 3px;
     margin: 8px 8px;
 }
+.pad{
+    padding: 15px 32px;
 
-.button:hover {
-    background-color: #008CBA;
-    
-    /*color: white;*/
 }
+
+/*.button:hover {*/
+/*    background-color: #008CBA;*/
+/*    */
+/*    !*color: white;*!*/
+/*}*/
 
 .animate {}
 
