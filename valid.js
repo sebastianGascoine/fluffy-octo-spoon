@@ -161,10 +161,7 @@ console.log(id)
 
     return true;
   } //rows
-
-
 ////////////////////////
-
   return false; //valid fen
 }
 function errorcode(){
