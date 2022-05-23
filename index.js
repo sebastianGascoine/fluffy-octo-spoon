@@ -13,9 +13,6 @@ app.use(morgan('short'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use('/', express.static('./public'));
-app.use(routes);
-
 const port = process.env.PORT || 3000;
 
 socket(server);
