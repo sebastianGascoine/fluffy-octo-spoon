@@ -1,10 +1,12 @@
 
 
 function userClicked(){
-    console.log("login userClicked")
-    $.post("/login",{username:$("#username").val(), password:$("#psw").val()},function(data)
+    console.log("signup userClicked")
+
+
+    $.post("/signup",{username:$("#username").val(), password:$("#psw").val()},function(data)
     {
-        console.log("login callback function")
+        console.log("signup callback function")
         window.location = data.redirect;
     });
 
@@ -30,13 +32,6 @@ $(document).ready(function(){
         }
     });
 
-    $('#submit').click(function(event) {
-        if ( event.which === 13 ) {
-            userClicked();
-            event.preventDefault();
-            return false;
-        }``
-    });
 });
 
 
