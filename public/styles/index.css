@@ -1,50 +1,49 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
 
 * {
-    box-sizing: border-box;
-    /*-webkit-user-select: none;
+  box-sizing: border-box;
+  /*-webkit-user-select: none;
     user-select: none;*/
 }
 
 .text-align {
-    /*color: white;*/
-    margin: auto;
-    width: 50%;
-    padding: 70px 0;
-    text-align: center;
+  /*color: white;*/
+  margin: auto;
+  width: 50%;
+  padding: 70px 0;
+  text-align: center;
 }
 
 .title {
-    font-family: 'Roboto Mono', monospace;
-    /* color: white; */
+  font-family: "Roboto Mono", monospace;
+  /* color: white; */
 }
 
 .logo {
-    /*color: white;*/
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
+  /*color: white;*/
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
 
 .button {
-    /*color: white;*/
-    /*border: 2px solid white;*/
-    font-family: 'Roboto Mono', monospace;
-    padding: 15px 32px;
-    /*background-color: black;*/
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    transition-duration: 0.4s;
-    border-radius: 3px;
-    margin: 8px 8px;
+  /*color: white;*/
+  /*border: 2px solid white;*/
+  font-family: "Roboto Mono", monospace;
+  padding: 15px 32px;
+  /*background-color: black;*/
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  border-radius: 3px;
+  margin: 8px 8px;
 }
-.pad{
-    padding: 15px 32px;
-
+.pad {
+  padding: 15px 32px;
 }
 
 /*.button:hover {*/
@@ -53,136 +52,135 @@
 /*    !*color: white;*!*/
 /*}*/
 
-.animate {}
+.animate {
+}
 
 .input {
-    transition-delay: 1s;
-    transition: opacity 1s ease-out;
-    opacity: 0;
-    height: 0;
-    overflow: hidden;
+  transition-delay: 1s;
+  transition: opacity 1s ease-out;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
 }
 
 .active {
-    transition-delay: 1s;
-    transition: opacity 1s ease-out;
-    opacity: 1;
-    height: auto;
-
+  transition-delay: 1s;
+  transition: opacity 1s ease-out;
+  opacity: 1;
+  height: auto;
 }
 
-input[type=text] {
-    transition-duration: 0.4s;
-    width: 100%;
-    /*border: 2px solid white;*/
-    padding: 12px 20px;
-    border-radius: 3px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    /*color: white;*/
-    font-family: 'Roboto Mono', monospace;
-    font-size: 16px;
-    /*background-color: black;*/
+input[type="text"] {
+  transition-duration: 0.4s;
+  width: 100%;
+  /*border: 2px solid white;*/
+  padding: 12px 20px;
+  border-radius: 3px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  /*color: white;*/
+  font-family: "Roboto Mono", monospace;
+  font-size: 16px;
+  /*background-color: black;*/
 }
 
 .darkmode {
-    transition: opacity 1s ease-out;
-    background-color: black;
-    color: white;
+  transition: opacity 1s ease-out;
+  background-color: black;
+  color: white;
 }
 
 .darkBordered {
-    transition: opacity 1s ease-out;
-    border: 2px solid white;
+  transition: opacity 1s ease-out;
+  border: 2px solid white;
 }
 
 .lightmode {
-    transition: opacity 1s ease-out;
-    background-color: white;
-    color: black;
+  transition: opacity 1s ease-out;
+  background-color: white;
+  color: black;
 }
 
 .lightBordered {
-    transition: opacity 1s ease-out;
-    border: 2px solid black;
+  transition: opacity 1s ease-out;
+  border: 2px solid black;
 }
 
 .topRight {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    text-align: right;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  text-align: right;
 }
 
 .superTopRight {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    text-align: right;
-    color: #292929;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  text-align: right;
+  color: #292929;
 }
 
 /* The switch - the box around the slider */
 .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
 }
-
 
 /* Hide default HTML checkbox */
 .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
 /* The slider */
 .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #1c1c1c;
-    -webkit-transition: .4s;
-    transition: .4s;
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #1c1c1c;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
-input:checked+.slider {
-    background-color: #cfcfcf;
+input:checked + .slider {
+  background-color: #cfcfcf;
 }
 
-input:focus+.slider {
-    box-shadow: 0 0 1px #1c1c1c;
+input:focus + .slider {
+  box-shadow: 0 0 1px #1c1c1c;
 }
 
-input:checked+.slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-    background-color: #1c1c1c;
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+  background-color: #1c1c1c;
 }
 
 /* Rounded sliders */
 .slider.round {
-    border-radius: 34px;
+  border-radius: 34px;
 }
 
 .slider.round:before {
-    border-radius: 50%;
+  border-radius: 50%;
 }

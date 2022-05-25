@@ -1,41 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <title>Chess</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="styles/board.css">
+    <link rel="stylesheet" href="styles/board.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js" integrity="sha512-0bEtK0USNd96MnO4XhH8jhv3nyRF0eK87pJke6pkYf3cM0uDIhNJy9ltuzqgypoIFXw3JSuiy04tVk4AjpZdZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"
+      integrity="sha512-0bEtK0USNd96MnO4XhH8jhv3nyRF0eK87pJke6pkYf3cM0uDIhNJy9ltuzqgypoIFXw3JSuiy04tVk4AjpZdZw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css"
+    />
     <script src="sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="sweetalert2.min.css">
-    <script src='/socket.io/socket.io.js'></script>
-</head>
+    <link rel="stylesheet" href="sweetalert2.min.css" />
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
 
-<body>
+  <body>
     <div id="main_content">
-        <div id="center_content">
-            <div id="board_container">
-                <span id="player2">Waiting for Opponent...</span>
+      <div id="center_content">
+        <div id="board_container">
+          <span id="player2">Waiting for Opponent...</span>
 
-                <table id="board"></table>
+          <table id="board"></table>
 
-                <span id="player1"></span>
-            </div>
-            <div id="chat_container">
-                <div id="chat_view"></div>
-                <input id="chat_input" type="text" placeholder="Enter message...">
-            </div>
+          <span id="player1"></span>
         </div>
+        <div id="chat_container">
+          <div id="chat_view"></div>
+          <input id="chat_input" type="text" placeholder="Enter message..." />
+        </div>
+      </div>
 
-        <input type="button" id="export" value="Export Game as FEN" class="button">
-        <p id="fen" style="color: white;"></p>
+      <input
+        type="button"
+        id="export"
+        value="Export Game as FEN"
+        class="button"
+      />
+      <p id="fen" style="color: white"></p>
     </div>
-    <input type="button" id="something" onclick="betterimg()">
+    <input type="button" id="something" onclick="betterimg()" />
     <script src="js/board/home.js"></script>
-</body>
-
+  </body>
 </html>

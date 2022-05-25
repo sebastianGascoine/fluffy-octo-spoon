@@ -1,448 +1,621 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<head>
-  <title>chess</title>
+  <head>
+    <title>chess</title>
 
-  <meta http-equiv="content-type"
- content="text/html; charset=ISO-8859-1">
-</head>
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+  </head>
   <body>
-   <font color="#990000"><big><big><font color="#660000"><big><b>AI Chess
-Algorithms</b></big></font></big></big></font>
-<hr width="100%" size="2"><font color="#990000"><big><big><small><big><font
- color="#993399">The program implements the following concepts and algorithms:<br>
- </font></big>1. <a href="#board">Board Representation</a><br>
- 2. <a href="#minmax">Min-max Searching</a><br>
- 3. <a href="#alphabeta">Alpha-beta pruning</a><br>
- 4. <a href="#alphabeta">Null move heuristic</a><br>
- 5. <a href="#quiescence">Quiescence searching </a><br>
- 6. <a href="#staticboard">Static board evaluation functions</a><br>
- </small></big></big></font><small><font color="#990000"><big><big>7. <a
- href="#optimizing">Optimizing board evaluation functions via genetic algorithms</a></big></big></font><br>
- <font color="#990000"><big><big>8. <a href="#opening">Opening Move Database</a></big></big></font></small><br>
- <font color="#990000"><big><big><br>
- <b><font color="#006600"><small><small>Back to <a
- href="http://people.cornell.edu/pages/msf22/chessmain.html">main</a> page.</small></small></font></b><br>
- </big></big></font>
-<hr width="100%" size="2"><font color="#990000"><big><big><br>
- <a name="board"></a>Board Representation<br>
- <small><small><font color="#330033">The chessboard is represented in the
- simplest possible manner - as an 8 by 8 matrix, each containing a Piece (with
- a "blank" piece <br>
-   representing empty board spaces). </font></small></small></big></big></font>Furthermore,
- flag variables keep track of whether queen/king side castling is allowed
-for each<br>
-   player, and whether an en-passant capture move is allowed at a given point
- in time. <br>
-   In order to save space and time during the min-max search, its optimal
-not  to have separate board instance at each branch. After all, they<br>
-   differ only by the position of one piece. Hence each move contains information
- not only about which piece was moved from where to where, but<br>
-   also whether it affected castling, en passant, and whether it captured
-an  enemy piece in the process. Thus reversing a move on a board is very simple.<br>
-   The algorithm thus only needs one board object, on which it makes and
-reverses  all the moves it considers during its search. <br>
-  Advanced chess playing programs have far more clever board representations,
- which operate on bits. Separate instances are kept to keep track of<br>
-  individual pieces, and often bit-wise operations can reveal a lot of information
- about board positions very quickly (particularly with respect to pawns).<br>
-  Years of research have been spent trying to optimize these representations
-for speed. <br>
+    <font color="#990000"
+      ><big
+        ><big
+          ><font color="#660000"
+            ><big><b>AI Chess Algorithms</b></big></font
+          ></big
+        ></big
+      ></font
+    >
+    <hr width="100%" size="2" />
+    <font color="#990000"
+      ><big
+        ><big
+          ><small
+            ><big
+              ><font color="#993399"
+                >The program implements the following concepts and
+                algorithms:<br /> </font></big
+            >1. <a href="#board">Board Representation</a><br />
+            2. <a href="#minmax">Min-max Searching</a><br />
+            3. <a href="#alphabeta">Alpha-beta pruning</a><br />
+            4. <a href="#alphabeta">Null move heuristic</a><br />
+            5. <a href="#quiescence">Quiescence searching </a><br />
+            6. <a href="#staticboard">Static board evaluation functions</a
+            ><br /> </small></big></big></font
+    ><small
+      ><font color="#990000"
+        ><big
+          ><big
+            >7.
+            <a href="#optimizing"
+              >Optimizing board evaluation functions via genetic algorithms</a
+            ></big
+          ></big
+        ></font
+      ><br />
+      <font color="#990000"
+        ><big
+          ><big>8. <a href="#opening">Opening Move Database</a></big></big
+        ></font
+      ></small
+    ><br />
+    <font color="#990000"
+      ><big
+        ><big
+          ><br />
+          <b
+            ><font color="#006600"
+              ><small
+                ><small
+                  >Back to
+                  <a href="http://people.cornell.edu/pages/msf22/chessmain.html"
+                    >main</a
+                  >
+                  page.</small
+                ></small
+              ></font
+            ></b
+          ><br /> </big></big
+    ></font>
+    <hr width="100%" size="2" />
+    <font color="#990000"
+      ><big
+        ><big
+          ><br />
+          <a name="board"></a>Board Representation<br />
+          <small
+            ><small
+              ><font color="#330033"
+                >The chessboard is represented in the simplest possible manner -
+                as an 8 by 8 matrix, each containing a Piece (with a "blank"
+                piece <br />
+                representing empty board spaces).
+              </font></small
+            ></small
+          ></big
+        ></big
+      ></font
+    >Furthermore, flag variables keep track of whether queen/king side castling
+    is allowed for each<br />
+    player, and whether an en-passant capture move is allowed at a given point
+    in time. <br />
+    In order to save space and time during the min-max search, its optimal not
+    to have separate board instance at each branch. After all, they<br />
+    differ only by the position of one piece. Hence each move contains
+    information not only about which piece was moved from where to where, but<br />
+    also whether it affected castling, en passant, and whether it captured an
+    enemy piece in the process. Thus reversing a move on a board is very
+    simple.<br />
+    The algorithm thus only needs one board object, on which it makes and
+    reverses all the moves it considers during its search. <br />
+    Advanced chess playing programs have far more clever board representations,
+    which operate on bits. Separate instances are kept to keep track of<br />
+    individual pieces, and often bit-wise operations can reveal a lot of
+    information about board positions very quickly (particularly with respect to
+    pawns).<br />
+    Years of research have been spent trying to optimize these representations
+    for speed. <br />
 
-<hr width="100%" size="2"><br>
- <font color="#990000"><big><big><a name="minmax"></a>Min-max Searching<br>
-   <small><small><font color="#330033">The core of the chess playing algorithm
- is a local min-max search of the gamespace.<br>
-   The algorithm attempts to MINimize the opponent's score, and MAXimize
-its  own. At each depth <br>
-   (or "ply" as it's as its referred to in computer chess terminology), all
- possible moves are examined,<br>
-   and the static board evaluation function is used to determine the score
- at the leafs of the search tree.<br>
-   These scores propagate up the tree and are used to select the optimal
-move  at each depth. The bigger<br>
-   the ply, the better the chosen move will be (as the algorithm is able
-to  look ahead more moves). The<br>
-   branching factor is typically between 25 and 40 moves per ply (the average
-is around 35).&nbsp; <br>
-   </font></small></small></big></big></font>
-<hr width="100%" size="2"><font color="#990000"><big><big><small><small><font
- color="#330033"><br>
-   </font></small></small></big></big></font><font color="#990000"><big><big><a
- name="alphabeta"></a>Alpha-beta  Pruning<br>
-   <small><small><font color="#330033">&nbsp;&nbsp;&nbsp; This common pruning
- fuction is used to considerably decrease the min-max search space.<br>
-   &nbsp;It essentially keeps track of the worst and best moves for each
-player  so far, and using those can<br>
-   completely avoid searching branches which are guaranteed to yield worse
- results. Using this<br>
-   pruning will return the same exact moves as using min-max (i.e. there
-is  no loss of accuracy). Ideally,<br>
-   it can double the depth of the search tree without increasing search time.
- To get close to this optimum,<br>
-   the available moves at each branch should be appropriately sorted. </font></small></small></big></big></font><br>
-   &nbsp;&nbsp;&nbsp; The sorting is done by the looking at the scores of
-each  possible move, looking only 1 ply ahead. The<br>
-   intuitive sort would be to arrange them from best to worst, but that's
-not  always best. Most moves in<br>
-   chess end up being ones with small gains and losses (ones that improve
-position,  not necessarily capturing<br>
-   pieces), so it makes sense to order the "stand pat" moves first. So the
- sorting is based on the absolute value of <br>
-   the move scores (with the smaller ones coming first). <br>
- &nbsp;&nbsp;&nbsp; The average branching factor for min-max in chess is
-about 35, but with the alpha-beta pruning and sorting,<br>
- the program acheives a branching factor of around 25. <br>
+    <hr width="100%" size="2" />
+    <br />
+    <font color="#990000"
+      ><big
+        ><big
+          ><a name="minmax"></a>Min-max Searching<br />
+          <small
+            ><small
+              ><font color="#330033"
+                >The core of the chess playing algorithm is a local min-max
+                search of the gamespace.<br />
+                The algorithm attempts to MINimize the opponent's score, and
+                MAXimize its own. At each depth <br />
+                (or "ply" as it's as its referred to in computer chess
+                terminology), all possible moves are examined,<br />
+                and the static board evaluation function is used to determine
+                the score at the leafs of the search tree.<br />
+                These scores propagate up the tree and are used to select the
+                optimal move at each depth. The bigger<br />
+                the ply, the better the chosen move will be (as the algorithm is
+                able to look ahead more moves). The<br />
+                branching factor is typically between 25 and 40 moves per ply
+                (the average is around 35).&nbsp;
+                <br /> </font></small></small></big></big
+    ></font>
+    <hr width="100%" size="2" />
+    <font color="#990000"
+      ><big
+        ><big
+          ><small
+            ><small
+              ><font color="#330033"
+                ><br /> </font></small></small></big></big></font
+    ><font color="#990000"
+      ><big
+        ><big
+          ><a name="alphabeta"></a>Alpha-beta Pruning<br />
+          <small
+            ><small
+              ><font color="#330033"
+                >&nbsp;&nbsp;&nbsp; This common pruning fuction is used to
+                considerably decrease the min-max search space.<br />
+                &nbsp;It essentially keeps track of the worst and best moves for
+                each player so far, and using those can<br />
+                completely avoid searching branches which are guaranteed to
+                yield worse results. Using this<br />
+                pruning will return the same exact moves as using min-max (i.e.
+                there is no loss of accuracy). Ideally,<br />
+                it can double the depth of the search tree without increasing
+                search time. To get close to this optimum,<br />
+                the available moves at each branch should be appropriately
+                sorted.
+              </font></small
+            ></small
+          ></big
+        ></big
+      ></font
+    ><br />
+    &nbsp;&nbsp;&nbsp; The sorting is done by the looking at the scores of each
+    possible move, looking only 1 ply ahead. The<br />
+    intuitive sort would be to arrange them from best to worst, but that's not
+    always best. Most moves in<br />
+    chess end up being ones with small gains and losses (ones that improve
+    position, not necessarily capturing<br />
+    pieces), so it makes sense to order the "stand pat" moves first. So the
+    sorting is based on the absolute value of <br />
+    the move scores (with the smaller ones coming first). <br />
+    &nbsp;&nbsp;&nbsp; The average branching factor for min-max in chess is
+    about 35, but with the alpha-beta pruning and sorting,<br />
+    the program acheives a branching factor of around 25. <br />
 
-<hr width="100%" size="2"><br>
-   <font color="#990000"><big><big><a name="nullmove"></a>Null Move Heuristic<br>
-   <small><small><font color="#330033">This simple heuristic improves the
-beginning  of the alpha-beta search. Initially, there are no values for what<br>
-   the worst and best possible moves are, so they default to negative and
-positive  infinity respectively. But using<br>
-   this heuristic the algorithm can find an initial lower bound on the best
- moves. It lets the opposing player play<br>
-   two moves in sequence (choosing them based on a small-ply min-max search),
- and computes the score after that.<br>
-   Certainly, any move made by the current player should beat a score obtainable
- by the opponent getting two chances<br>
-   </font></small></small></big></big></font><font color="#990000"><big><big><small><small><font
- color="#330033">to move. </font></small></small></big></big></font><br>
+    <hr width="100%" size="2" />
+    <br />
+    <font color="#990000"
+      ><big
+        ><big
+          ><a name="nullmove"></a>Null Move Heuristic<br />
+          <small
+            ><small
+              ><font color="#330033"
+                >This simple heuristic improves the beginning of the alpha-beta
+                search. Initially, there are no values for what<br />
+                the worst and best possible moves are, so they default to
+                negative and positive infinity respectively. But using<br />
+                this heuristic the algorithm can find an initial lower bound on
+                the best moves. It lets the opposing player play<br />
+                two moves in sequence (choosing them based on a small-ply
+                min-max search), and computes the score after that.<br />
+                Certainly, any move made by the current player should beat a
+                score obtainable by the opponent getting two chances<br /> </font></small></small></big></big></font
+    ><font color="#990000"
+      ><big
+        ><big
+          ><small
+            ><small><font color="#330033">to move. </font></small></small
+          ></big
+        ></big
+      ></font
+    ><br />
 
-<hr width="100%" size="2"><br>
-   <font color="#990000"><big><big><a name="quiescence"></a>Quiescence Searching<br>
-   <small><small><font color="#330033">&nbsp;&nbsp;&nbsp; Since the depth
-of the min-max search is limited, problems can occur at the frontier. A move
- that may seem great may actually be <br>
-   a disaster because of something that could happen on the very next move.
- Looking at all these possibilites would mean increasing<br>
-   the ply by 1, which is not the solution, as we would need to extend it
-to  arbitrarily large depths. The goal is thus to search the tree until<br>
-   "quiescent" positions are found - i.e ones that don't affect the current
- positions too much (most maneuvers in chess result in only slight<br>
-   advantages or disadvantages to each player, not big ones at once). Hence,
- looking at higher depths is important only for significant<br>
-   moves - such as captures. Consider for example a move in which you capture
- the opponent's knight with your queen. If that is the <br>
-   limit of your min-max search, it seems to be a great move - you receive
- points for capturing the opponent's knight. But suppose that<br>
-   in the very next move your opponent can capture your queen. Then the move
- is clearly seen as bad, as trading a queen for a knight is <br>
-   to your disadvantage. Quiescence searching will be able to detect that
-by  looking at the next move. Again, it doesn't need to do this<br>
-   for every move - just for ones that affect the score a lot (like captures).
- <br>
-  &nbsp;&nbsp;&nbsp; One important caveat in the quiescence searching algorithm
- is that &nbsp;it should only look at moves that became available because
-of the <br>
- current move being made. Consider the following situation. Your bishop is
-threatened by an opponent's pawn, and you have the ability to <br>
- capture the opponent's knight with a different pawn. Suppose the algorithm
-is looking only 1 ply ahead, and is examining some non-capturing<br>
- &nbsp;move. It won't notice that the bishop can be captured in the next
-turn. But what &nbsp;happens when it's examining the knight-capturing move
-with <br>
- quiescence. It will see that the opponent can take your bishop, which will
-even out the piece possession, making the move not seem as good. <br>
- So it's highly likely that the algorithm would pick a move other than capturing
-the knight, thus needlessly losing the bishop in the next turn. <br>
- To prevent this, the algorithm must look at ONLY those moves available because
-of its own move. Since the opponent's <br>
- "pawn captures bishop" was available regardless of whether you capture the
- knight or not, it should be ignored. <br>
- <b>The following picture illustrates an example of this concept:</b><br>
- <br>
- <img src="http://people.cornell.edu/pages/msf22/quisample.JPG" alt="a"
- width="763" height="505">
- </font></small></small><br>
-   </big></big></font>
-<hr width="100%" size="2"><font color="#990000"><big><big><br>
- <a name="staticboard"></a>Static  Board Evaluation Function<br>
-   <small><small><font color="#330033">When the min-max algorithm gets down
- to the leaves of its search, it's unlikely that it reached a goal state (i.e.
- a check-mate). <br>
-   Therefore, it needs some way to determine whether the given board position
- is "good" or "bad" for it, and to what degree.<br>
-   A numerical answer is needed so that it can be compared to other board
-positions  in a quantifiable way. Advanced chess<br>
-   playing programs can look at hundreds features of the board to evalaute
- it. The simplest, and perhaps most intuitive, look<br>
-   at only piece possession. Clearly, having a piece is better than not having
- one (in most cases at least). Furthermore, the<br>
-   pieces have different values. A pawn is worth the least; the bishop and
- knight are next, then the rook, and finally: the queen. <br>
-   The king is obviously priceless, as losing it means losing the game. <br>
-   <br>
-   The additional features that my chess program examines are:<br>
-   <br>
-   -<b> pawn advancement</b><br>
-   How far up the board has each pawn advanced. Reaching the opposite end
-is  important because it promotes the pawn to a different piece.<br>
-   <br>
-   - <b>piece mobility</b> (separate for each type of piece)<br>
-   How many different spaces can the given piece move to?<br>
-   <br>
-   - <b>piece threats</b> (separate for each type of</font></small></small></big></big></font>
- piece)<br>
-   How many of the opponent's pieces are threatened by attack? This includes
- checks (which is a threat on the king)<br>
-   <br>
-   - <b>piece protects</b> (separate for each type of piece)<br>
-   How many of your own piece are protecting the given piece to prevent it
- from being captured without reprecussion?<br>
-   <br>
-   The total number of unique numbers that sum up to give the total board
-score  is thus 25. The allowable weights for each<br>
-   feature are forced to be integers. This allows for faster computations
-(as  opposed to using real numbers). This isn't a real<br>
-   loss of generality though, as the scale of numbers used can be large (very
- large integers to represent piece possession, and<br>
-   small ones to represent the other features). <br>
- <br>
- <b>Here is a sample board and a partial analysis of how it would be scored:</b><br>
- <br>
- <img src="http://people.cornell.edu/pages/msf22/board.JPG" alt="board"
- width="501" height="496">
- <br>
- Consider only white's side of the board (for a full computation, both sides
-would be considered):<br>
- <b>Posession: </b><br>
- &nbsp;&nbsp;&nbsp; 8 pawns<br>
- &nbsp;&nbsp;&nbsp; 2 bishops<br>
- &nbsp; &nbsp; 1 knight<br>
- &nbsp; &nbsp; 2 rooks,<br>
- &nbsp; &nbsp; 1 queen<br>
- <br>
- <b>Mobility: </b><br>
- &nbsp;&nbsp;&nbsp; Pawns: 8<br>
- &nbsp;&nbsp;&nbsp; Bishops: 8<br>
- &nbsp;&nbsp;&nbsp; Knights: 5<br>
- &nbsp;&nbsp;&nbsp; Rooks: 4<br>
- &nbsp;&nbsp;&nbsp; Queen: 3<br>
- &nbsp;&nbsp;&nbsp; King: 3<br>
- <br>
- <b>Threats:</b><br>
- &nbsp;&nbsp;&nbsp; Pawns: 2<br>
- <br>
- <b>Protects:</b><br>
- &nbsp;&nbsp;&nbsp; Pawns: 3<br>
- &nbsp;&nbsp;&nbsp; Bishops: 2<br>
- &nbsp;&nbsp;&nbsp; Knights: 1<br>
- &nbsp;&nbsp;&nbsp; Rooks: 0<br>
- &nbsp;&nbsp;&nbsp; Queen: 1<br>
- &nbsp;&nbsp;&nbsp; King: 3<br>
- <br>
- Each of the above would be multiplied by the weight in the static board
-evaluation function being used.
-<hr width="100%" size="2"><font color="#990000"><big><big><br>
- <a name="optimizing"></a>Optimizing board evaluation functions via genetic
-algorithms<br>
- </big></big></font>&nbsp;&nbsp;&nbsp; While certain aspects of evaluating
-a board are obvious (such as piece values - a queen is clearly worth more
-than a pawn), other <br>
- factors are not as easily determined purely by intuition. How much is a
-bishop's mobility worth? How important is it to check the opponent?<br>
- Is threatening an enemy's piece better than protecting your own? One can
-make relatively good educated guesses to such questions, and <br>
- thus develop a decent static board evaluation function, but I was hoping
-for a more analytical method. My goal was to attempt to optimize<br>
- the board evaluation function by utilizing genetic algorithms to determine
-it. One module of the program is capable of running chess tournaments,<br>
- where the computer plays against itself with different evaluation functions.
-It generates random evaluation functions, which then get mutated or<br>
- preserved based on how well they perform in the tournaments. <br>
- &nbsp;&nbsp;&nbsp; The core of the tournament algorithm does the following.
-It has a set of 10 evaluation functions, and pits them all against each other.
-Each<br>
- side gets to play both black and white for fairness. Subsequently, it selects
-the best five, and generates 5 new ones to replace the worst 5. This<br>
- continues for any desirable number of iterations (the default was set to
-10). There are two version of the algorithm that were run. One was a <br>
- "preservation" one, which kept the best 5 "as is" in between iterations.
-The other algorithm was a "mutation" one, which kept 1 of the 5, and <br>
- mutated the other 4. Each mutation was between a pairing of some 2 of the
-best 5 functions. <br>
- &nbsp;&nbsp;&nbsp; Determining the winner of a given game is not always
-trivial. For time constraints, each game in the tournament is limited to
-50 moves, which<br>
- won't necessarily yield an outright check-mate. Also, draws are possible.
-Furthermore, for low plys (a ply of 2 was used), it is unlikely for the<br>
- &nbsp;computer to ever reach check-mate when playing deterministically against
-itself (since there is not end-game database). But the genetic algorithm <br>
- requires that there be a &nbsp;"winner" for each game played. The way this
-done is by scoring the board position from the perspective of each of the
-<br>
- functions. Most likely they will both has a consensus as to which side has
-more points (and hence is winning); however, since obviously each side <br>
- has a different evaluation function, there is a small probability in a close
-game that each side will think it's winning. <br>
- &nbsp;&nbsp;&nbsp;&nbsp; The starting functions weren't completely random.
-For instance, the piece possession values were always preset to fixed values,
-as those<br>
- are well known to be good. The fixed piece possession values were as follows:<br>
- <img src="http://people.cornell.edu/pages/msf22/piecevals.JPG" alt="a"
- width="185" height="210">
- <br>
- &nbsp;&nbsp;&nbsp; Since possession is more important than any other factors,
-the randomized weights generated for the other were allowed only to be integers
-between 0 and 5. <br>
- However, this still allowed for relatively large weights overall - for instance,
-a rook could theoretically have a mobility of 14 spaces (7 horizontal and
-7 vertical),<br>
- so even if it's mobility factor was only 3, and there were two rooks, this
-was worth a whopping 14*3*2 = 84. <br>
- <font color="#990000"><big><big>&nbsp;&nbsp;&nbsp; </big></big></font>Unfortunately,
-the results of the tournaments weren't as productive as one would expect.
-This is because the static board evaluation function often seem to be circular
-in nature. By this, I mean the following: suppose you have three different
-functions, A, B, and C. It is possible that A beats B, B beats C, and C beats
-A. Hence it's impossible to tell which one is "better." Clearly, some functions
-in extreme cases are always worse than others - for instance, if we make protecting
-bishops and knights worthless, but protecting pawns worth a lot, then the
-AI using this function is likely to lose key pieces quickly. But for functions
-that are deemed "reasonable," the genetic algorithms in their current form
-will fail to determine which ones are better overall. Another problem is
-that only a very small subset of all possible functions can be examined.
-There are 19 factors in each function, each of which can take on 5 different
-values. This yields 5^19 possible functions, even with those limitations.
-But in each round of a tournament, only 10 functions are examined, by running
-10^2 = 100 games, which takes hours even at low ply levels.<br>
-&nbsp;&nbsp;&nbsp; Some general observations, however, both from the tournaments
-and from observations of individual matches, can be made. The pieces with
-higher values ought to have higher mobility/threats/ weights as well. It
-makes sense that threatening a queen is more valuable than &nbsp;threatening
-a bishop or a knight. The opposite is true for the "protects" weights. It
-doesn't make much sense in protecting a queen too much, because if it gets
-killed with anything other than the opponent's queen, killing the capturing
-piece is little consolation. Protecting knights and bishops is very valuable,
-however. In the current scheme, assigning weights to the pawns' parameters
-is often detrimental, as there are 8 of them (multiplying all the weights
-by 8), and it may cause an unecessary overuse of the piece by the computer.
-Pawn advancement seems to be a sufficent parameter for dictating pawn maneuvers.
-Checking (threatening) a king is also valuable, as it can be considered a
-"local goal" of the ultimate goal, which is a check-mate. With all these
-factors in mind, the default static board evaluation has been set to:<br>
-<table cellpadding="2" cellspacing="2" border="1" width="100%">
-  <tbody>
-    <tr>
-      <td valign="top" width="200"><br>
-      </td>
-      <td valign="top"><b>Pawn</b><br>
-      </td>
-      <td valign="top"><b>Knight</b><br>
-      </td>
-      <td valign="top"><b>Bishop</b><br>
-      </td>
-      <td valign="top"><b>Rook</b><br>
-      </td>
-      <td valign="top"><b>Queen</b><br>
-      </td>
-      <td valign="top"><b>King</b><br>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" width="200"><b>Mobility</b><br>
-      </td>
-      <td valign="top">0<br>
-      </td>
-      <td valign="top">0<br>
-      </td>
-      <td valign="top">0<br>
-      </td>
-      <td valign="top">0<br>
-      </td>
-      <td valign="top">1<br>
-      </td>
-      <td valign="top">0<br>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" width="200"><b>Threats</b><br>
-      </td>
-      <td valign="top">0<br>
-      </td>
-      <td valign="top">1<br>
-      </td>
-      <td valign="top">1<br>
-      </td>
-      <td valign="top">2<br>
-      </td>
-      <td valign="top">5<br>
-      </td>
-      <td valign="top">4<br>
-      </td>
-    </tr>
-    <tr>
-      <td valign="top" width="200"><b>Protects</b><br>
-      </td>
-      <td valign="top">0<br>
-      </td>
-      <td valign="top">1<br>
-      </td>
-      <td valign="top">1<br>
-      </td>
-      <td valign="top">0<br>
-      </td>
-      <td valign="top">0<br>
-      </td>
-      <td valign="top">0<br>
-      </td>
-    </tr>
-  </tbody>
-</table>
-With a pawn advancement weight of 1.<br>
-This is by no means the only decent board evaluation function - many others
-work just as well, or better in certain games. <br>
- <br>
- <b>More on the speed efficency of this is discussed in the <a
- href="http://people.cornell.edu/pages/msf22/performance.html">performace</a>
-section.<br>
- You can also look at the raw data for a run of the <a
- href="http://people.cornell.edu/pages/msf22/preserve.txt">preservation</a>
-tournament and the <a
- href="http://people.cornell.edu/pages/msf22/mutate.txt">mutation</a> tournament.
-</b><br>
- <br>
+    <hr width="100%" size="2" />
+    <br />
+    <font color="#990000"
+      ><big
+        ><big
+          ><a name="quiescence"></a>Quiescence Searching<br />
+          <small
+            ><small
+              ><font color="#330033"
+                >&nbsp;&nbsp;&nbsp; Since the depth of the min-max search is
+                limited, problems can occur at the frontier. A move that may
+                seem great may actually be <br />
+                a disaster because of something that could happen on the very
+                next move. Looking at all these possibilites would mean
+                increasing<br />
+                the ply by 1, which is not the solution, as we would need to
+                extend it to arbitrarily large depths. The goal is thus to
+                search the tree until<br />
+                "quiescent" positions are found - i.e ones that don't affect the
+                current positions too much (most maneuvers in chess result in
+                only slight<br />
+                advantages or disadvantages to each player, not big ones at
+                once). Hence, looking at higher depths is important only for
+                significant<br />
+                moves - such as captures. Consider for example a move in which
+                you capture the opponent's knight with your queen. If that is
+                the <br />
+                limit of your min-max search, it seems to be a great move - you
+                receive points for capturing the opponent's knight. But suppose
+                that<br />
+                in the very next move your opponent can capture your queen. Then
+                the move is clearly seen as bad, as trading a queen for a knight
+                is <br />
+                to your disadvantage. Quiescence searching will be able to
+                detect that by looking at the next move. Again, it doesn't need
+                to do this<br />
+                for every move - just for ones that affect the score a lot (like
+                captures).
+                <br />
+                &nbsp;&nbsp;&nbsp; One important caveat in the quiescence
+                searching algorithm is that &nbsp;it should only look at moves
+                that became available because of the <br />
+                current move being made. Consider the following situation. Your
+                bishop is threatened by an opponent's pawn, and you have the
+                ability to <br />
+                capture the opponent's knight with a different pawn. Suppose the
+                algorithm is looking only 1 ply ahead, and is examining some
+                non-capturing<br />
+                &nbsp;move. It won't notice that the bishop can be captured in
+                the next turn. But what &nbsp;happens when it's examining the
+                knight-capturing move with <br />
+                quiescence. It will see that the opponent can take your bishop,
+                which will even out the piece possession, making the move not
+                seem as good. <br />
+                So it's highly likely that the algorithm would pick a move other
+                than capturing the knight, thus needlessly losing the bishop in
+                the next turn. <br />
+                To prevent this, the algorithm must look at ONLY those moves
+                available because of its own move. Since the opponent's <br />
+                "pawn captures bishop" was available regardless of whether you
+                capture the knight or not, it should be ignored. <br />
+                <b
+                  >The following picture illustrates an example of this
+                  concept:</b
+                ><br />
+                <br />
+                <img
+                  src="http://people.cornell.edu/pages/msf22/quisample.JPG"
+                  alt="a"
+                  width="763"
+                  height="505"
+                /> </font></small></small
+          ><br /> </big></big
+    ></font>
+    <hr width="100%" size="2" />
+    <font color="#990000"
+      ><big
+        ><big
+          ><br />
+          <a name="staticboard"></a>Static Board Evaluation Function<br />
+          <small
+            ><small
+              ><font color="#330033"
+                >When the min-max algorithm gets down to the leaves of its
+                search, it's unlikely that it reached a goal state (i.e. a
+                check-mate). <br />
+                Therefore, it needs some way to determine whether the given
+                board position is "good" or "bad" for it, and to what degree.<br />
+                A numerical answer is needed so that it can be compared to other
+                board positions in a quantifiable way. Advanced chess<br />
+                playing programs can look at hundreds features of the board to
+                evalaute it. The simplest, and perhaps most intuitive, look<br />
+                at only piece possession. Clearly, having a piece is better than
+                not having one (in most cases at least). Furthermore, the<br />
+                pieces have different values. A pawn is worth the least; the
+                bishop and knight are next, then the rook, and finally: the
+                queen. <br />
+                The king is obviously priceless, as losing it means losing the
+                game. <br />
+                <br />
+                The additional features that my chess program examines are:<br />
+                <br />
+                -<b> pawn advancement</b><br />
+                How far up the board has each pawn advanced. Reaching the
+                opposite end is important because it promotes the pawn to a
+                different piece.<br />
+                <br />
+                - <b>piece mobility</b> (separate for each type of piece)<br />
+                How many different spaces can the given piece move to?<br />
+                <br />
+                - <b>piece threats</b> (separate for each type of</font
+              ></small
+            ></small
+          ></big
+        ></big
+      ></font
+    >
+    piece)<br />
+    How many of the opponent's pieces are threatened by attack? This includes
+    checks (which is a threat on the king)<br />
+    <br />
+    - <b>piece protects</b> (separate for each type of piece)<br />
+    How many of your own piece are protecting the given piece to prevent it from
+    being captured without reprecussion?<br />
+    <br />
+    The total number of unique numbers that sum up to give the total board score
+    is thus 25. The allowable weights for each<br />
+    feature are forced to be integers. This allows for faster computations (as
+    opposed to using real numbers). This isn't a real<br />
+    loss of generality though, as the scale of numbers used can be large (very
+    large integers to represent piece possession, and<br />
+    small ones to represent the other features). <br />
+    <br />
+    <b
+      >Here is a sample board and a partial analysis of how it would be
+      scored:</b
+    ><br />
+    <br />
+    <img
+      src="http://people.cornell.edu/pages/msf22/board.JPG"
+      alt="board"
+      width="501"
+      height="496"
+    />
+    <br />
+    Consider only white's side of the board (for a full computation, both sides
+    would be considered):<br />
+    <b>Posession: </b><br />
+    &nbsp;&nbsp;&nbsp; 8 pawns<br />
+    &nbsp;&nbsp;&nbsp; 2 bishops<br />
+    &nbsp; &nbsp; 1 knight<br />
+    &nbsp; &nbsp; 2 rooks,<br />
+    &nbsp; &nbsp; 1 queen<br />
+    <br />
+    <b>Mobility: </b><br />
+    &nbsp;&nbsp;&nbsp; Pawns: 8<br />
+    &nbsp;&nbsp;&nbsp; Bishops: 8<br />
+    &nbsp;&nbsp;&nbsp; Knights: 5<br />
+    &nbsp;&nbsp;&nbsp; Rooks: 4<br />
+    &nbsp;&nbsp;&nbsp; Queen: 3<br />
+    &nbsp;&nbsp;&nbsp; King: 3<br />
+    <br />
+    <b>Threats:</b><br />
+    &nbsp;&nbsp;&nbsp; Pawns: 2<br />
+    <br />
+    <b>Protects:</b><br />
+    &nbsp;&nbsp;&nbsp; Pawns: 3<br />
+    &nbsp;&nbsp;&nbsp; Bishops: 2<br />
+    &nbsp;&nbsp;&nbsp; Knights: 1<br />
+    &nbsp;&nbsp;&nbsp; Rooks: 0<br />
+    &nbsp;&nbsp;&nbsp; Queen: 1<br />
+    &nbsp;&nbsp;&nbsp; King: 3<br />
+    <br />
+    Each of the above would be multiplied by the weight in the static board
+    evaluation function being used.
+    <hr width="100%" size="2" />
+    <font color="#990000"
+      ><big
+        ><big
+          ><br />
+          <a name="optimizing"></a>Optimizing board evaluation functions via
+          genetic algorithms<br /> </big></big></font
+    >&nbsp;&nbsp;&nbsp; While certain aspects of evaluating a board are obvious
+    (such as piece values - a queen is clearly worth more than a pawn), other
+    <br />
+    factors are not as easily determined purely by intuition. How much is a
+    bishop's mobility worth? How important is it to check the opponent?<br />
+    Is threatening an enemy's piece better than protecting your own? One can
+    make relatively good educated guesses to such questions, and <br />
+    thus develop a decent static board evaluation function, but I was hoping for
+    a more analytical method. My goal was to attempt to optimize<br />
+    the board evaluation function by utilizing genetic algorithms to determine
+    it. One module of the program is capable of running chess tournaments,<br />
+    where the computer plays against itself with different evaluation functions.
+    It generates random evaluation functions, which then get mutated or<br />
+    preserved based on how well they perform in the tournaments. <br />
+    &nbsp;&nbsp;&nbsp; The core of the tournament algorithm does the following.
+    It has a set of 10 evaluation functions, and pits them all against each
+    other. Each<br />
+    side gets to play both black and white for fairness. Subsequently, it
+    selects the best five, and generates 5 new ones to replace the worst 5.
+    This<br />
+    continues for any desirable number of iterations (the default was set to
+    10). There are two version of the algorithm that were run. One was a <br />
+    "preservation" one, which kept the best 5 "as is" in between iterations. The
+    other algorithm was a "mutation" one, which kept 1 of the 5, and <br />
+    mutated the other 4. Each mutation was between a pairing of some 2 of the
+    best 5 functions. <br />
+    &nbsp;&nbsp;&nbsp; Determining the winner of a given game is not always
+    trivial. For time constraints, each game in the tournament is limited to 50
+    moves, which<br />
+    won't necessarily yield an outright check-mate. Also, draws are possible.
+    Furthermore, for low plys (a ply of 2 was used), it is unlikely for the<br />
+    &nbsp;computer to ever reach check-mate when playing deterministically
+    against itself (since there is not end-game database). But the genetic
+    algorithm <br />
+    requires that there be a &nbsp;"winner" for each game played. The way this
+    done is by scoring the board position from the perspective of each of the
+    <br />
+    functions. Most likely they will both has a consensus as to which side has
+    more points (and hence is winning); however, since obviously each side
+    <br />
+    has a different evaluation function, there is a small probability in a close
+    game that each side will think it's winning. <br />
+    &nbsp;&nbsp;&nbsp;&nbsp; The starting functions weren't completely random.
+    For instance, the piece possession values were always preset to fixed
+    values, as those<br />
+    are well known to be good. The fixed piece possession values were as
+    follows:<br />
+    <img
+      src="http://people.cornell.edu/pages/msf22/piecevals.JPG"
+      alt="a"
+      width="185"
+      height="210"
+    />
+    <br />
+    &nbsp;&nbsp;&nbsp; Since possession is more important than any other
+    factors, the randomized weights generated for the other were allowed only to
+    be integers between 0 and 5. <br />
+    However, this still allowed for relatively large weights overall - for
+    instance, a rook could theoretically have a mobility of 14 spaces (7
+    horizontal and 7 vertical),<br />
+    so even if it's mobility factor was only 3, and there were two rooks, this
+    was worth a whopping 14*3*2 = 84. <br />
+    <font color="#990000"
+      ><big><big>&nbsp;&nbsp;&nbsp; </big></big></font
+    >Unfortunately, the results of the tournaments weren't as productive as one
+    would expect. This is because the static board evaluation function often
+    seem to be circular in nature. By this, I mean the following: suppose you
+    have three different functions, A, B, and C. It is possible that A beats B,
+    B beats C, and C beats A. Hence it's impossible to tell which one is
+    "better." Clearly, some functions in extreme cases are always worse than
+    others - for instance, if we make protecting bishops and knights worthless,
+    but protecting pawns worth a lot, then the AI using this function is likely
+    to lose key pieces quickly. But for functions that are deemed "reasonable,"
+    the genetic algorithms in their current form will fail to determine which
+    ones are better overall. Another problem is that only a very small subset of
+    all possible functions can be examined. There are 19 factors in each
+    function, each of which can take on 5 different values. This yields 5^19
+    possible functions, even with those limitations. But in each round of a
+    tournament, only 10 functions are examined, by running 10^2 = 100 games,
+    which takes hours even at low ply levels.<br />
+    &nbsp;&nbsp;&nbsp; Some general observations, however, both from the
+    tournaments and from observations of individual matches, can be made. The
+    pieces with higher values ought to have higher mobility/threats/ weights as
+    well. It makes sense that threatening a queen is more valuable than
+    &nbsp;threatening a bishop or a knight. The opposite is true for the
+    "protects" weights. It doesn't make much sense in protecting a queen too
+    much, because if it gets killed with anything other than the opponent's
+    queen, killing the capturing piece is little consolation. Protecting knights
+    and bishops is very valuable, however. In the current scheme, assigning
+    weights to the pawns' parameters is often detrimental, as there are 8 of
+    them (multiplying all the weights by 8), and it may cause an unecessary
+    overuse of the piece by the computer. Pawn advancement seems to be a
+    sufficent parameter for dictating pawn maneuvers. Checking (threatening) a
+    king is also valuable, as it can be considered a "local goal" of the
+    ultimate goal, which is a check-mate. With all these factors in mind, the
+    default static board evaluation has been set to:<br />
+    <table cellpadding="2" cellspacing="2" border="1" width="100%">
+      <tbody>
+        <tr>
+          <td valign="top" width="200"><br /></td>
+          <td valign="top"><b>Pawn</b><br /></td>
+          <td valign="top"><b>Knight</b><br /></td>
+          <td valign="top"><b>Bishop</b><br /></td>
+          <td valign="top"><b>Rook</b><br /></td>
+          <td valign="top"><b>Queen</b><br /></td>
+          <td valign="top"><b>King</b><br /></td>
+        </tr>
+        <tr>
+          <td valign="top" width="200"><b>Mobility</b><br /></td>
+          <td valign="top">0<br /></td>
+          <td valign="top">0<br /></td>
+          <td valign="top">0<br /></td>
+          <td valign="top">0<br /></td>
+          <td valign="top">1<br /></td>
+          <td valign="top">0<br /></td>
+        </tr>
+        <tr>
+          <td valign="top" width="200"><b>Threats</b><br /></td>
+          <td valign="top">0<br /></td>
+          <td valign="top">1<br /></td>
+          <td valign="top">1<br /></td>
+          <td valign="top">2<br /></td>
+          <td valign="top">5<br /></td>
+          <td valign="top">4<br /></td>
+        </tr>
+        <tr>
+          <td valign="top" width="200"><b>Protects</b><br /></td>
+          <td valign="top">0<br /></td>
+          <td valign="top">1<br /></td>
+          <td valign="top">1<br /></td>
+          <td valign="top">0<br /></td>
+          <td valign="top">0<br /></td>
+          <td valign="top">0<br /></td>
+        </tr>
+      </tbody>
+    </table>
+    With a pawn advancement weight of 1.<br />
+    This is by no means the only decent board evaluation function - many others
+    work just as well, or better in certain games. <br />
+    <br />
+    <b
+      >More on the speed efficency of this is discussed in the
+      <a href="http://people.cornell.edu/pages/msf22/performance.html"
+        >performace</a
+      >
+      section.<br />
+      You can also look at the raw data for a run of the
+      <a href="http://people.cornell.edu/pages/msf22/preserve.txt"
+        >preservation</a
+      >
+      tournament and the
+      <a href="http://people.cornell.edu/pages/msf22/mutate.txt">mutation</a>
+      tournament. </b
+    ><br />
+    <br />
 
-<hr width="100%" size="2"><br>
-  <font color="#990000"><big><big><a name="opening"></a>Opening Move Database<br>
-  </big></big></font>Many combinations of the first few initial moves on
-the  board are known to establish a good position on the board. Thus, over<br>
-  the years, chess masters have developed what is essentially an encyclopedia
- of these openings. The program can use this database<br>
-  at the beginning of play - instead of performing the usual local search,
- it simply checks whether the moves performed so far fit into<br>
-  a given opening strategy, and then playes the appropriate response. The
-database contains over 2000 openings, stored in a binary,<br>
-  allowing for constant time access. Furthermore, a text-based version of
-the database is available, which can easily be expanded by<br>
-  a user to include more openings. The program is then capable of parsing
-the text and creating a new binary tree of moves out of it.<br>
-  For many of the very first moves, there are many possible responses. However,
- some are deemed more common (or better) than others,<br>
-  and the program nondeterministically selects the more common responses
-with  a higher probability than the less common ones.<br>
- <br>
- <b>You can look at the <a
- href="http://people.cornell.edu/pages/msf22/eco.pgn">text version</a> of
-the database used by the program.<br>
- You can also look <a
- href="http://people.cornell.edu/pages/msf22/addingto.html">how to extend</a>
-the database. </b><br>
+    <hr width="100%" size="2" />
+    <br />
+    <font color="#990000"
+      ><big
+        ><big
+          ><a name="opening"></a>Opening Move Database<br /> </big></big></font
+    >Many combinations of the first few initial moves on the board are known to
+    establish a good position on the board. Thus, over<br />
+    the years, chess masters have developed what is essentially an encyclopedia
+    of these openings. The program can use this database<br />
+    at the beginning of play - instead of performing the usual local search, it
+    simply checks whether the moves performed so far fit into<br />
+    a given opening strategy, and then playes the appropriate response. The
+    database contains over 2000 openings, stored in a binary,<br />
+    allowing for constant time access. Furthermore, a text-based version of the
+    database is available, which can easily be expanded by<br />
+    a user to include more openings. The program is then capable of parsing the
+    text and creating a new binary tree of moves out of it.<br />
+    For many of the very first moves, there are many possible responses.
+    However, some are deemed more common (or better) than others,<br />
+    and the program nondeterministically selects the more common responses with
+    a higher probability than the less common ones.<br />
+    <br />
+    <b
+      >You can look at the
+      <a href="http://people.cornell.edu/pages/msf22/eco.pgn">text version</a>
+      of the database used by the program.<br />
+      You can also look
+      <a href="http://people.cornell.edu/pages/msf22/addingto.html"
+        >how to extend</a
+      >
+      the database. </b
+    ><br />
 
-<hr width="100%" size="2"><br>
-   <font color="#990000"><big><big><b><font color="#006600"><small><small>Back
-to <a href="http://people.cornell.edu/pages/msf22/chessmain.html">main</a>
-page.</small></small></font></b></big></big></font><br>
-   <font color="#990000"><big><big><br>
-   </big></big></font><br>
-   <font color="#990000"><big><big><small><small><font color="#330033"><br>
-   <br>
-   <br>
-   </font></small></small><br>
-   <br>
-   </big></big></font> <br>
-  <br>
- <br>
-</body>
+    <hr width="100%" size="2" />
+    <br />
+    <font color="#990000"
+      ><big
+        ><big
+          ><b
+            ><font color="#006600"
+              ><small
+                ><small
+                  >Back to
+                  <a href="http://people.cornell.edu/pages/msf22/chessmain.html"
+                    >main</a
+                  >
+                  page.</small
+                ></small
+              ></font
+            ></b
+          ></big
+        ></big
+      ></font
+    ><br />
+    <font color="#990000"
+      ><big
+        ><big><br /> </big></big></font
+    ><br />
+    <font color="#990000"
+      ><big
+        ><big
+          ><small
+            ><small
+              ><font color="#330033"
+                ><br />
+                <br />
+                <br /> </font></small></small
+          ><br />
+          <br /> </big></big
+    ></font>
+    <br />
+    <br />
+    <br />
+  </body>
 </html>
