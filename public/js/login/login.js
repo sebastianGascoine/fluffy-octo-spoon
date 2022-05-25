@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 function userClicked(){
@@ -40,3 +41,5 @@ $(document).ready(function(){
 });
 
 
+=======
+>>>>>>> parent of f6f6711 (you fuckers fucked up everything so im commiting to punish you)
