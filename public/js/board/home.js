@@ -12,7 +12,7 @@ let names = [];
 
 socket.on('setup', function(data) {
     color = data.color;
-    colorFull = color == 'w' ? 'white' : 'black';
+    colorFull = color === 'w' ? 'white' : 'black';
 
     if (color === 'w') {
         for (let rank = ranks.length - 1; rank >= 0; --rank) {

@@ -16,6 +16,10 @@ router.get('/board',function(req, res) {
     res.sendFile(path.resolve(__dirname + '/public/views/board.html'));  //changed
 });
 
+router.get('/three',function(req, res) {
+    res.sendFile(path.resolve(__dirname + '/public/views/three.html'));  //changed
+});
+
 router.post('/create', function(req, res) {
     let gameID = String(req.body.gameID).trim();
     let name   = String(req.body.name).trim();
@@ -49,6 +53,7 @@ router.post('/create', function(req, res) {
     }
 
     // TODO: Need to validate FEN String
+    /*
     if (valid.ValidateFEN(fen)) {
         res.json({
             error: true,
@@ -57,7 +62,12 @@ router.post('/create', function(req, res) {
         });
         return;
     }
-    let game = new Game(gameID, [], fen);
+    */
+    const computer = gameID.includes('c');
+
+    console.log(computer);
+
+    let game = new Game(gameID, [], fen, computer, computer ? 1 : 2);
     let success = shared.database.newGame(game);
 
     if (!success) {
@@ -87,16 +97,18 @@ router.post('/join', function(req, res) {
         return;
     }
 
-    if (game.players.length === 2) {
+    if (game.players.length === game.maximum) {
         res.json({
             error: true,
             errorCode: 6,
-            errorMessage: "Game already has two players"
+            errorMessage: "Game already has maximum players"
         });
         return;
     }
 
-    let player = new Player(name, game.players.length ? 'b' : 'w');
+    const colors = ['w', 'b'].filter(color => !game.players.find(player => player.color === color));
+
+    const player = new Player(name, colors[Math.floor(Math.random() * colors.length)]);
     game.players.push(player);
 
     shared.database.putGame(game);

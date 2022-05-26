@@ -1,7 +1,8 @@
 const io = require('socket.io');
 
 const shared = require('./shared');
-const logic  = require('./logic');
+const logic  = require('./logic/logic');
+const fenboard = require('./logic/fenboard');
 
 module.exports = function(httpServer) {
 	const server = new io.Server(httpServer);
@@ -19,6 +20,8 @@ module.exports = function(httpServer) {
 
 	    	if (playerIndex < 0) return;
 
+			console.log(game);
+
 	    	player.socket?.disconnect();
 	    	player.socket = socket;
 
@@ -27,14 +30,33 @@ module.exports = function(httpServer) {
 
 	    	socket.emit('setup', { color: player.color, name: player.name });
 
-	    	if (game.players.length == 2) {
-	    		game.players[0].socket?.emit('opponent', { name: game.players[1].name });
-	    		game.players[1].socket?.emit('opponent', { name: game.players[0].name });
+	    	if (game.players.length === game.maximum) {
+				if (game.computer) {
+					if (game.players[0].color !== 'w') {
+						const currentFen = fenboard.parse2D(game.board);
 
-	    		const moves = logic.getPossibleMoves(game.board);
+						const computerMove = logic.findComputerMove(currentFen);
+						currentFen.makeMove(computerMove);
 
-	    		game.players[0].socket.emit('state', { fen: game.board, moves: moves, turn: logic.getCurrentTurn(game.board) });
-	    		game.players[1].socket.emit('state', { fen: game.board, moves: moves, turn: logic.getCurrentTurn(game.board) });
+						game.board = currentFen.fen;
+						shared.database.putGame(game);
+					}
+
+					game.players[0].socket?.emit('opponent', { name: 'Computer' });
+
+					const moves = logic.getPossibleMoves(fenboard.parse2D(game.board));
+
+					game.players[0].socket.emit('state', { fen: game.board, moves, turn: fenboard.parse2D(game.board).turn });
+				}
+				else {
+					game.players[0].socket?.emit('opponent', { name: game.players[1].name });
+					game.players[1].socket?.emit('opponent', { name: game.players[0].name });
+
+					const moves = logic.getPossibleMoves(fenboard.parse2D(game.board));
+
+					game.players[0].socket.emit('state', { fen: game.board, moves, turn: fenboard.parse2D(game.board).turn });
+					game.players[1].socket.emit('state', { fen: game.board, moves, turn: fenboard.parse2D(game.board).turn });
+				}
 	    	}
 	    });
 
@@ -46,97 +68,74 @@ module.exports = function(httpServer) {
 
 	    	if (!player) return;
 
-	    	if (logic.getCurrentTurn(game.board) !== player.color) return;
+			const currentFen = fenboard.parse2D(game.board);
 
-	    	const moves = logic.getPossibleMoves(game.board);
+	    	if (currentFen.turn !== player.color) return;
+
+	    	const moves = logic.getPossibleMoves(currentFen);
 	    	const move  = moves.find(other => 
-	    		other.from.rank == data.move.from.rank && 
-	    		other.from.file == data.move.from.file && 
-	    		other.to.rank == data.move.to.rank && 
-	    		other.to.file == data.move.to.file);
+	    		other.from.rank === data.move.from.rank &&
+	    		other.from.file === data.move.from.file &&
+	    		other.to.rank === data.move.to.rank &&
+	    		other.to.file === data.move.to.file);
 
 	    	if (!move) return;
 
-	    	const currTurn = logic.getCurrentTurn(game.board);
-	        const nextTurn = logic.getCurrentTurn(game.board) == 'w' ? 'b' : 'w';
+	    	const currTurn = currentFen.turn;
+	        const nextTurn = currentFen.turn === 'w' ? 'b' : 'w';
 
-	        let nextFen = game.board;
+	        let nextFen = currentFen.clone();
+			nextFen.makeMove(move);
 
-	        if (move.castle == 'K') {
-	        	nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, { rank: 0, file: 5 }, 'R'));
-	        	nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, { rank: 0, file: 7 }, '' ));
-	        }
-	        if (move.castle == 'k') {
-	        	nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, { rank: 7, file: 5 }, 'r'));
-	        	nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, { rank: 7, file: 7 }, '' ));
-	        }
-	        if (move.castle == 'Q') {
-	        	nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, { rank: 0, file: 2 }, 'R'));
-	        	nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, { rank: 0, file: 0 }, '' ));
-	        }
-	        if (move.castle == 'q') {
-	        	nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, { rank: 7, file: 2 }, 'r'));
-	        	nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, { rank: 7, file: 0 }, '' ));
-	        }
-
-	        // Disabling castling when a piece is moved.
-	        if (logic.getPiece(game.board, move.from) == 'K') nextFen = logic.setCastleOptions(nextFen, logic.getCastleOptions(nextFen).replace('K', '').replace('Q', ''));
-	        if (logic.getPiece(game.board, move.from) == 'k') nextFen = logic.setCastleOptions(nextFen, logic.getCastleOptions(nextFen).replace('k', '').replace('q', ''));
-
-	        if (logic.getPiece(game.board, move.from) == 'R' && move.from.rank == 0 && move.from.file == 0) nextFen = logic.setCastleOptions(nextFen, logic.getCastleOptions(nextFen).replace('Q', ''));
-	        if (logic.getPiece(game.board, move.from) == 'R' && move.from.rank == 0 && move.from.file == 7) nextFen = logic.setCastleOptions(nextFen, logic.getCastleOptions(nextFen).replace('K', ''));
-	        if (logic.getPiece(game.board, move.from) == 'r' && move.from.rank == 7 && move.from.file == 0) nextFen = logic.setCastleOptions(nextFen, logic.getCastleOptions(nextFen).replace('q', ''));
-	        if (logic.getPiece(game.board, move.from) == 'r' && move.from.rank == 7 && move.from.file == 7) nextFen = logic.setCastleOptions(nextFen, logic.getCastleOptions(nextFen).replace('k', ''));
-
-	        nextFen = logic.setCurrentTurn(nextFen, nextTurn);
-
-	        if (logic.getPiece(game.board, move.from) == 'P' && move.to.rank == 7) {
-	        	nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, move.to, 'Q'));
-	        	nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, move.from, ''));
-	        }
-	        else if (logic.getPiece(game.board, move.from) == 'p' && move.to.rank == 0) {
-	        	nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, move.to, 'q'));
-	        	nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, move.from, ''));
-	        }
-			else {
-		        nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, move.to, logic.getPiece(nextFen, move.from)));
-		        nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, move.from, ''));
-	    	}
-
-	        if (move.doesEnPassant) {
-	        	const enPassant = logic.cellStringToObject(logic.getEnPassant(nextFen));
-
-	        	if (player.color === 'w') nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, { rank: enPassant.rank - 1, file: enPassant.file }, ''));
-	        	if (player.color === 'b') nextFen = logic.setBoard(nextFen, logic.setPiece(nextFen, { rank: enPassant.rank + 1, file: enPassant.file }, ''));
-	        }
-
-	        if (move.enPassant) nextFen = logic.setEnPassant(nextFen, logic.cellObjectToString(move.enPassant));
-	        else nextFen = logic.setEnPassant(nextFen, '-');
-
-	        if (nextTurn == 'w') nextFen = logic.setFullmoveNumber(nextFen, logic.getFullmoveNumber(nextFen) + 1);
-
-	        game.board = nextFen;
-
+	        game.board = nextFen.fen;
 	        shared.database.putGame(game);
 
 	        const nextMoves = logic.getPossibleMoves(nextFen);
 
-	        if (nextMoves.length == 0) {
-	        	let alternateNextFen = nextFen;
+	        if (nextMoves.length === 0) {
+	        	let alternateNextFen = nextFen.clone();
 
-	        	alternateNextFen = logic.setCurrentTurn(alternateNextFen, currTurn);
+	        	alternateNextFen.turn = currTurn;
 
 	        	const alternateNextMoves = logic.getPossibleMoves(alternateNextFen);
 
 	        	let checkmate = false;
 
 	        	for (const alternateMove of alternateNextMoves)
-	        		if (logic.getPiece(alternateNextFen, alternateMove.to) == 'K' || logic.getPiece(alternateNextFen, alternateMove.to) == 'k') checkmate = true;
+	        		if (alternateNextFen.getPiece(alternateMove.to) === 'K' || alternateNextFen.getPiece(alternateMove.to) === 'k') checkmate = true;
 
-				game.players.forEach(player => player.socket.emit('gameover', { checkmate, winner: currTurn }));	        	
+				game.players.forEach(player => player.socket.emit('gameover', { checkmate, winner: currTurn }));
+				return;
 	        }
 
-	    	else game.players.forEach(player => player.socket.emit('state', { fen: game.board, moves: nextMoves, turn: nextTurn }));
+			if (game.computer) {
+				const computerMove = logic.findComputerMove(nextFen);
+				nextFen.makeMove(computerMove);
+
+				game.board = nextFen.fen;
+				shared.database.putGame(game);
+
+				const nextMoves = logic.getPossibleMoves(nextFen);
+
+				if (nextMoves.length === 0) {
+					let alternateNextFen = nextFen.clone();
+
+					alternateNextFen.turn = currTurn;
+
+					const alternateNextMoves = logic.getPossibleMoves(alternateNextFen);
+
+					let checkmate = false;
+
+					for (const alternateMove of alternateNextMoves)
+						if (alternateNextFen.getPiece(alternateMove.to) === 'K' || alternateNextFen.getPiece(alternateMove.to) === 'k') checkmate = true;
+
+					game.players.forEach(player => player.socket.emit('gameover', { checkmate, winner: nextTurn }));
+					return;
+				}
+
+				game.players.forEach(player => player.socket.emit('state', { fen: nextFen.fen, moves: nextMoves, turn: nextFen.turn }));
+			}
+	    	else game.players.forEach(player => player.socket.emit('state', { fen: nextFen.fen, moves: nextMoves, turn: nextFen.turn }));
 	    });
 
 		socket.on('chat', function (data) {

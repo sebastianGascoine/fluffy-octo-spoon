@@ -22,7 +22,7 @@ myDatabase.prototype.newGame = function(game) {
       return false;
     }
   }
-    this.games[gameIndex++] = new Game(game.id,game.players,game.board);
+    this.games[gameIndex++] = new Game(game.id,game.players,game.board,game.computer,game.maximum);
     return true;
 }
 //similar to read
@@ -30,7 +30,7 @@ myDatabase.prototype.getGame = function(id) {
   for (let i=0;i<this.games.length;i++) {
     if (this.games[i] && id == this.games[i].id)
         {
-      return(new Game(this.games[i].id,this.games[i].players,this.games[i].board));
+      return(new Game(this.games[i].id,this.games[i].players,this.games[i].board,this.games[i].computer,this.games[i].maximum));
         }
   }
     return null;
@@ -56,7 +56,7 @@ myDatabase.prototype.getBoard = function(id) {
 myDatabase.prototype.putGame = function(game) {
   for (let i=0;i<this.games.length;i++) {
     if (this.games[i] && this.games[i].id == game.id) {
-      this.games[i] = new Game(game.id, game.players, game.board);
+      this.games[i] = new Game(game.id, game.players, game.board, game.computer, game.maximum);
       return true;
     }
   }
