@@ -281,4 +281,4 @@ module.exports = function (httpServer) {
       );
     });
   });
-};
+}

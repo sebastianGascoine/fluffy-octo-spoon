@@ -73,8 +73,9 @@
 
 input[type="text"] {
   transition-duration: 0.4s;
-  width: 35%;
-  /*border: 2px solid white;*/
+  width: 33.5%;
+  /*width: auto;*/
+  border: 2px solid white;
   padding: 12px 20px;
   border-radius: 3px;
   margin: 8px 0;
