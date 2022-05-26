@@ -44,6 +44,7 @@
 }
 .pad {
   padding: 15px 32px;
+  padding-right: 30px;
 }
 
 /*.button:hover {*/
@@ -72,7 +73,7 @@
 
 input[type="text"] {
   transition-duration: 0.4s;
-  width: 100%;
+  width: 35%;
   /*border: 2px solid white;*/
   padding: 12px 20px;
   border-radius: 3px;

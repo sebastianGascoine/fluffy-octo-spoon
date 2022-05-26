@@ -5,6 +5,10 @@ const valid = require("./valid");
 
 const router = express.Router();
 
+var passport = require("passport");
+
+
+
 const Game = require("./database/Game");
 const Player = require("./database/Player");
 
@@ -224,6 +228,10 @@ router.post(
     failureFlash: true,
   })
 );
+
+
+
+
 
 router.post(
   "/login",

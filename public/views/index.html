@@ -34,60 +34,50 @@
     <div id="main_content">
         <a href="/cool" class="superTopRight">c</a>
         <div class="topRight">
-            <label class="switch">
-                <input id="slider" type="checkbox">
-                <span class="slider round" onclick="lightdark()"></span>
+            <input type="button" value="Log In" onclick="location.href = '/login'" class="" />
             </label>
         </div>
         <img id="image" src="resources/logo.svg" class="logo" width="65" height="122">
         <h1 class="title "> CHESS </h1>
 
-        <!-- <div class="form"> -->
-                <!-- <h2>Login </h2> -->
 
-                <!-- <form action="#"> -->
-
-                 <!--    <div class="inputBox">
-                        <input type="text" placeholder="Username">
-                    </div>
-
-                    <div class="inputBox">
-                        <input type="password" placeholder="Password">
-                    </div>
-
-                    <div class="inputBox">
-                        <input type="submit" value="Login">
-                    </div> -->
-                    <!-- <p class="forget">Forgot Password ? <a href="#">Click Here</a> </p> -->
-                   
-                
-
-        
             <input type="button" value="Join Game"   onclick="joinVis()"   class="test button" />
             <input type="button" value="Create Game" onclick="createVis()" class="button test" />
             <input type="button" value="Import Game" onclick="fenVis()" class="button test" />
+<!--            <input type="button" value="Log In" onclick="location.href = '/login'" class="" />-->
+
         </div>
     </div>
     <div id="input_fields">
         <div id="1" class="input inputBox">
             <input id="joinInput" type="text" placeholder="game ID" class="test pad" />
+            <br>
             <input id="playerNameJoin" type="text" placeholder="Your Name" class="test pad" />
+           <br>
             <input id="join" type="button" value="Join Game" onclick="joinButton()" class="button test" />
         </div>
         <div id="3" class="input">
             <input id="gameIdCreate" type="text" placeholder="game ID" class="test pad" />
+            <br>
             <input id="playerNameCreate" type="text" placeholder="Your Name" class="test pad" />
+            <br>
             <input id="make" type="button" value="Create Game" onclick="createButton()" class="button test" />
         </div>
         <div id="2" class="input">
             <input id="fenInputImport" type="text" placeholder="FEN String" class="test pad" />
+            <br>
             <input id="gameIdImport" type="text" placeholder="game ID" class=" test pad" />
+            <br>
             <input id="playerNameImport" type="text" placeholder="Your Name" class="test pad" />
+            <br>
             <input id="make" type="button" value="Create Game" onclick="importButton()" class="button test" />
         </div>
     </div>
     </form>
 </div>
+
+
+
 
 
     <script src="js/index/home.js"></script>

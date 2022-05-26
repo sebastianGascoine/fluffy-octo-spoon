@@ -4,6 +4,7 @@
     <title>Chess</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="styles/board.css" />
+    <link rel="stylesheet" href="styles/login.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
     <script
@@ -22,7 +23,21 @@
     <script src="/socket.io/socket.io.js"></script>
   </head>
 
-  <body>
+  <body class="bg-animation">
+<!-- floaty bois -->
+
+<ul class="bg-animation-box">
+  <li class="circle-box"></li>
+  <li class="corners-box-20"></li>
+  <li class="circle-box"></li>
+  <li class="corners-box-20"></li>
+  <li></li>
+  <li class="corners-box-35"></li>
+  <li class="circle-box"></li>
+  <li></li>
+</ul>
+
+<!-- floaty bois -->
     <div id="main_content">
       <div id="center_content">
         <div id="board_container">
@@ -32,9 +47,11 @@
 
           <span id="player1"></span>
         </div>
-        <div id="chat_container">
+<!--          -->
+        <div id="chat_container" class="glass">
           <div id="chat_view"></div>
           <input id="chat_input" type="text" placeholder="Enter message..." />
+<!--            -->
         </div>
       </div>
 

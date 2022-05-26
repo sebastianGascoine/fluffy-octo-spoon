@@ -29,4 +29,11 @@ $(document).ready(function () {
       return false;
     }
   });
+  $('#submit').click(function(event) {
+    if ( event.which === 13 ) {
+      userClicked();
+      event.preventDefault();
+      return false;
+    }
+  });
 });
