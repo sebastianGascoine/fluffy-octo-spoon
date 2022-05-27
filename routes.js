@@ -7,6 +7,7 @@ const router = express.Router();
 
 var passport = require("passport");
 
+var User = require("./database/user");
 
 
 const Game = require("./database/Game");
@@ -151,6 +152,7 @@ router.get("/successlogin", function (req, res) {
   console.log("get successlogin");
   res.json({ redirect: "/session" });
 });
+
 router.get("/faillogin", function (req, res) {
   console.log("get failsignup");
   res.json({ redirect: "/login" });
@@ -193,14 +195,11 @@ router.get("/logout", function (req, res) {
   }
 });
 
-router.post(
-  "/signup",
-  function (req, res, next) {
+router.post("/signup",function (req, res, next) {
     console.log("post signup");
 
     var username = req.body.username;
     var password = req.body.password;
-
     User.findOne({ username: username }, function (err, user) {
       console.log("User findOne function callback");
       if (err) {

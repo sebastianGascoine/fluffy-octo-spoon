@@ -36,6 +36,6 @@ $(document).ready(function(){
             userClicked();
             event.preventDefault();
             return false;
-        }``
+        }
     });
 });

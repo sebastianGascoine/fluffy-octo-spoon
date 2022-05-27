@@ -13,8 +13,10 @@ function userClicked() {
   return false;
 }
 
-$(document).ready(function () {
-  $("#username").keydown(function (event) {
+$(document).ready(function(event){
+
+  $("#username").keypress(function(event){
+    console.log("code doo doo");
     if (event.which === 13) {
       userClicked();
       event.preventDefault();
@@ -22,18 +24,26 @@ $(document).ready(function () {
     }
   });
 
-  $("#psw").keydown(function (event) {
+  $("#psw").keypress(function(event) {
+    console.log("code doo doo");
     if (event.which === 13) {
       userClicked();
       event.preventDefault();
       return false;
     }
+    else{
+      console.log(event.which)
+    }
   });
   $('#submit').click(function(event) {
-    if ( event.which === 13 ) {
+    console.log("code doo doo");
+    if ( event.which === '13' ) {
       userClicked();
       event.preventDefault();
       return false;
+    }
+    else{
+      console.log(event.which)
     }
   });
 });
