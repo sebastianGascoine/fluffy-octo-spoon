@@ -23,7 +23,7 @@ $(document).ready(function(){
         }
     });
 
-    $("#psw").keydown( function( event ) {
+    $("#pwd").keydown( function( event ) {
         if ( event.which === 13 ) {
             userClicked();
             event.preventDefault();

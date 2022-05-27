@@ -24,8 +24,8 @@ $(document).ready(function(event){
     }
   });
 
-  $("#psw").keypress(function(event) {
-    console.log("code doo doo");
+  $("#psw").keypress(function(event){
+    console.log("code doo doo " + event.which);
     if (event.which === 13) {
       userClicked();
       event.preventDefault();
@@ -37,7 +37,7 @@ $(document).ready(function(event){
   });
   $('#submit').click(function(event) {
     console.log("code doo doo");
-    if ( event.which === '13' ) {
+    if ( event.which === 1 ) {
       userClicked();
       event.preventDefault();
       return false;
