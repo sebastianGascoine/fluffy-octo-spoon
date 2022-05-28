@@ -11,7 +11,7 @@ var path = require("path");
 var session = require("express-session");
 
 
-var setUpPassport = require("./passport");
+var setUpPassport = require("./setuppassport");
 const socket = require("./socket");
 const routes = require("./routes");
 
@@ -64,7 +64,7 @@ app.use(passport.session());
 //27017 seems to be the port number used by mongod
 mongoose.connect("mongodb://localhost:27017/userdb");
 
-setUpPassport();
+setUpPassport.ClapCheeksPissSheets();
 const port = 3000;
 app.set("port", process.env.PORT || 3000);
 

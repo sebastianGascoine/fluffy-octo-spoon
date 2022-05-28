@@ -11,7 +11,8 @@ var router = express.Router();
 //let db = new myDatabase();
 
 //newer imported code from yee
-module.exports = function() {
+
+function ClapCheeksPissSheets(){
 
   passport.serializeUser(function(user, done) {
     done(null, user._id);
@@ -48,7 +49,7 @@ module.exports = function() {
     });
   }));
 
-};
+}
 //OLD CODE BEFORE IF PROBLEM PERSISTS IDK
 /*
 
@@ -115,3 +116,4 @@ router.put('/update', function(req, res){
 
 
 module.exports = router;
+module.exports = ClapCheeksPissSheets;
