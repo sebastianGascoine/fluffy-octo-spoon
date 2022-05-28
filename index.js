@@ -1,5 +1,5 @@
 
-const express = require("express");
+var express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const http = require("http");
@@ -9,6 +9,7 @@ var mongoose = require("mongoose");
 var passport = require("passport");
 var path = require("path");
 var session = require("express-session");
+
 
 var setUpPassport = require("./passport");
 const socket = require("./socket");
@@ -40,29 +41,9 @@ app.use(bodyParser.json());
 
 app.use("/", express.static("./public"));
 app.use(routes);
+//app.use(bodyParser.urlencoded({ extended: true }));   //added
+//app.use(bodyParser.json());                           //added
 
-const port = process.env.PORT || 3000;
-
-socket(server);
-
-server.listen(port);
-console.log("Hosted on port " + port);
-
-app.use(bodyParser.urlencoded({ extended: true }));   //added
-app.use(bodyParser.json());                           //added
-//27017 seems to be the port number used by mongod
-mongoose.connect("mongodb://localhost:27017/userdb");
-setUpPassport();
-
-app.set("port", process.env.PORT || 3000);
-
-//don't ever do below code.
-//app.use('/', express.static('./'));
-
-app.use('/js', express.static('./public/js'));
-
-
-app.use(express.static(path.join(__dirname, "public")));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -80,4 +61,19 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
+//27017 seems to be the port number used by mongod
+mongoose.connect("mongodb://localhost:27017/userdb");
 
+setUpPassport();
+const port = 3000;
+app.set("port", process.env.PORT || 3000);
+
+socket(server);
+
+server.listen(port);
+console.log("Hosted on port " + port);
+
+//don't ever do below code.
+//app.use('/', express.static('./'));
+
+//app.use(express.static(path.join(__dirname, "public")));

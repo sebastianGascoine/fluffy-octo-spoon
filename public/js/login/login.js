@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 
 function userClicked(){
     console.log("login userClicked")

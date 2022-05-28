@@ -1,14 +1,56 @@
 var express = require("express");
 var passport = require("passport");
-var path = require("path");
+//var path = require("path");
+//does something IDK
+var LocalStrategy = require("passport-local").Strategy;
 
-var User = require("./database/user");
+//var User = require("./database/user");
 var router = express.Router();
 
-const myDatabase = require('./myDatabase');    //added
-let db = new myDatabase();
+//const myDatabase = require('./myDatabase');    //added
+//let db = new myDatabase();
 
+//newer imported code from yee
+module.exports = function() {
 
+  passport.serializeUser(function(user, done) {
+    done(null, user._id);
+  });
+
+  passport.deserializeUser(function(id, done) {
+    User.findById(id, function(err, user) {
+      done(err, user);
+    });
+  });
+
+  passport.use("login", new LocalStrategy(function(username, password, done) {
+    console.log("passport use login function callback")
+    User.findOne({ username: username }, function(err, user) {
+    console.log("User findOne function callback")
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: "No user has that username!" });
+      }
+
+    console.log("yes user has that username")
+
+      user.checkPassword(password, function(err, isMatch) {
+        if (err) { return done(err); }
+        if (isMatch) {
+    console.log("yes there is a match")
+
+          return done(null, user);
+
+        } else {
+          return done(null, false, { message: "Invalid password." });
+        }
+      });
+    });
+  }));
+
+};
+//OLD CODE BEFORE IF PROBLEM PERSISTS IDK
+/*
 
 
 //function ensureAuthenticated(req, res, next) {
@@ -41,9 +83,7 @@ router.get("/update", function(req, res) {
         res.json(null);
     }
 });
-
-
-
+*/
 /*
 router.get("/update", function(req, res) {
     if (req.isAuthenticated()) {
@@ -75,6 +115,3 @@ router.put('/update', function(req, res){
 
 
 module.exports = router;
-
-
-
