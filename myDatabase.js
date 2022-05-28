@@ -1,4 +1,4 @@
-const Game = require("./Game");
+const Game = require("./database/Game");
 
 let myDatabase = function () {
   this.board = new Array(8).fill(0).map(() => new Array(8).fill(0));
