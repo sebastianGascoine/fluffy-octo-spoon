@@ -1,13 +1,13 @@
 var bcrypt = require("bcrypt-nodejs");
 var SALT_FACTOR = 10;
+var passport = require("passport");
 
 var mongoose = require("mongoose");
 
 var userSchema = mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true }
-});
-
+}); 
 
 var noop = function() {};
 

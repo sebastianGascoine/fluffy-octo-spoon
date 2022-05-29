@@ -1,18 +1,20 @@
+console.log('setUpPassport.js')
+
 var express = require("express");
 var passport = require("passport");
-//var path = require("path");
+var path = require("path");
 //does something IDK
 var LocalStrategy = require("passport-local").Strategy;
 
-//var User = require("./database/user");
+var User = require("./database/user");
 var router = express.Router();
 
-//const myDatabase = require('./myDatabase');    //added
-//let db = new myDatabase();
+const myDatabase = require('./myDatabase');    //added
+let db = new myDatabase();
 
 //newer imported code from yee
 
-function ClapCheeksPissSheets(){
+function passportstuf(){
 
   passport.serializeUser(function(user, done) {
     done(null, user._id);
@@ -50,6 +52,7 @@ function ClapCheeksPissSheets(){
   }));
 
 }
+
 //OLD CODE BEFORE IF PROBLEM PERSISTS IDK
 /*
 

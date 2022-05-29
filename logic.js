@@ -1,3 +1,4 @@
+console.log('logic.js')
 const white = ["P", "K", "N", "B", "R", "Q"];
 const black = ["p", "k", "n", "b", "r", "q"];
 

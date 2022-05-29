@@ -1,3 +1,5 @@
+console.log('myDatabase.js')
+
 const Game = require("./database/Game");
 
 let myDatabase = function () {

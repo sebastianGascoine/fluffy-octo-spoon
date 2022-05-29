@@ -1,3 +1,5 @@
+console.log('routes.js')
+
 const path = require("path");
 const express = require("express");
 const shared = require("./shared");
@@ -133,7 +135,7 @@ router.get("/successroot", function (req, res) {
   res.json({ redirect: "/" });
 });
 
-router.get("/failroot", function (req, res) {
+router.get("/failroot", function (req, res) { //errcode 7
   console.log("get failroot");
   res.json({ redirect: "/login" });
 });
@@ -143,14 +145,19 @@ router.get("/successsignup", function (req, res) {
   res.json({ redirect: "/session" });
 });
 
-router.get("/failsignup", function (req, res) {
+router.get("/failsignup", function (req, res) { //errcode 8
   console.log("get failsignup");
-  res.json({ redirect: "/login" });
+  res.json({
+    error: true,
+    errorCode: 8,
+    errorMessage: `User ${username} already exists`,
+    redirect: "/signup"
+  });
 });
 
 router.get("/successlogin", function (req, res) {
   console.log("get successlogin");
-  res.json({ redirect: "/session" });
+  res.json({ redirect: "/" });
 });
 
 router.get("/faillogin", function (req, res) {
@@ -208,7 +215,7 @@ router.post("/signup",function (req, res, next) {
       }
       if (user) {
         console.log("user");
-        req.flash("error", "User already exists");
+//        req.flash("error", "User already exists");
         return res.redirect("/failsignup");
       }
 
@@ -220,7 +227,7 @@ router.post("/signup",function (req, res, next) {
       newUser.save(next); //goes to user.js (userSchema.pre(save))
     });
   },
-  passport.authenticate("login", {
+  passport.authenticate("login", { 
     //goes to setuppassport.js  (passport.use("login"))
     successRedirect: "/successsignup",
     failureRedirect: "/failsignup",

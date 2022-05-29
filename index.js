@@ -1,4 +1,4 @@
-
+console.log('index.js')
 var express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
@@ -64,7 +64,7 @@ app.use(passport.session());
 //27017 seems to be the port number used by mongod
 mongoose.connect("mongodb://localhost:27017/userdb");
 
-setUpPassport.ClapCheeksPissSheets();
+setUpPassport.passportstuf;
 const port = 3000;
 app.set("port", process.env.PORT || 3000);
 

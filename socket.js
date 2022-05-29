@@ -1,3 +1,4 @@
+console.log('socket.js')
 const io = require("socket.io");
 
 const shared = require("./shared");
