@@ -181,9 +181,7 @@ router.get("/session", function (req, res) {
 router.get("/userInfo", function (req, res) {
   console.log("get userInfo");
   if (req.isAuthenticated()) {
-    console.log("req isAuthenticated");
-    console.log("valueJY = " + req.user.valueJY); /* user defined value */
-    res.json({ username: req.user.username });
+    res.json({ name: req.user.username });
   } else {
     console.log("req is not Authenticated");
     res.json(null);
@@ -227,7 +225,7 @@ router.post("/signup",function (req, res, next) {
       newUser.save(next); //goes to user.js (userSchema.pre(save))
     });
   },
-  passport.authenticate("login", { 
+  passport.authenticate("login", {
     //goes to setuppassport.js  (passport.use("login"))
     successRedirect: "/successsignup",
     failureRedirect: "/failsignup",
