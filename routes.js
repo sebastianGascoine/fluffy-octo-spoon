@@ -30,6 +30,9 @@ router.get("/cool", function (req, res) {
 router.get("/3d", function (req, res) {
   res.sendFile(path.resolve(__dirname + "/public/views/threejstest.html")); //changed
 });
+router.get("/sheep", function (req, res) {
+  res.sendFile(path.resolve(__dirname + "/public/views/sheep.gif")); //changed
+});
 
 router.get("/login", function (req, res) {
   res.sendFile(path.resolve(__dirname + "/public/views/login.html")); //changed
