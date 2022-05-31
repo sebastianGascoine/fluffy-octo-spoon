@@ -3,6 +3,7 @@ function sleep(ms) {
 }
 
 function joinVis() {
+<<<<<<< HEAD
     $("#2").removeClass("active"); //
     $("#1").toggleClass("active");
     $("#3").removeClass("active");
@@ -18,6 +19,44 @@ function fenVis() {
     $("#1").removeClass("active");
     $("#2").toggleClass("active");
     $("#3").removeClass("active");
+=======
+  $("#2").removeClass("active"); //
+  $("#1").toggleClass("active");
+  $("#3").removeClass("active");
+  $.get("/userInfo",function(data){
+  console.log("session get userInfo function callback");
+  if (data.name){
+    $("#playerNameJoin").val(data.name);
+  }
+  });
+
+}
+
+function createVis() {
+  $("#1").removeClass("active");
+  $("#3").toggleClass("active");
+  $("#2").removeClass("active"); //
+  $.get("/userInfo",function(data){
+  console.log("session get userInfo function callback");
+  if (data.name){
+    $("#playerNameCreate").val(data.name);
+  }
+  });
+
+}
+
+function fenVis() {
+  $("#1").removeClass("active");
+  $("#2").toggleClass("active");
+  $("#3").removeClass("active");
+  $.get("/userInfo",function(data){
+  console.log("session get userInfo function callback");
+  if (data.name){
+    $("#playerNameImport").val(data.name);
+  }
+  });
+
+>>>>>>> d871ab553c674171b3826f3e03c4ec7ea2ef40b8
 }
 
 let isdark = true;

@@ -145,7 +145,11 @@ router.get("/failroot", function (req, res) { //errcode 7
 
 router.get("/successsignup", function (req, res) {
     console.log("get successsignup");
+<<<<<<< HEAD
     res.json({redirect: "/session"});
+=======
+    res.json({redirect: "/"});
+>>>>>>> d871ab553c674171b3826f3e03c4ec7ea2ef40b8
 });
 
 router.get("/failsignup", function (req, res) { //errcode 8
@@ -183,11 +187,27 @@ router.get("/session", function (req, res) {
 
 router.get("/userInfo", function (req, res) {
     console.log("get userInfo");
+<<<<<<< HEAD
     if (req.isAuthenticated()) {
         console.log("req isAuthenticated");
         console.log("valueJY = " + req.user.valueJY); /* user defined value */
         res.json({username: req.user.username});
     } else {
+=======
+    User.findOne({username: req.user.username}, function (err, user) {
+        if (err) {
+            console.log("err");
+            return next(err);
+        }
+        if (user) {
+            console.log("userinfo");
+//      req.flash("error", "User already exists");
+            res.json({name: req.user.username});
+        }
+    }
+else
+    {
+>>>>>>> d871ab553c674171b3826f3e03c4ec7ea2ef40b8
         console.log("req is not Authenticated");
         res.json(null);
     }
