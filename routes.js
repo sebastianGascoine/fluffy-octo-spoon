@@ -183,10 +183,16 @@ router.get("/session", function (req, res) {
 
 router.get("/userInfo", function (req, res) {
   console.log("get userInfo");
-  if (req.isAuthenticated()) {
-    console.log("req isAuthenticated");
-    console.log("valueJY = " + req.user.valueJY); /* user defined value */
-    res.json({ username: req.user.username });
+    User.findOne({ username: req.user.username }, function (err, user) {
+      if (err) {
+        console.log("err");
+        return next(err);
+      }
+      if (user) {
+        console.log("userinfo");
+//      req.flash("error", "User already exists");
+        res.json({ name: req.user.username });
+      }
   } else {
     console.log("req is not Authenticated");
     res.json(null);
@@ -230,7 +236,7 @@ router.post("/signup",function (req, res, next) {
       newUser.save(next); //goes to user.js (userSchema.pre(save))
     });
   },
-  passport.authenticate("login", { 
+  passport.authenticate("login", {
     //goes to setuppassport.js  (passport.use("login"))
     successRedirect: "/successsignup",
     failureRedirect: "/failsignup",
