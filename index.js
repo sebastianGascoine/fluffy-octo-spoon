@@ -36,7 +36,7 @@ const app = express();
 const server = http.createServer(app);
 
 app.use(morgan("short"));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.use("/", express.static("./public"));
@@ -45,13 +45,13 @@ app.use(routes);
 //app.use(bodyParser.json());                           //added
 
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
 app.use(session({
-  secret: "LUp$Dg?,I#i&owP3=9su+OB%`JgL4muLF5YJ~{;t",
-  resave: true,
-  saveUninitialized: true
+    secret: "LUp$Dg?,I#i&owP3=9su+OB%`JgL4muLF5YJ~{;t",
+    resave: true,
+    saveUninitialized: true
 }));
 
 
