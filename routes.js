@@ -145,7 +145,7 @@ router.get("/failroot", function (req, res) { //errcode 7
 
 router.get("/successsignup", function (req, res) {
   console.log("get successsignup");
-  res.json({ redirect: "/session" });
+  res.json({ redirect: "/" });
 });
 
 router.get("/failsignup", function (req, res) { //errcode 8
