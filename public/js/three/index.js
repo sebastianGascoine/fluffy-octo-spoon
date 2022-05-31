@@ -435,4 +435,4 @@ function validMoves(piece) {
 
     return moves;
 }
-console.log(cells);
+console.log(cells + '35');
