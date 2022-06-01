@@ -39,9 +39,14 @@ function lightdark() {
 }
 
 function joinButton() {
+ $.get("/userInfo",function(data) {
+     if (data != null){
+         $("#playerNameJoin").val(data.username);
+     }
+     
+ });
     const gameID = $("#joinInput").val();
     const name = $("#playerNameJoin").val();
-
     attemptJoin(gameID, name);
 }
 
