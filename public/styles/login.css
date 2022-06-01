@@ -190,13 +190,19 @@ section .color:nth-child(4) {
   color: white;
 }
 
-.form .inputBox input[type="submit"] {
+.form .inputBox input[type="button"] {
   background: #fff;
   color: #666;
-  max-width: 100px;
+  max-width: 600px;
   cursor: pointer;
   margin-bottom: 20px;
   font-weight: 600;
+}
+
+.form .inputBox input[type="button"]:hover {
+  background: #666;
+  color: #fff;
+
 }
 
 .forget {

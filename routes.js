@@ -145,7 +145,7 @@ router.get("/failroot", function (req, res) { //errcode 7
 
 router.get("/successsignup", function (req, res) {
     console.log("get successsignup");
-    res.json({redirect: "/session"});
+    res.json({redirect: "/"});
 });
 
 router.get("/failsignup", function (req, res) { //errcode 8
@@ -153,7 +153,7 @@ router.get("/failsignup", function (req, res) { //errcode 8
     res.json({
         error: true,
         errorCode: 8,
-        errorMessage: `User ${username} already exists`,
+        errorMessage: `User already exists`,
         redirect: "/signup"
     });
 });
@@ -210,6 +210,8 @@ router.post("/signup", function (req, res, next) {
 
         var username = req.body.username;
         var password = req.body.password;
+
+        console.log(password +"-AHHH-"+ username);
         User.findOne({username: username}, function (err, user) {
             console.log("User findOne function callback");
             if (err) {
@@ -219,15 +221,18 @@ router.post("/signup", function (req, res, next) {
             if (user) {
                 console.log("user");
 //        req.flash("error", "User already exists");
+             //   return res.json({error: true});
                 return res.redirect("/failsignup");
             }
 
             console.log("new User");
+
             var newUser = new User({
                 username: username,
                 password: password,
             });
             newUser.save(next); //goes to user.js (userSchema.pre(save))
+            //return res.json({success: true});
         });
     },
     passport.authenticate("login", {

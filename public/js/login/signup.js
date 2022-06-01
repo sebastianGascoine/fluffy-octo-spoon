@@ -13,7 +13,16 @@ function userClicked() {
                 });
                 return;
             }
+            if (data.success) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Success",
+                    text: "logged in! redirecting",
+                });
+                return;
+            }
             console.log("signup callback function");
+
             window.location = data.redirect;
         }
     );
