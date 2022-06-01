@@ -113,4 +113,11 @@ function attemptJoin(gameID, name) {
 
 $(document).ready(function () {
     $("#image").attr("src", "./../resources/logo.svg");
+    $.get("/userInfo",function (data){
+        if(data != null){
+            $("#balls").hide()
+            
+            }
+        }
+    );
 });
