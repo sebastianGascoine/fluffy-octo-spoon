@@ -23,10 +23,10 @@ Other:
     true = error
     errCode is what is sent back to the client
 */
-let errCode = "";
+let errCode = '';
 
 function ValidateFEN(id) {
-    console.log("validateFEN OCCURING");
+    console.log('validateFEN OCCURING');
     /* board check */
     let r = 0; /* 1A DONE*/
     let p = 0; /* 1B DONE*/
@@ -44,12 +44,12 @@ function ValidateFEN(id) {
     /* other check */
     let o = false;
     ///////////////////////////////
-    if (id.charAt(0) == "/") id = id.substring(1);
+    if (id.charAt(0) == '/') id = id.substring(1);
 
     console.log(id);
     for (let i = 0; i < id.length; i++) {
         let temp = id.charAt(i);
-        if (temp == " " && r >= 7) {
+        if (temp == ' ' && r >= 7) {
             //need a better way to check if the end
             o = true;
             p = 0;
@@ -57,13 +57,13 @@ function ValidateFEN(id) {
         }
         if (o) {
             //
-            console.log(temp + " " + "other");
-            if (temp != "b" || temp != "w") {
+            console.log(temp + ' ' + 'other');
+            if (temp != 'b' || temp != 'w') {
                 errCode = `${temp} is Not a Color for Chess`;
             }
         } else {
             ///CHECK FOR AMT OF ROWS/////////////////
-            if (temp == "/") {
+            if (temp == '/') {
                 if (p != 8) {
                     errCode = `Amount of pieces/space in row ${r} Incorrect`;
                     return true;
@@ -75,7 +75,7 @@ function ValidateFEN(id) {
             ///pieces//////////////
             else if (isNaN(temp)) {
                 ////king -->////////////////////////////////
-                if (temp.toUpperCase() == "K") {
+                if (temp.toUpperCase() == 'K') {
                     if (temp.toUpperCase() == temp) {
                         if (kw >= 0) kw++;
                     } else if (temp.toUpperCase() != temp) {
@@ -83,7 +83,7 @@ function ValidateFEN(id) {
                     }
                 }
                 /////queen -->//////////////////////////////
-                if (temp.toUpperCase() == "Q") {
+                if (temp.toUpperCase() == 'Q') {
                     if (temp.toUpperCase() == temp) {
                         if (qw >= 0) qw++;
                     } else if (temp.toUpperCase() != temp) {
@@ -91,7 +91,7 @@ function ValidateFEN(id) {
                     }
                 }
                 ////pawns-->////////////////////////////////
-                if (temp.toUpperCase() == "P") {
+                if (temp.toUpperCase() == 'P') {
                     if (r == 0 || r == 7) {
                         errCode = `Pawn at Row ${r} Impossible`;
                         return true;
@@ -106,7 +106,7 @@ function ValidateFEN(id) {
             //////spaces////////////////////////////////
             else {
                 if (n) {
-                    console.log("error number" + n + temp);
+                    console.log('error number' + n + temp);
                     errCode = `Two Number Spacers Together At Row ${r + 1}`;
                     return true;
                 }
@@ -122,7 +122,7 @@ function ValidateFEN(id) {
         return true;
     } //kings
     if (kw > 1) {
-        errCode = "Too Many White King Pieces";
+        errCode = 'Too Many White King Pieces';
         return true;
     }
 
@@ -131,7 +131,7 @@ function ValidateFEN(id) {
         return true;
     } //pawns
     if (pw > 8) {
-        errCode = "Too Many White Pawn Pieces";
+        errCode = 'Too Many White Pawn Pieces';
         return true;
     }
     if (qb > 10) {
@@ -139,7 +139,7 @@ function ValidateFEN(id) {
         return true;
     } //pawns
     if (qw > 10) {
-        errCode = "Too Many White Queen Pieces";
+        errCode = 'Too Many White Queen Pieces';
         return true;
     }
 

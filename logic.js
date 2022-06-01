@@ -1,6 +1,5 @@
-console.log('logic.js')
-const white = ["P", "K", "N", "B", "R", "Q"];
-const black = ["p", "k", "n", "b", "r", "q"];
+const white = ['P', 'K', 'N', 'B', 'R', 'Q'];
+const black = ['p', 'k', 'n', 'b', 'r', 'q'];
 
 function getPossibleMoves(fen, detectCheck = true) {
     const moves = [];
@@ -17,11 +16,11 @@ function getPossibleMoves(fen, detectCheck = true) {
 
             if (!piece) continue;
 
-            if (currentTurn === "w" && piece !== piece.toUpperCase()) continue;
-            if (currentTurn === "b" && piece !== piece.toLowerCase()) continue;
+            if (currentTurn === 'w' && piece !== piece.toUpperCase()) continue;
+            if (currentTurn === 'b' && piece !== piece.toLowerCase()) continue;
 
-            if (piece.toUpperCase() === "P") {
-                if (currentTurn === "w") {
+            if (piece.toUpperCase() === 'P') {
+                if (currentTurn === 'w') {
                     const move1 = {rank: cell.rank + 1, file: cell.file};
                     const move2 = {rank: cell.rank + 2, file: cell.file};
 
@@ -56,7 +55,7 @@ function getPossibleMoves(fen, detectCheck = true) {
                     )
                         moves.push({from: cell, to: attack2, doesEnPassant: true});
                 }
-                if (currentTurn === "b") {
+                if (currentTurn === 'b') {
                     const move1 = {rank: cell.rank - 1, file: cell.file};
                     const move2 = {rank: cell.rank - 2, file: cell.file};
 
@@ -93,7 +92,7 @@ function getPossibleMoves(fen, detectCheck = true) {
                 }
             }
 
-            if (piece.toUpperCase() === "K") {
+            if (piece.toUpperCase() === 'K') {
                 const nearbyCells = [];
 
                 nearbyCells.push({rank: rank, file: file - 1});
@@ -105,35 +104,35 @@ function getPossibleMoves(fen, detectCheck = true) {
                 nearbyCells.push({rank: rank + 1, file: file + 1});
                 nearbyCells.push({rank: rank - 1, file: file + 1});
 
-                if (getCastleOptions(fen).includes("K") && currentTurn == "w") {
+                if (getCastleOptions(fen).includes('K') && currentTurn == 'w') {
                     if (
                         !getPiece(fen, {rank: 0, file: 5}) &&
                         !getPiece(fen, {rank: 0, file: 6})
                     )
-                        moves.push({from: cell, to: {rank: 0, file: 6}, castle: "K"});
+                        moves.push({from: cell, to: {rank: 0, file: 6}, castle: 'K'});
                 }
-                if (getCastleOptions(fen).includes("k") && currentTurn == "b") {
+                if (getCastleOptions(fen).includes('k') && currentTurn == 'b') {
                     if (
                         !getPiece(fen, {rank: 7, file: 5}) &&
                         !getPiece(fen, {rank: 7, file: 6})
                     )
-                        moves.push({from: cell, to: {rank: 7, file: 6}, castle: "k"});
+                        moves.push({from: cell, to: {rank: 7, file: 6}, castle: 'k'});
                 }
-                if (getCastleOptions(fen).includes("Q") && currentTurn == "w") {
+                if (getCastleOptions(fen).includes('Q') && currentTurn == 'w') {
                     if (
                         !getPiece(fen, {rank: 0, file: 1}) &&
                         !getPiece(fen, {rank: 0, file: 2}) &&
                         !getPiece(fen, {rank: 0, file: 3})
                     )
-                        moves.push({from: cell, to: {rank: 0, file: 1}, castle: "Q"});
+                        moves.push({from: cell, to: {rank: 0, file: 1}, castle: 'Q'});
                 }
-                if (getCastleOptions(fen).includes("q") && currentTurn == "b") {
+                if (getCastleOptions(fen).includes('q') && currentTurn == 'b') {
                     if (
                         !getPiece(fen, {rank: 7, file: 1}) &&
                         !getPiece(fen, {rank: 7, file: 2}) &&
                         !getPiece(fen, {rank: 7, file: 3})
                     )
-                        moves.push({from: cell, to: {rank: 7, file: 1}, castle: "q"});
+                        moves.push({from: cell, to: {rank: 7, file: 1}, castle: 'q'});
                 }
 
                 for (const nearbyCell of nearbyCells) {
@@ -153,7 +152,7 @@ function getPossibleMoves(fen, detectCheck = true) {
                 }
             }
 
-            if (piece.toUpperCase() === "N") {
+            if (piece.toUpperCase() === 'N') {
                 const nearbyCells = [];
 
                 nearbyCells.push({rank: rank + 1, file: file - 2}); // W
@@ -185,7 +184,7 @@ function getPossibleMoves(fen, detectCheck = true) {
                 }
             }
 
-            if (piece.toUpperCase() === "R") {
+            if (piece.toUpperCase() === 'R') {
                 for (let nextRank = rank - 1; nextRank >= 0; nextRank--) {
                     const blockingPiece = getPiece(fen, {rank: nextRank, file});
 
@@ -235,7 +234,7 @@ function getPossibleMoves(fen, detectCheck = true) {
                 }
             }
 
-            if (piece.toUpperCase() === "B") {
+            if (piece.toUpperCase() === 'B') {
                 for (
                     let nextRank = rank - 1, nextFile = file - 1;
                     nextRank >= 0 && nextFile >= 0;
@@ -325,7 +324,7 @@ function getPossibleMoves(fen, detectCheck = true) {
                 }
             }
 
-            if (piece.toUpperCase() === "Q") {
+            if (piece.toUpperCase() === 'Q') {
                 for (let nextRank = rank - 1; nextRank >= 0; nextRank--) {
                     const blockingPiece = getPiece(fen, {rank: nextRank, file});
 
@@ -477,149 +476,149 @@ function getPossibleMoves(fen, detectCheck = true) {
         let appliedFen = fen;
 
         const currentTurn = getCurrentTurn(appliedFen);
-        const nextTurn = currentTurn == "w" ? "b" : "w";
+        const nextTurn = currentTurn == 'w' ? 'b' : 'w';
 
-        if (move.castle == "K") {
+        if (move.castle == 'K') {
             appliedFen = setBoard(
                 appliedFen,
-                setPiece(appliedFen, {rank: 0, file: 5}, "R")
+                setPiece(appliedFen, {rank: 0, file: 5}, 'R')
             );
             appliedFen = setBoard(
                 appliedFen,
-                setPiece(appliedFen, {rank: 0, file: 7}, "")
-            );
-        }
-        if (move.castle == "k") {
-            appliedFen = setBoard(
-                appliedFen,
-                setPiece(appliedFen, {rank: 7, file: 5}, "r")
-            );
-            appliedFen = setBoard(
-                appliedFen,
-                setPiece(appliedFen, {rank: 7, file: 7}, "")
+                setPiece(appliedFen, {rank: 0, file: 7}, '')
             );
         }
-        if (move.castle == "Q") {
+        if (move.castle == 'k') {
             appliedFen = setBoard(
                 appliedFen,
-                setPiece(appliedFen, {rank: 0, file: 2}, "R")
+                setPiece(appliedFen, {rank: 7, file: 5}, 'r')
             );
             appliedFen = setBoard(
                 appliedFen,
-                setPiece(appliedFen, {rank: 0, file: 0}, "")
+                setPiece(appliedFen, {rank: 7, file: 7}, '')
             );
         }
-        if (move.castle == "q") {
+        if (move.castle == 'Q') {
             appliedFen = setBoard(
                 appliedFen,
-                setPiece(appliedFen, {rank: 7, file: 2}, "r")
+                setPiece(appliedFen, {rank: 0, file: 2}, 'R')
             );
             appliedFen = setBoard(
                 appliedFen,
-                setPiece(appliedFen, {rank: 7, file: 0}, "")
+                setPiece(appliedFen, {rank: 0, file: 0}, '')
+            );
+        }
+        if (move.castle == 'q') {
+            appliedFen = setBoard(
+                appliedFen,
+                setPiece(appliedFen, {rank: 7, file: 2}, 'r')
+            );
+            appliedFen = setBoard(
+                appliedFen,
+                setPiece(appliedFen, {rank: 7, file: 0}, '')
             );
         }
 
         // Disabling castling when a piece is moved.
-        if (getPiece(appliedFen, move.from) == "K")
+        if (getPiece(appliedFen, move.from) == 'K')
             appliedFen = setCastleOptions(
                 appliedFen,
-                getCastleOptions(appliedFen).replace("K", "").replace("Q", "")
+                getCastleOptions(appliedFen).replace('K', '').replace('Q', '')
             );
-        if (getPiece(appliedFen, move.from) == "k")
+        if (getPiece(appliedFen, move.from) == 'k')
             appliedFen = setCastleOptions(
                 appliedFen,
-                getCastleOptions(appliedFen).replace("k", "").replace("q", "")
+                getCastleOptions(appliedFen).replace('k', '').replace('q', '')
             );
 
         if (
-            getPiece(appliedFen, move.from) == "R" &&
+            getPiece(appliedFen, move.from) == 'R' &&
             move.from.rank == 0 &&
             move.from.file == 0
         )
             appliedFen = setCastleOptions(
                 appliedFen,
-                getCastleOptions(appliedFen).replace("Q", "")
+                getCastleOptions(appliedFen).replace('Q', '')
             );
         if (
-            getPiece(appliedFen, move.from) == "R" &&
+            getPiece(appliedFen, move.from) == 'R' &&
             move.from.rank == 0 &&
             move.from.file == 7
         )
             appliedFen = setCastleOptions(
                 appliedFen,
-                getCastleOptions(appliedFen).replace("K", "")
+                getCastleOptions(appliedFen).replace('K', '')
             );
         if (
-            getPiece(appliedFen, move.from) == "r" &&
+            getPiece(appliedFen, move.from) == 'r' &&
             move.from.rank == 7 &&
             move.from.file == 0
         )
             appliedFen = setCastleOptions(
                 appliedFen,
-                getCastleOptions(appliedFen).replace("q", "")
+                getCastleOptions(appliedFen).replace('q', '')
             );
         if (
-            getPiece(appliedFen, move.from) == "r" &&
+            getPiece(appliedFen, move.from) == 'r' &&
             move.from.rank == 7 &&
             move.from.file == 7
         )
             appliedFen = setCastleOptions(
                 appliedFen,
-                getCastleOptions(appliedFen).replace("k", "")
+                getCastleOptions(appliedFen).replace('k', '')
             );
 
         appliedFen = setCurrentTurn(appliedFen, nextTurn);
 
-        if (getPiece(appliedFen, move.from) == "P" && move.to.rank == 7) {
-            appliedFen = setBoard(appliedFen, setPiece(appliedFen, move.to, "Q"));
-            appliedFen = setBoard(appliedFen, setPiece(appliedFen, move.from, ""));
-        } else if (getPiece(appliedFen, move.from) == "p" && move.to.rank == 0) {
-            appliedFen = setBoard(appliedFen, setPiece(appliedFen, move.to, "q"));
-            appliedFen = setBoard(appliedFen, setPiece(appliedFen, move.from, ""));
+        if (getPiece(appliedFen, move.from) == 'P' && move.to.rank == 7) {
+            appliedFen = setBoard(appliedFen, setPiece(appliedFen, move.to, 'Q'));
+            appliedFen = setBoard(appliedFen, setPiece(appliedFen, move.from, ''));
+        } else if (getPiece(appliedFen, move.from) == 'p' && move.to.rank == 0) {
+            appliedFen = setBoard(appliedFen, setPiece(appliedFen, move.to, 'q'));
+            appliedFen = setBoard(appliedFen, setPiece(appliedFen, move.from, ''));
         } else {
             appliedFen = setBoard(
                 appliedFen,
                 setPiece(appliedFen, move.to, getPiece(appliedFen, move.from))
             );
-            appliedFen = setBoard(appliedFen, setPiece(appliedFen, move.from, ""));
+            appliedFen = setBoard(appliedFen, setPiece(appliedFen, move.from, ''));
         }
 
         if (move.doesEnPassant) {
             const enPassant = cellStringToObject(getEnPassant(appliedFen));
 
-            if (currentTurn === "w")
+            if (currentTurn === 'w')
                 appliedFen = setBoard(
                     appliedFen,
                     setPiece(
                         appliedFen,
                         {rank: enPassant.rank - 1, file: enPassant.file},
-                        ""
+                        ''
                     )
                 );
-            if (currentTurn === "b")
+            if (currentTurn === 'b')
                 appliedFen = setBoard(
                     appliedFen,
                     setPiece(
                         appliedFen,
                         {rank: enPassant.rank + 1, file: enPassant.file},
-                        ""
+                        ''
                     )
                 );
         }
 
         if (move.enPassant)
             appliedFen = setEnPassant(appliedFen, cellObjectToString(move.enPassant));
-        else appliedFen = setEnPassant(appliedFen, "-");
+        else appliedFen = setEnPassant(appliedFen, '-');
 
         let validMove = true;
 
         const resultingMoves = getPossibleMoves(appliedFen, false);
 
         for (let resultingMove of resultingMoves) {
-            if (currentTurn == "w" && getPiece(appliedFen, resultingMove.to) == "K")
+            if (currentTurn == 'w' && getPiece(appliedFen, resultingMove.to) == 'K')
                 validMove = false;
-            if (currentTurn == "b" && getPiece(appliedFen, resultingMove.to) == "k")
+            if (currentTurn == 'b' && getPiece(appliedFen, resultingMove.to) == 'k')
                 validMove = false;
         }
 
@@ -639,10 +638,10 @@ function areEnemies(piece1, piece2) {
 function getPiece(fen, cell) {
     if (cell.rank < 0 || cell.rank >= 8) return null;
     //console.log(cell.rank);
-    const board = getBoard(fen).split("/");
+    const board = getBoard(fen).split('/');
 
     const boardRank = board[8 - parseInt(cell.rank) - 1];
-    //for (var i = 0; i < boardRank.length; i++) { if(!isNaN(boardRank[i])){console.log(boardRank[i]);} }
+    //for (const i = 0; i < boardRank.length; i++) { if(!isNaN(boardRank[i])){console.log(boardRank[i]);} }
     //console.log('---------------------');
     /* found issue  cant parseInt a letter */
 
@@ -666,27 +665,27 @@ function getPiece(fen, cell) {
 }
 
 function getBoard(fen) {
-    return fen.split(" ")[0];
+    return fen.split(' ')[0];
 }
 
 function getCurrentTurn(fen) {
-    return fen.split(" ")[1];
+    return fen.split(' ')[1];
 }
 
 function getCastleOptions(fen) {
-    return fen.split(" ")[2];
+    return fen.split(' ')[2];
 }
 
 function getEnPassant(fen) {
-    return fen.split(" ")[3];
+    return fen.split(' ')[3];
 }
 
 function getHalfmoveClock(fen) {
-    return parseInt(fen.split(" ")[4]);
+    return parseInt(fen.split(' ')[4]);
 }
 
 function getFullmoveNumber(fen) {
-    return parseInt(fen.split(" ")[5]);
+    return parseInt(fen.split(' ')[5]);
 }
 
 function setPiece(fen, cell, piece) {
@@ -694,30 +693,30 @@ function setPiece(fen, cell, piece) {
 
     let board = [];
 
-    for (let boardLine of getBoard(fen).split("/")) {
+    for (let boardLine of getBoard(fen).split('/')) {
         const rank = [];
 
         for (let i = 0; i < boardLine.length; ++i) {
             const number = parseInt(boardLine[i]);
 
             if (isNaN(number)) rank.push(boardLine[i]);
-            else for (let j = 0; j < number; ++j) rank.push(" ");
+            else for (let j = 0; j < number; ++j) rank.push(' ');
         }
 
         board = [rank, ...board];
     }
     /*another issue not sure why*/
-    board[cell.rank][cell.file] = piece ? piece : " ";
+    board[cell.rank][cell.file] = piece ? piece : ' ';
 
     let reconstructFen = [];
 
     for (let rank of board) {
-        let reconstructRank = rank.join("");
+        let reconstructRank = rank.join('');
 
         reconstructRank = reconstructRank
-            .replaceAll("        ", "8")
-            .replaceAll("       ", "7")
-            .replaceAll("      ", "6")
+            .replaceAll('        ', '8')
+            .replaceAll('       ', '7')
+            .replaceAll('      ', '6')
             .replaceAll("     ", "5")
             .replaceAll("    ", "4")
             .replaceAll("   ", "3")

@@ -1,48 +1,46 @@
-console.log('routes.js')
-
-const path = require("path");
-const express = require("express");
-const shared = require("./shared");
-const valid = require("./valid");
+const path = require('path');
+const express = require('express');
+const shared = require('./shared');
+const valid = require('./valid');
 
 const router = express.Router();
 
-var passport = require("passport");
+const passport = require('passport');
 
-var User = require("./database/user");
+const User = require('./database/models/User');
 
 
-const Game = require("./database/Game");
-const Player = require("./database/Player");
+const Game = require('./database/Game');
+const Player = require('./database/Player');
 
-router.get("/", function (req, res) {
-    res.sendFile(path.resolve(__dirname + "/public/views/index.html")); //changed
+router.get('/', function (req, res) {
+    res.sendFile(path.resolve(__dirname + '/public/views/index.html')); //changed
 });
 
-router.get("/board", function (req, res) {
-    res.sendFile(path.resolve(__dirname + "/public/views/board.html")); //changed
+router.get('/board', function (req, res) {
+    res.sendFile(path.resolve(__dirname + '/public/views/board.html')); //changed
 });
 
-router.get("/cool", function (req, res) {
-    res.sendFile(path.resolve(__dirname + "/public/views/cool.html")); //changed
+router.get('/cool', function (req, res) {
+    res.sendFile(path.resolve(__dirname + '/public/views/cool.html')); //changed
 });
 
-router.get("/3d", function (req, res) {
-    res.sendFile(path.resolve(__dirname + "/public/views/threejstest.html")); //changed
+router.get('/3d', function (req, res) {
+    res.sendFile(path.resolve(__dirname + '/public/views/threejstest.html')); //changed
 });
-router.get("/sheep", function (req, res) {
-    res.sendFile(path.resolve(__dirname + "/public/views/sheep.gif")); //changed
-});
-
-router.get("/login", function (req, res) {
-    res.sendFile(path.resolve(__dirname + "/public/views/login.html")); //changed
+router.get('/sheep', function (req, res) {
+    res.sendFile(path.resolve(__dirname + '/public/views/sheep.gif')); //changed
 });
 
-router.get("/signup", function (req, res) {
-    res.sendFile(path.resolve(__dirname + "/public/views/signup.html")); //changed
+router.get('/login', function (req, res) {
+    res.sendFile(path.resolve(__dirname + '/public/views/login.html')); //changed
 });
 
-router.post("/create", function (req, res) {
+router.get('/signup', function (req, res) {
+    res.sendFile(path.resolve(__dirname + '/public/views/signup.html')); //changed
+});
+
+router.post('/create', function (req, res) {
     let gameID = String(req.body.gameID).trim();
     let name = String(req.body.name).trim();
     let fen = String(req.body.fen).trim();
@@ -51,7 +49,7 @@ router.post("/create", function (req, res) {
         res.json({
             error: true,
             errorCode: 1,
-            errorMessage: "Missing a Game ID",
+            errorMessage: 'Missing a Game ID',
         });
         return;
     }
@@ -60,7 +58,7 @@ router.post("/create", function (req, res) {
         res.json({
             error: true,
             errorCode: 2,
-            errorMessage: "Missing a Player Name",
+            errorMessage: 'Missing a Player Name',
         });
         return;
     }
@@ -69,7 +67,7 @@ router.post("/create", function (req, res) {
         res.json({
             error: true,
             errorCode: 3,
-            errorMessage: "Missing a FEN String",
+            errorMessage: 'Missing a FEN String',
         });
         return;
     }
@@ -90,7 +88,7 @@ router.post("/create", function (req, res) {
         res.json({
             error: true,
             errorCode: 4,
-            errorMessage: "Duplicate of existing Game ID",
+            errorMessage: 'Duplicate of existing Game ID',
         });
         return;
     }
@@ -98,7 +96,7 @@ router.post("/create", function (req, res) {
     res.json({error: false});
 });
 
-router.post("/join", function (req, res) {
+router.post('/join', function (req, res) {
     let gameID = String(req.body.gameID).trim();
     let name = String(req.body.name).trim();
 
@@ -108,7 +106,7 @@ router.post("/join", function (req, res) {
         res.json({
             error: true,
             errorCode: 5,
-            errorMessage: "Game does not exist",
+            errorMessage: 'Game does not exist',
         });
         return;
     }
@@ -117,12 +115,12 @@ router.post("/join", function (req, res) {
         res.json({
             error: true,
             errorCode: 6,
-            errorMessage: "Game already has two players",
+            errorMessage: 'Game already has two players',
         });
         return;
     }
 
-    let player = new Player(name, game.players.length ? "b" : "w");
+    let player = new Player(name, game.players.length ? 'b' : 'w');
     game.players.push(player);
 
     shared.database.putGame(game);
@@ -133,101 +131,101 @@ router.post("/join", function (req, res) {
 module.exports = router;
 //STOLEN FROM YEE START -------------------------------------------------------------
 
-router.get("/successroot", function (req, res) {
-    console.log("get successroot");
-    res.json({redirect: "/"});
+router.get('/successroot', function (req, res) {
+    console.log('get successroot');
+    res.json({redirect: '/'});
 });
 
-router.get("/failroot", function (req, res) { //errcode 7
-    console.log("get failroot");
-    res.json({redirect: "/login"});
+router.get('/failroot', function (req, res) { //errcode 7
+    console.log('get failroot');
+    res.json({redirect: '/login'});
 });
 
-router.get("/successsignup", function (req, res) {
-    console.log("get successsignup");
-    res.json({redirect: "/"});
+router.get('/successsignup', function (req, res) {
+    console.log('get successsignup');
+    res.json({redirect: '/'});
 });
 
-router.get("/failsignup", function (req, res) { //errcode 8
-    console.log("get failsignup");
+router.get('/failsignup', function (req, res) { //errcode 8
+    console.log('get failsignup');
     res.json({
         error: true,
         errorCode: 8,
         errorMessage: `User already exists`,
-        redirect: "/signup"
+        redirect: '/signup'
     });
 });
 
-router.get("/successlogin", function (req, res) {
-    console.log("get successlogin");
-    res.json({redirect: "/"});
+router.get('/successlogin', function (req, res) {
+    console.log('get successlogin');
+    res.json({redirect: '/'});
 });
 
-router.get("/faillogin", function (req, res) {
-    console.log("get failsignup");
-    res.json({redirect: "/login"});
+router.get('/faillogin', function (req, res) {
+    console.log('get failsignup');
+    res.json({redirect: '/login'});
 });
 
-router.get("/session", function (req, res) {
-    console.log("get session");
+router.get('/session', function (req, res) {
+    console.log('get session');
     if (req.isAuthenticated()) {
-        console.log("sendFile session.html");
-        let thePath = path.resolve(__dirname, "public/views/index.html");
+        console.log('sendFile session.html');
+        let thePath = path.resolve(__dirname, 'public/views/index.html');
         res.sendFile(thePath);
     } else {
-        console.log("sendFile login.html");
-        let thePath = path.resolve(__dirname, "public/views/login.html");
+        console.log('sendFile login.html');
+        let thePath = path.resolve(__dirname, 'public/views/login.html');
         res.sendFile(thePath);
     }
 });
 
-router.get("/userInfo", function (req, res) {
-    console.log("get userInfo");
+router.get('/userInfo', function (req, res) {
+    console.log('get userInfo');
     if (req.isAuthenticated()) {
-        console.log("req isAuthenticated");
-        console.log("valueJY = " + req.user.valueJY); /* user defined value */
+        console.log('req isAuthenticated');
+        console.log('valueJY = ' + req.user.valueJY); /* user defined value */
         res.json({username: req.user.username});
     } else {
-        console.log("req is not Authenticated");
+        console.log('req is not Authenticated');
         res.json(null);
     }
 });
 
-router.get("/logout", function (req, res) {
-    console.log("get logout");
+router.get('/logout', function (req, res) {
+    console.log('get logout');
     if (req.isAuthenticated()) {
-        console.log("req isAuthenticated");
+        console.log('req isAuthenticated');
         req.logout();
-        res.redirect("/successroot");
+        res.redirect('/successroot');
     } else {
-        console.log("req is not Authenticated");
-        res.redirect("/failroot");
+        console.log('req is not Authenticated');
+        res.redirect('/failroot');
     }
 });
 
-router.post("/signup", function (req, res, next) {
-        console.log("post signup");
+router.post('/signup', function (req, res, next) {
+        console.log('post signup');
 
-        var username = req.body.username;
-        var password = req.body.password;
+        const username = req.body.username;
+        const password = req.body.password;
 
-        console.log(password +"-AHHH-"+ username);
+        console.log(password +'-AHHH-'+ username);
         User.findOne({username: username}, function (err, user) {
-            console.log("User findOne function callback");
+            console.log('User findOne function callback');
             if (err) {
-                console.log("err");
+                console.log('err');
                 return next(err);
             }
             if (user) {
-                console.log("user");
-//        req.flash("error", "User already exists");
+                console.log('user');
+//        req.flash('error', 'User already exists');
              //   return res.json({error: true});
-                return res.redirect("/failsignup");
+                return res.redirect('/failsignup');
             }
 
-            console.log("new User");
+            console.log('new User');
 
-            var newUser = new User({
+            const newUser = new User({
                 username: username,
                 password: password,
             });
@@ -235,20 +233,20 @@ router.post("/signup", function (req, res, next) {
             //return res.json({success: true});
         });
     },
-    passport.authenticate("login", {
-        //goes to setuppassport.js  (passport.use("login"))
-        successRedirect: "/successsignup",
-        failureRedirect: "/failsignup",
+    passport.authenticate('login', {
+        //goes to setuppassport.js  (passport.use('login'))
+        successRedirect: '/successsignup',
+        failureRedirect: '/failsignup',
         failureFlash: true,
     })
 );
 
 
 router.post(
-    "/login",
-    passport.authenticate("login", {
-        successRedirect: "/successlogin",
-        failureRedirect: "/faillogin",
+    '/login',
+    passport.authenticate('login', {
+        successRedirect: '/successlogin',
+        failureRedirect: '/faillogin',
         failureFlash: true,
     })
 );
