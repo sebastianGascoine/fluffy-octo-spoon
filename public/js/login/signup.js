@@ -1,27 +1,27 @@
 function userClicked() {
-    console.log("signup userClicked");
+    console.log('signup userClicked');
 
     $.post(
-        "/signup",
-        {username: $("#username").val(), password: $("#psw").val()},
+        '/signup',
+        {username: $('#username').val(), password: $('#psw').val()},
         function (data) {
             if (data.error) {
                 Swal.fire({
-                    icon: "error",
-                    title: "Error",
+                    icon: 'error',
+                    title: 'Error',
                     text: data.errorMessage,
                 });
                 return;
             }
             if (data.success) {
                 Swal.fire({
-                    icon: "success",
-                    title: "Success",
-                    text: "logged in! redirecting",
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'logged in! redirecting',
                 });
                 return;
             }
-            console.log("signup callback function");
+            console.log('signup callback function');
 
             window.location = data.redirect;
         }
@@ -31,8 +31,8 @@ function userClicked() {
 
 $(document).ready(function (event) {
 
-    $("#username").keypress(function (event) {
-        console.log("code doo doo");
+    $('#username').keypress(function (event) {
+        console.log('code doo doo');
         if (event.which === 13) {
             userClicked();
             event.preventDefault();
@@ -40,8 +40,8 @@ $(document).ready(function (event) {
         }
     });
 
-    $("#psw").keypress(function (event) {
-        //console.log("code doo doo " + event.which);
+    $('#psw').keypress(function (event) {
+        //console.log('code doo doo ' + event.which);
         if (event.which === 13) {
             userClicked();
             event.preventDefault();
@@ -51,7 +51,7 @@ $(document).ready(function (event) {
         }
     });
     $('#submit').click(function (event) {
-        console.log("code doo doo");
+        console.log('code doo doo');
         if (event.which === 1) {
             userClicked();
             event.preventDefault();

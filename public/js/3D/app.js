@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import GLTFLoader from "three-gltf-loader";
 
-var loader = new GLTFLoader();
+const loader = new GLTFLoader();
 
 // ------------------------------------------------
 // GLB LOADING
@@ -19,10 +19,10 @@ loader.load("../Items/Chess3D_Black.glb", function (gltf) {
 // ------------------------------------------------
 
 // Create an empty scene
-var scene = new THREE.Scene();
+const scene = new THREE.Scene();
 
 // Create a basic perspective camera
-var camera = new THREE.PerspectiveCamera(
+const camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
     0.1,
@@ -31,7 +31,7 @@ var camera = new THREE.PerspectiveCamera(
 camera.position.z = 4;
 
 // Create a renderer with Antialiasing
-var renderer = new THREE.WebGLRenderer({antialias: true});
+const renderer = new THREE.WebGLRenderer({antialias: true});
 
 // Configure renderer clear color
 renderer.setClearColor("#000000");
@@ -47,15 +47,15 @@ document.body.appendChild(renderer.domElement);
 // ------------------------------------------------
 
 // Create a Cube Mesh with basic material
-var geometry = new THREE.BoxGeometry(1, 1, 1);
-var material = new THREE.MeshBasicMaterial({color: "#433F81"});
-var cube = new THREE.Mesh(geometry, material);
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+const material = new THREE.MeshBasicMaterial({color: "#433F81"});
+const cube = new THREE.Mesh(geometry, material);
 
 // Add cube to Scene
 scene.add(cube);
 
 // Render Loop
-var render = function () {
+const render = function () {
     requestAnimationFrame(render);
 
     cube.rotation.x += 0.01;

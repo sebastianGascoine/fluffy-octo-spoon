@@ -1,16 +1,16 @@
 function userClicked() {
-    console.log("login userClicked")
-    $.post("/login", {username: $("#username").val(), password: $("#psw").val()}, function (data) {
+    console.log('login userClicked')
+    $.post('/login', {username: $('#username').val(), password: $('#psw').val()}, function (data) {
             if (data.error) {
                 Swal.fire({
-                    icon: "error",
-                    title: "Error",
+                    icon: 'error',
+                    title: 'Error',
                     text: data.errorMessage,
                 });
                 return;
             }
 
-            console.log("signup callback function");
+            console.log('signup callback function');
             window.location = data.redirect;
 
 
@@ -22,7 +22,7 @@ function userClicked() {
 
 $(document).ready(function () {
 
-    $("#username").keydown(function (event) {
+    $('#username').keydown(function (event) {
         if (event.which === 13) {
             userClicked();
             event.preventDefault();
@@ -30,7 +30,7 @@ $(document).ready(function () {
         }
     });
 
-    $("#pwd").keydown(function (event) {
+    $('#pwd').keydown(function (event) {
         if (event.which === 13) {
             userClicked();
             event.preventDefault();
