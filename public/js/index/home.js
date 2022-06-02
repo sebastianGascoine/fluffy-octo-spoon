@@ -4,7 +4,7 @@ function attemptCreate(gameID, fenString) {
     $.ajax({
         url: "/create",
         type: "POST",
-        data: { gameID, fenString },
+        data: {gameID, fenString},
         success: function (data) {
             if (data.error) {
                 Swal.fire({
@@ -25,7 +25,7 @@ function attemptJoin(gameID) {
     $.ajax({
         url: "/join",
         type: "POST",
-        data: { gameID },
+        data: {gameID},
         success: function (data) {
             if (data.error) {
                 Swal.fire({
@@ -42,7 +42,7 @@ function attemptJoin(gameID) {
     });
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     $.ajax({
         url: "/userInfo",
         type: "GET",
@@ -53,15 +53,15 @@ $(document).ready(function() {
         },
     });
 
-    $('#logout-button').click(function() {
-        $.get('/logout', function(data) {
+    $('#logout-button').click(function () {
+        $.get('/logout', function (data) {
             window.location = data.redirect;
         });
         return false;
     });
 
-    $('#create-game').click(function() {
-        $.post('/create', {}, function(data) {
+    $('#create-game').click(function () {
+        $.post('/create', {}, function (data) {
             if (data.error) return alert('Error!');
 
             window.location = data.redirect;
@@ -69,25 +69,25 @@ $(document).ready(function() {
         return false;
     });
 
-    $('#open-join').click(function() {
+    $('#open-join').click(function () {
         $('#join-state').css('display', 'block');
         $('#create-state').css('display', 'none');
         $('#load-state').css('display', 'none');
     });
 
-    $('#open-create').click(function() {
+    $('#open-create').click(function () {
         $('#join-state').css('display', 'none');
         $('#create-state').css('display', 'block');
         $('#load-state').css('display', 'none');
     });
 
-    $('#open-load').click(function() {
+    $('#open-load').click(function () {
         $('#join-state').css('display', 'none');
         $('#create-state').css('display', 'none');
         $('#load-state').css('display', 'block');
     });
 
-    $('#join-state input[name=submit]').click(function(event) {
+    $('#join-state input[name=submit]').click(function (event) {
         const gameID = $('#join-state input[name=gameID]').val();
 
         attemptJoin(gameID);
@@ -96,7 +96,7 @@ $(document).ready(function() {
         return false;
     });
 
-    $('#join-state input[name=gameID]').keydown(function(event) {
+    $('#join-state input[name=gameID]').keydown(function (event) {
         if (event.which !== 13) return;
 
         const gameID = $('#join-state input[name=gameID]').val();
@@ -107,7 +107,7 @@ $(document).ready(function() {
         return false;
     });
 
-    $('#create-state input[name=submit]').click(function(event) {
+    $('#create-state input[name=submit]').click(function (event) {
         const gameID = $('#create-state input[name=gameID]').val();
 
         attemptCreate(gameID, '');
@@ -116,7 +116,7 @@ $(document).ready(function() {
         return false;
     });
 
-    $('#create-state input[name=gameID]').keydown(function(event) {
+    $('#create-state input[name=gameID]').keydown(function (event) {
         if (event.which !== 13) return;
 
         const gameID = $('#create-state input[name=gameID]').val();
@@ -127,7 +127,7 @@ $(document).ready(function() {
         return false;
     });
 
-    $('#load-state input[name=submit]').click(function(event) {
+    $('#load-state input[name=submit]').click(function (event) {
         const gameID = $('#load-state input[name=gameID]').val();
         const string = $('#load-state input[name=string]').val();
 
@@ -137,7 +137,7 @@ $(document).ready(function() {
         return false;
     });
 
-    $('#load-state input[name=gameID]').keydown(function(event) {
+    $('#load-state input[name=gameID]').keydown(function (event) {
         if (event.which !== 13) return;
 
         const gameID = $('#load-state input[name=gameID]').val();
@@ -149,7 +149,7 @@ $(document).ready(function() {
         return false;
     });
 
-    $('#load-state input[name=string]').keydown(function(event) {
+    $('#load-state input[name=string]').keydown(function (event) {
         if (event.which !== 13) return;
 
         const gameID = $('#load-state input[name=gameID]').val();

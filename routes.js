@@ -28,13 +28,13 @@ router.get('/signup', function (req, res) {
     res.sendFile(path.resolve(__dirname + '/public/views/signup.html'));
 });
 
-router.get('/userInfo', function(req, res) {
-   if (!req.isAuthenticated()) return res.json({ error: true });
+router.get('/userInfo', function (req, res) {
+    if (!req.isAuthenticated()) return res.json({error: true});
 
-   return res.json({
-      username: req.user.username,
-      wins: req.user.wins
-   });
+    return res.json({
+        username: req.user.username,
+        wins: req.user.wins
+    });
 });
 
 router.post('/create', function (req, res) {
@@ -112,49 +112,50 @@ router.post('/join', function (req, res) {
         return;
     }
 
-    let player = { name, color: game.players.length ? 'b' : 'w' };
+    let player = {name, color: game.players.length ? 'b' : 'w'};
     game.players.push(player);
 
     database.putGame(game);
 
-    res.json({error: false });
+    res.json({error: false});
 });
 
 router.get('/successsignup', function (req, res) {
-    res.json({ redirect: '/' });
+    res.json({redirect: '/'});
 });
 
 router.get('/failsignup', function (req, res) { //errcode 8
     console.log('get failsignup');
-    res.json({ redirect: '/signup' });
+    res.json({redirect: '/signup'});
 });
 
 router.get('/successlogin', function (req, res) {
     console.log('get successlogin');
-    res.json({ redirect: '/' });
+    res.json({redirect: '/'});
 });
 
 router.get('/faillogin', function (req, res) {
     console.log('get failsignup');
-    res.json({ redirect: '/login' });
+    res.json({redirect: '/login'});
 });
 
 router.get('/logout', function (req, res) {
-    if (req.isAuthenticated()) req.logout(() => {});
+    if (req.isAuthenticated()) req.logout(() => {
+    });
 
-    res.json({ redirect: '/' });
+    res.json({redirect: '/'});
 });
 
 router.post('/signup', function (req, res, next) {
     const username = req.body.username;
     const password = req.body.password;
 
-    Player.findOne({ username }, function (err, player) {
+    Player.findOne({username}, function (err, player) {
         if (err) return next(err);
 
-        if (player) return res.json({ error: true, errorMessage: 'User already exists' });
+        if (player) return res.json({error: true, errorMessage: 'User already exists'});
 
-        const createdPlayer = new Player({ username, password });
+        const createdPlayer = new Player({username, password});
         createdPlayer.save(next);
     });
 }, passport.authenticate('login', {

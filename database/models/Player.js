@@ -4,12 +4,12 @@ const SALT_FACTOR = 10;
 const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
-    username: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    wins: { type: Number, default: 0 }
+    username: {type: String, required: true, unique: true},
+    password: {type: String, required: true},
+    wins: {type: Number, default: 0}
 });
 
-schema.pre('save', function(done) {
+schema.pre('save', function (done) {
     const player = this;
 
     if (!player.isModified('password')) return done();
@@ -17,7 +17,8 @@ schema.pre('save', function(done) {
     bcrypt.genSalt(SALT_FACTOR, function (err, salt) {
         if (err) return done(err);
 
-        bcrypt.hash(player.password, salt, () => {}, function (err, hashedPassword) {
+        bcrypt.hash(player.password, salt, () => {
+        }, function (err, hashedPassword) {
             if (err) return done(err);
 
             player.password = hashedPassword;

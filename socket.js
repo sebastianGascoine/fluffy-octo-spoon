@@ -9,7 +9,7 @@ const Player = require('./database/models/Player');
 
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
 
-module.exports.setup = function(httpServer) {
+module.exports.setup = function (httpServer) {
     const server = new io.Server(httpServer);
 
     gameServer(server);
@@ -284,8 +284,9 @@ function gameServer(server) {
                     )
                         checkmate = true;
 
-                if (checkmate) Player.updateOne({ username: game.players.find(p => p.color === currTurn ).name }, { $inc: { wins: 1 }}, {}, (error, player) => {});
-                console.log('Checkmate', game.players.find(p => p.color === currTurn ).name);
+                if (checkmate) Player.updateOne({username: game.players.find(p => p.color === currTurn).name}, {$inc: {wins: 1}}, {}, (error, player) => {
+                });
+                console.log('Checkmate', game.players.find(p => p.color === currTurn).name);
 
                 game.players.forEach((player) =>
                     player.socket.emit("gameover", {checkmate, winner: currTurn})

@@ -1,11 +1,11 @@
 function attemptSignup(event) {
     if (event) event.preventDefault();
-    
+
     $.post('/signup', {
         username: $('#username').val(),
         password: $('#password').val()
     }, function (data) {
-        if (data.error) return Swal.fire({ icon: 'error', title: 'Error', text: data.errorMessage });
+        if (data.error) return Swal.fire({icon: 'error', title: 'Error', text: data.errorMessage});
 
         window.location = data.redirect;
     });
@@ -13,7 +13,7 @@ function attemptSignup(event) {
     return false;
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     $('#username').keydown((event) => {
         if (event.which === 13) return attemptSignup(event);
     });

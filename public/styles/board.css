@@ -1,204 +1,205 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;400;700&display=swap");
 
 * {
-  box-sizing: border-box;
-  font-family: "Roboto Mono", monospace;
+    box-sizing: border-box;
+    font-family: "Roboto Mono", monospace;
 }
 
 #main_content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #something {
-  background: transparent;
-  border: 0;
-  cursor: pointer;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
 }
 
 .glass {
-  background-color: rgba(0, 0, 0, 0.22);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.125);
+    background-color: rgba(0, 0, 0, 0.22);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.125);
 }
+
 #center_content {
-  display: flex;
-  margin-top: 50px;
+    display: flex;
+    margin-top: 50px;
 }
 
 #board_container {
-  display: flex;
-  flex-direction: column;
-  color: white;
-  font-size: 18px;
-  font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
 }
 
 #chat_container {
-  display: flex;
-  flex-direction: column;
-  color: white;
-  font-size: 16px;
-  font-weight: 400;
-  margin: 25px 25px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    font-size: 16px;
+    font-weight: 400;
+    margin: 25px 25px;
 }
 
 #chat_view {
-  border-radius: 4px;
-  border-bottom: none;
-  width: 400px;
-  height: 600px;
-  overflow-x: wrap;
-  overflow-y: auto;
+    border-radius: 4px;
+    border-bottom: none;
+    width: 400px;
+    height: 600px;
+    overflow-x: wrap;
+    overflow-y: auto;
 
-  padding: 5px 10px;
+    padding: 5px 10px;
 
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 #chat_view p {
-  margin: 0;
-  word-wrap: break-word;
+    margin: 0;
+    word-wrap: break-word;
 }
 
 #chat_input {
-  height: 40px;
-  background-color: transparent;
-  color: white;
-  font-size: 16px;
-  border: none;
+    height: 40px;
+    background-color: transparent;
+    color: white;
+    font-size: 16px;
+    border: none;
 
-  padding: 0 8px;
+    padding: 0 8px;
 
-  outline: none;
+    outline: none;
 }
 
 #board {
-  border-spacing: 0;
-  display: inline;
-  text-align: center;
-  border: 2px solid #313332;
-  border-radius: 4px;
+    border-spacing: 0;
+    display: inline;
+    text-align: center;
+    border: 2px solid #313332;
+    border-radius: 4px;
 
-  -webkit-user-select: none;
-  user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 #player2 {
-  text-align: right;
+    text-align: right;
 }
 
 .container {
-  border: 2px solid #ccc;
-  padding: 10px;
-  width: 20em;
+    border: 2px solid #ccc;
+    padding: 10px;
+    width: 20em;
 }
 
 .swal2-popup {
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
 }
 
 .cell {
-  position: relative;
+    position: relative;
 
-  padding: 0;
-  width: 80px;
-  height: 80px;
+    padding: 0;
+    width: 80px;
+    height: 80px;
 
-  text-align: center;
-  line-height: 80px;
+    text-align: center;
+    line-height: 80px;
 }
 
 .cell_number {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
 
-  padding: 0;
-  margin: 0;
+    padding: 0;
+    margin: 0;
 
-  font-family: sans-serif;
-  font-size: 20px;
+    font-family: sans-serif;
+    font-size: 20px;
 
-  line-height: 10px;
+    line-height: 10px;
 }
 
 .cell_hover {
-  background-color: blue;
+    background-color: blue;
 }
 
 input[type="button"] {
-  margin-top: 20px;
-  background: rgba(255, 255, 255, 0.2);
-  outline: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  font-size: 16px;
-  letter-spacing: 1px;
-  color: white;
-  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.05);
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: white;
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.05);
 
-  max-width: 600px;
-  cursor: pointer;
-  margin-bottom: 20px;
-  font-weight: 600;
+    max-width: 600px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    font-weight: 600;
 }
 
 input[type="button"]:hover {
-  background: #666;
-  color: #fff;
+    background: #666;
+    color: #fff;
 
 }
 
 .cell_background {
-  width: 30px;
-  height: 30px;
+    width: 30px;
+    height: 30px;
 
-  z-index: 20;
+    z-index: 20;
 
-  position: absolute;
-  top: 25px;
-  left: 25px;
+    position: absolute;
+    top: 25px;
+    left: 25px;
 
-  pointer-events: none;
+    pointer-events: none;
 
-  border-radius: 20px;
+    border-radius: 20px;
 }
 
 tr:nth-child(odd) .cell:nth-child(odd),
 tr:nth-child(even) .cell:nth-child(even) {
-  background-color: #f0e8e7;
+    background-color: #f0e8e7;
 }
 
 tr:nth-child(odd) .cell:nth-child(even),
 tr:nth-child(even) .cell:nth-child(odd) {
-  background-color: #985650;
+    background-color: #985650;
 }
 
 tr:nth-child(odd) .cell:nth-child(odd) .cell_number,
 tr:nth-child(even) .cell:nth-child(even) .cell_number {
-  color: #985650;
+    color: #985650;
 }
 
 tr:nth-child(odd) .cell:nth-child(even) .cell_number,
 tr:nth-child(even) .cell:nth-child(odd) .cell_number {
-  color: green;
+    color: green;
 }
 
 .piece {
-  z-index: 10;
+    z-index: 10;
 
-  width: 60px;
-  height: 60px;
+    width: 60px;
+    height: 60px;
 
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
 /*---------------------------------------------*/

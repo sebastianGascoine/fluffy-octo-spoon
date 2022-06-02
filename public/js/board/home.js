@@ -86,7 +86,7 @@ $(document).ready(function () {
         $('#chat_input').val('');
     });
 
-    socket.emit('join', { game: params.get('game') });
+    socket.emit('join', {game: params.get('game')});
 });
 
 function createCell(row, rank, file) {
