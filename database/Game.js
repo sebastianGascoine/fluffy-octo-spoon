@@ -1,7 +1,7 @@
-let Game = function (id, players, board) {
+let Game = function (id, players, fen) {
     this.id = id;
     this.players = players;
-    this.board = board;
+    this.fen = fen;
 };
 
 module.exports = Game;

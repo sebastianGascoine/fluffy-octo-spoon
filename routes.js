@@ -1,49 +1,41 @@
 const path = require('path');
 const express = require('express');
-const shared = require('./shared');
-const valid = require('./valid');
 
 const router = express.Router();
 
 const passport = require('passport');
 
-const User = require('./database/models/User');
-
-
+const valid = require('fen-validator').default;
+const database = require('./shared').database;
+const Player = require('./database/models/Player');
 const Game = require('./database/Game');
-const Player = require('./database/Player');
 
 router.get('/', function (req, res) {
-    res.sendFile(path.resolve(__dirname + '/public/views/index.html')); //changed
+    if (!req.isAuthenticated()) return res.redirect('/login');
+
+    res.sendFile(path.resolve(__dirname + '/public/views/index.html'));
 });
 
 router.get('/board', function (req, res) {
-    res.sendFile(path.resolve(__dirname + '/public/views/board.html')); //changed
-});
-
-router.get('/cool', function (req, res) {
-    res.sendFile(path.resolve(__dirname + '/public/views/cool.html')); //changed
-});
-
-router.get('/3d', function (req, res) {
-    res.sendFile(path.resolve(__dirname + '/public/views/threejstest.html')); //changed
-});
-router.get('/sheep', function (req, res) {
-    res.sendFile(path.resolve(__dirname + '/public/views/sheep.gif')); //changed
+    res.sendFile(path.resolve(__dirname + '/public/views/board.html'));
 });
 
 router.get('/login', function (req, res) {
-    res.sendFile(path.resolve(__dirname + '/public/views/login.html')); //changed
+    res.sendFile(path.resolve(__dirname + '/public/views/login.html'));
+});
+
+router.get('/relogged', function (req, res) {
+    res.sendFile(path.resolve(__dirname + '/public/views/relogged.html'));
 });
 
 router.get('/signup', function (req, res) {
-    res.sendFile(path.resolve(__dirname + '/public/views/signup.html')); //changed
+    res.sendFile(path.resolve(__dirname + '/public/views/signup.html'));
 });
 
 router.post('/create', function (req, res) {
     let gameID = String(req.body.gameID).trim();
-    let name = String(req.body.name).trim();
-    let fen = String(req.body.fen).trim();
+    let name = req.user.username;
+    let fen = req.body.fenString?.trim();
 
     if (!gameID) {
         res.json({
@@ -63,26 +55,21 @@ router.post('/create', function (req, res) {
         return;
     }
 
-    if (!fen) {
+    if (!fen) fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+
+    if (!valid(fen)) {
         res.json({
             error: true,
-            errorCode: 3,
-            errorMessage: 'Missing a FEN String',
+            errorCode: 4,
+            errorMessage: 'Invalid FEN String',
         });
         return;
     }
 
-    // TODO: Need to validate FEN String
-    if (valid.ValidateFEN(fen)) {
-        res.json({
-            error: true,
-            errorCode: 4,
-            errorMessage: valid.errorcode(),
-        });
-        return;
-    }
+    console.log(fen);
+
     let game = new Game(gameID, [], fen);
-    let success = shared.database.newGame(game);
+    let success = database.newGame(game);
 
     if (!success) {
         res.json({
@@ -98,9 +85,9 @@ router.post('/create', function (req, res) {
 
 router.post('/join', function (req, res) {
     let gameID = String(req.body.gameID).trim();
-    let name = String(req.body.name).trim();
+    let name = req.user.username;
 
-    let game = shared.database.getGame(gameID);
+    let game = database.getGame(gameID);
 
     if (!game) {
         res.json({
@@ -111,7 +98,7 @@ router.post('/join', function (req, res) {
         return;
     }
 
-    if (game.players.length == 2) {
+    if (game.players.length === 2) {
         res.json({
             error: true,
             errorCode: 6,
@@ -120,134 +107,60 @@ router.post('/join', function (req, res) {
         return;
     }
 
-    let player = new Player(name, game.players.length ? 'b' : 'w');
+    let player = { name, color: game.players.length ? 'b' : 'w' };
     game.players.push(player);
 
-    shared.database.putGame(game);
+    database.putGame(game);
 
-    res.json({error: false, code: player.uuid});
-});
-
-module.exports = router;
-//STOLEN FROM YEE START -------------------------------------------------------------
-
-router.get('/successroot', function (req, res) {
-    console.log('get successroot');
-    res.json({redirect: '/'});
-});
-
-router.get('/failroot', function (req, res) { //errcode 7
-    console.log('get failroot');
-    res.json({redirect: '/login'});
+    res.json({error: false });
 });
 
 router.get('/successsignup', function (req, res) {
-    console.log('get successsignup');
-    res.json({redirect: '/'});
+    res.json({ redirect: '/' });
 });
 
 router.get('/failsignup', function (req, res) { //errcode 8
     console.log('get failsignup');
-    res.json({
-        error: true,
-        errorCode: 8,
-        errorMessage: `User already exists`,
-        redirect: '/signup'
-    });
+    res.json({ redirect: '/signup' });
 });
 
 router.get('/successlogin', function (req, res) {
     console.log('get successlogin');
-    res.json({redirect: '/'});
+    res.json({ redirect: '/' });
 });
 
 router.get('/faillogin', function (req, res) {
     console.log('get failsignup');
-    res.json({redirect: '/login'});
-});
-
-router.get('/session', function (req, res) {
-    console.log('get session');
-    if (req.isAuthenticated()) {
-        console.log('sendFile session.html');
-        let thePath = path.resolve(__dirname, 'public/views/index.html');
-        res.sendFile(thePath);
-    } else {
-        console.log('sendFile login.html');
-        let thePath = path.resolve(__dirname, 'public/views/login.html');
-        res.sendFile(thePath);
-    }
-});
-
-router.get('/userInfo', function (req, res) {
-    console.log('get userInfo');
-    if (req.isAuthenticated()) {
-        console.log('req isAuthenticated');
-        console.log('valueJY = ' + req.user.valueJY); /* user defined value */
-        res.json({username: req.user.username});
-    } else {
-        console.log('req is not Authenticated');
-        res.json(null);
-    }
+    res.json({ redirect: '/login' });
 });
 
 router.get('/logout', function (req, res) {
-    console.log('get logout');
-    if (req.isAuthenticated()) {
-        console.log('req isAuthenticated');
-        req.logout();
-        res.redirect('/successroot');
-    } else {
-        console.log('req is not Authenticated');
-        res.redirect('/failroot');
-    }
+    if (req.isAuthenticated()) req.logout(() => {});
+
+    res.json({ redirect: '/' });
 });
 
 router.post('/signup', function (req, res, next) {
-        console.log('post signup');
+    const username = req.body.username;
+    const password = req.body.password;
 
-        const username = req.body.username;
-        const password = req.body.password;
+    Player.findOne({ username }, function (err, player) {
+        if (err) return next(err);
 
-        console.log(password +'-AHHH-'+ username);
-        User.findOne({username: username}, function (err, user) {
-            console.log('User findOne function callback');
-            if (err) {
-                console.log('err');
-                return next(err);
-            }
-            if (user) {
-                console.log('user');
-//        req.flash('error', 'User already exists');
-             //   return res.json({error: true});
-                return res.redirect('/failsignup');
-            }
+        if (player) return res.json({ error: 'User already exists' });
 
-            console.log('new User');
+        const createdPlayer = new Player({ username, password });
+        createdPlayer.save(next);
+    });
+}, passport.authenticate('login', {
+    successRedirect: '/successsignup',
+    failureRedirect: '/failsignup',
+}));
 
-            const newUser = new User({
-                username: username,
-                password: password,
-            });
-            newUser.save(next); //goes to user.js (userSchema.pre(save))
-            //return res.json({success: true});
-        });
-    },
-    passport.authenticate('login', {
-        //goes to setuppassport.js  (passport.use('login'))
-        successRedirect: '/successsignup',
-        failureRedirect: '/failsignup',
-        failureFlash: true,
-    })
-);
-
-
-router.post(
-    '/login',
-    passport.authenticate('login', {
+router.post('/login', passport.authenticate('login', {
         successRedirect: '/successlogin',
-        failureRedirect: '/faillogin',
-        failureFlash: true,
+        failureRedirect: '/faillogin'
     })
 );
-//STOLEN FROM YEE END ---------------------------------------------------------------
+
+module.exports = router;

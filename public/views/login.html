@@ -1,29 +1,18 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
-      rel="stylesheet"
-    />
+
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
-    <title>Login</title>
-    <!-- The style.css file allows you to change the look of your web pages.
-         If you include the next line in all your web pages, they will all share the same look.
-         This makes it easier to make new pages for your site. -->
-    <link
-      href="/styles/login.css"
-      rel="stylesheet"
-      type="text/css"
-      media="all"
-    />
-  </head>
-  <body class="bg-animation">
-    <section>
-      <ul class="bg-animation-box">
+    <title>Chess — Login</title>
+    <link href="/styles/login.css" rel="stylesheet" type="text/css"/>
+    <link href="/styles/background.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<section id="background-section">
+    <ul class="bg-animation-box">
         <li class="circle-box"></li>
         <li class="corners-box-20"></li>
         <li class="circle-box"></li>
@@ -32,45 +21,20 @@
         <li class="corners-box-35"></li>
         <li class="circle-box"></li>
         <li></li>
-      </ul>
+    </ul>
+</section>
 
-      <div class="color"></div>
-      <div class="color"></div>
-      <div class="color"></div>
-      <div class="color"></div>
+<div id="container">
+    <h2>Login</h2>
 
-      <div class="box">
-        <!--  <div class="square" style="--i:0;"></div>
-        <div class="square" style="--i:1;"></div>
-        <div class="square" style="--i:2;"></div>
-        <div class="square" style="--i:3;"></div>
-        <div class="square" style="--i:4;"></div> -->
+    <form action="#">
+        <input id="username" type="text" placeholder="Username"/>
+        <input id="password" type="password" placeholder="Password"/>
+        <input id="submit" type="submit" value="Login" />
 
-        <div class="container">
-          <div class="form">
-            <h2>Login</h2>
-
-            <form action="#">
-              <div class="inputBox">
-                <input type="text" placeholder="Username" />
-              </div>
-
-              <div class="inputBox">
-                <input type="password" placeholder="Password" />
-              </div>
-
-              <div class="inputBox">
-                <input type="submit" value="Login" />
-              </div>
-              <!-- <p class="forget">Forgot Password ? <a href="#">Click Here</a> </p> -->
-              <p class="forget">
-                Don't have an account ? <a href="/signup">Sign up</a>
-              </p>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-    <script src="js/login/login.js"></script>
-  </body>
+        <p id="switch-prompt">Don't have an account? <a href="/signup">Sign up</a></p>
+    </form>
+</div>
+<script src="js/login/login.js"></script>
+</body>
 </html>

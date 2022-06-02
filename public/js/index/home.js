@@ -1,79 +1,10 @@
-function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-}
+function attemptCreate(gameID, fenString) {
+    console.log(gameID);
 
-function joinVis() {
-    $("#2").removeClass("active"); //
-    $("#1").toggleClass("active");
-    $("#3").removeClass("active");
-}
-
-function createVis() {
-    $("#1").removeClass("active");
-    $("#3").toggleClass("active");
-    $("#2").removeClass("active"); //
-}
-
-function fenVis() {
-    $("#1").removeClass("active");
-    $("#2").toggleClass("active");
-    $("#3").removeClass("active");
-}
-
-let isdark = true;
-
-function lightdark() {
-    if (isdark) {
-        $("#image").attr("src", "resources/logoDark.svg");
-        $(".darkmode").css("color", "black");
-        $(".darkmode").css("background-color", "white");
-        $(".darkBordered").css("border", "2px solid black");
-    } else {
-        $("#image").attr("src", "resources/logo.svg");
-        $(".darkmode").css("color", "white");
-        $(".darkmode").css("background-color", "black");
-        $(".darkBordered").css("border", "2px solid white");
-    }
-
-    isdark = !isdark;
-}
-
-function joinButton() {
- $.get("/userInfo",function(data) {
-     if (data != null){
-         $("#playerNameJoin").val(data.username);
-     }
-     
- });
-    const gameID = $("#joinInput").val();
-    const name = $("#playerNameJoin").val();
-    attemptJoin(gameID, name);
-}
-
-function createButton() {
-    const gameID = $("#gameIdCreate").val();
-    const name = $("#playerNameCreate").val();
-
-    attemptCreate(
-        gameID,
-        name,
-        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-    );
-}
-
-function importButton() {
-    const gameID = $("#gameIdImport").val();
-    const name = $("#playerNameImport").val();
-    const fen = $("#fenInputImport").val();
-
-    attemptCreate(gameID, name, fen);
-}
-
-function attemptCreate(gameID, name, fen) {
     $.ajax({
         url: "/create",
         type: "POST",
-        data: {gameID, name, fen},
+        data: { gameID, fenString },
         success: function (data) {
             if (data.error) {
                 Swal.fire({
@@ -84,17 +15,17 @@ function attemptCreate(gameID, name, fen) {
                 return;
             }
 
-            attemptJoin(gameID, name);
+            attemptJoin(gameID);
         },
         dataType: "json",
     });
 }
 
-function attemptJoin(gameID, name) {
+function attemptJoin(gameID) {
     $.ajax({
         url: "/join",
         type: "POST",
-        data: {gameID, name},
+        data: { gameID },
         success: function (data) {
             if (data.error) {
                 Swal.fire({
@@ -105,19 +36,72 @@ function attemptJoin(gameID, name) {
                 return;
             }
 
-            window.location.href = "/board?game=" + gameID + "&code=" + data.code;
+            window.location.href = "/board?game=" + gameID;
         },
         dataType: "json",
     });
 }
 
-$(document).ready(function () {
-    $("#image").attr("src", "./../resources/logo.svg");
-    $.get("/userInfo",function (data){
-        if(data != null){
-            $("#balls").hide()
-            
-            }
-        }
-    );
+$(document).ready(function() {
+    $('#logout-button').click(function() {
+        $.get('/logout', function(data) {
+            window.location = data.redirect;
+        });
+        return false;
+    });
+
+    $('#create-game').click(function() {
+        $.post('/create', {}, function(data) {
+            if (data.error) return alert('Error!');
+
+            window.location = data.redirect;
+        });
+        return false;
+    });
+
+    $('#open-join').click(function() {
+        $('#join-state').css('display', 'block');
+        $('#create-state').css('display', 'none');
+        $('#load-state').css('display', 'none');
+    });
+
+    $('#open-create').click(function() {
+        $('#join-state').css('display', 'none');
+        $('#create-state').css('display', 'block');
+        $('#load-state').css('display', 'none');
+    });
+
+    $('#open-load').click(function() {
+        $('#join-state').css('display', 'none');
+        $('#create-state').css('display', 'none');
+        $('#load-state').css('display', 'block');
+    });
+
+    $('#join-state input[name=submit]').click(function(event) {
+        const gameID = $('#join-state input[name=gameID]').val();
+
+        attemptJoin(gameID);
+
+        event.preventDefault();
+        return false;
+    });
+
+    $('#create-state input[name=submit]').click(function(event) {
+        const gameID = $('#create-state input[name=gameID]').val();
+
+        attemptCreate(gameID, '');
+
+        event.preventDefault();
+        return false;
+    });
+
+    $('#load-state input[name=submit]').click(function(event) {
+        const gameID = $('#load-state input[name=gameID]').val();
+        const string = $('#load-state input[name=string]').val();
+
+        attemptCreate(gameID, string);
+
+        event.preventDefault();
+        return false;
+    });
 });

@@ -1,69 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Chess</title>
+<head>
+    <title>Chess – Board</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="styles/board.css" />
-    <link rel="stylesheet" href="styles/login.css">
+    <link rel="stylesheet" href="styles/board.css"/>
+    <link rel="stylesheet" href="styles/background.css"/>
+
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"
-      integrity="sha512-0bEtK0USNd96MnO4XhH8jhv3nyRF0eK87pJke6pkYf3cM0uDIhNJy9ltuzqgypoIFXw3JSuiy04tVk4AjpZdZw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js" integrity="sha512-0bEtK0USNd96MnO4XhH8jhv3nyRF0eK87pJke6pkYf3cM0uDIhNJy9ltuzqgypoIFXw3JSuiy04tVk4AjpZdZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css"
-    />
-    <script src="sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="sweetalert2.min.css" />
-    <script src="/socket.io/socket.io.js"></script>
-  </head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css"/>
 
-  <body class="bg-animation">
-<!-- floaty bois -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js" integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+</head>
+
+<body>
 
 <ul class="bg-animation-box">
-  <li class="circle-box"></li>
-  <li class="corners-box-20"></li>
-  <li class="circle-box"></li>
-  <li class="corners-box-20"></li>
-  <li></li>
-  <li class="corners-box-35"></li>
-  <li class="circle-box"></li>
-  <li></li>
+    <li class="circle-box"></li>
+    <li class="corners-box-20"></li>
+    <li class="circle-box"></li>
+    <li class="corners-box-20"></li>
+    <li></li>
+    <li class="corners-box-35"></li>
+    <li class="circle-box"></li>
+    <li></li>
 </ul>
 
-<!-- floaty bois -->
-    <div id="main_content">
-      <div id="center_content">
+<div id="main_content">
+    <div id="center_content">
         <div id="board_container">
-          <span id="player2">Waiting for Opponent...</span>
+            <span id="player2">Waiting for Opponent...</span>
 
-          <table id="board"></table>
+            <table id="board"></table>
 
-          <span id="player1"></span>
+            <span id="player1"></span>
         </div>
-<!--          -->
+
         <div id="chat_container" class="glass">
-          <div id="chat_view"></div>
-          <input id="chat_input" type="text" placeholder="Enter message..." />
-<!--            -->
+            <div id="chat_view"></div>
+            <input id="chat_input" type="text" placeholder="Enter message..." />
         </div>
-      </div>
-
-      <input
-        type="button"
-        id="export"
-        value="Export Game as FEN"
-        class="button"
-      />
-      <p id="fen" style="color: white"></p>
     </div>
-    <input type="button" id="something" onclick="betterimg()" />
-    <script src="js/board/home.js"></script>
-  </body>
+
+    <input type="button" id="export" value="Export Game as FEN" class="button"/>
+    <p id="fen" style="color: white"></p>
+</div>
+<input type="button" id="something" onclick="betterimg()" />
+<script src="js/board/home.js"></script>
+</body>
 </html>

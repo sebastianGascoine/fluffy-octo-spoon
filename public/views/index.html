@@ -2,87 +2,72 @@
 <html>
 
 <head>
-    <title>Home</title>
+    <title>Chess — Home</title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 
-    <link rel="stylesheet" href="styles/index.css">
-    <link rel="stylesheet" href="styles/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- SWEET ALERT -->
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/background.css">
+
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css">
-    <script src="sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="sweetalert2.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js" integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="/sweetalert2.min.css">
 </head>
 
-<body class="darkmode text-align bg-animation">
-      
+<body>
+<section id="background-section">
     <ul class="bg-animation-box">
-      <li class="circle-box"></li>
-            <li class="corners-box-20"></li>
-            <li class="circle-box"></li>
-            <li class="corners-box-20"></li>
-            <li></li>
-            <li class="corners-box-35"></li>
-            <li class="circle-box"></li>
-      <li></li>   
-        </ul>
-    <div id="main_content">
-        <a href="/cool" class="superTopRight">c</a>
-        <div id="balls" class="topRight">
-            <input type="button" value="Log In" onclick="location.href = '/login'" class="" />
-            <input type="button" value="Sign Up" onclick="location.href = '/signup'" class="" />
-            </label>
+        <li class="circle-box"></li>
+        <li class="corners-box-20"></li>
+        <li class="circle-box"></li>
+        <li class="corners-box-20"></li>
+        <li></li>
+        <li class="corners-box-35"></li>
+        <li class="circle-box"></li>
+        <li></li>
+    </ul>
+</section>
+
+<div id="main-content">
+    <div id="logo-container">
+        <img id="logo-image" src="resources/logo.svg" width="65" height="122">
+        <h1 id="loog-title">CHESS</h1>
+    </div>
+    <div id="header">
+        <p id="open-join"><i class="fa-solid fa-gamepad" style="margin-right: 5px"></i>Join Game</p>
+        <p id="open-create"><i class="fa-solid fa-circle-plus" style="margin-right: 5px"></i>Create Game</p>
+        <p id="open-load"><i class="fa-solid fa-upload" style="margin-right: 5px"></i>Load Game</p>
+        <p id="logout-button"><i class="fa-solid fa-arrow-right-from-bracket" style="margin-right: 5px"></i>Logout</p>
+    </div>
+
+    <div id="content">
+        <div id="join-state" class="content-state">
+            <h2>Join Game</h2>
+            <input name="gameID" type="text" placeholder="game ID"/>
+            <input name="submit" type="submit" value="Join Game"/>
         </div>
-        <img id="image" src="resources/logo.svg" class="logo" width="65" height="122">
-        <h1 class="title "> CHESS </h1>
-
-
-            <input type="button" value="Join Game"   onclick="joinVis()"   class="test button" />
-            <input type="button" value="Create Game" onclick="createVis()" class="button test" />
-            <input type="button" value="Import Game" onclick="fenVis()" class="button test" />
-<!--            <input type="button" value="Log In" onclick="location.href = '/login'" class="" />-->
-
+        <div id="create-state" class="content-state">
+            <h2>Create Game</h2>
+            <input name="gameID" type="text" placeholder="game ID"/>
+            <input name="submit" type="submit" value="Create Game"/>
+        </div>
+        <div id="load-state" class="content-state">
+            <h2>Load Game</h2>
+            <input name="string" type="text" placeholder="FEN String"/>
+            <input name="gameID" type="text" placeholder="game ID"/>
+            <input name="submit" type="submit" value="Create Game"/>
         </div>
     </div>
-    <div id="input_fields">
-        <div id="1" class="input inputBox">
-            <input id="joinInput" type="text" placeholder="game ID" class="test pad" />
-            <br>
-            <input id="playerNameJoin" type="text" placeholder="Your Name" class="test pad" />
-           <br>
-            <input id="join" type="button" value="Join Game" onclick="joinButton()" class="button test" />
-        </div>
-        <div id="3" class="input">
-            <input id="gameIdCreate" type="text" placeholder="game ID" class="test pad" />
-            <br>
-            <input id="playerNameCreate" type="text" placeholder="Your Name" class="test pad" />
-            <br>
-            <input id="make" type="button" value="Create Game" onclick="createButton()" class="button test" />
-        </div>
-        <div id="2" class="input">
-            <input id="fenInputImport" type="text" placeholder="FEN String" class="test pad" />
-            <br>
-            <input id="gameIdImport" type="text" placeholder="game ID" class=" test pad" />
-            <br>
-            <input id="playerNameImport" type="text" placeholder="Your Name" class="test pad" />
-            <br>
-            <input id="make" type="button" value="Create Game" onclick="importButton()" class="button test" />
-        </div>
-    </div>
-    </form>
 </div>
-
-
-
-
-
-    <script src="js/index/home.js"></script>
+<script src="js/index/home.js"></script>
 </body>
-
-
 </html>

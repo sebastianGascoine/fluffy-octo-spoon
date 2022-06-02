@@ -1,16 +1,16 @@
-const Game = require("./database/Game");
+const Game = require("./Game");
 
 let myDatabase = function () {
-    this.board = new Array(8).fill(0).map(() => new Array(8).fill(0));
+    this.fen = new Array(8).fill(0).map(() => new Array(8).fill(0));
     this.games = [];
 };
 /*
- * .newgame(obj)[.id /.players(string [names separated by a '/' ] ) /.board(FEN string)]
+ * .newgame(obj)[.id /.players(string [names separated by a '/' ] ) /.fen(FEN string)]
  * .getgame(id)
- * .putgame(obj)[.id /.players(string)[names separated by a '/' ] /.board(FEN string)]
+ * .putgame(obj)[.id /.players(string)[names separated by a '/' ] /.fen(FEN string)]
  * .deletegame(id)
  * .getPlayers(id) returns 2 string values
- * .getboard(id)  returns FEN string
+ * .getfen(id)  returns FEN string
  */
 
 let gameIndex = 0;
@@ -21,7 +21,7 @@ myDatabase.prototype.newGame = function (game) {
             return false;
         }
     }
-    this.games[gameIndex++] = new Game(game.id, game.players, game.board);
+    this.games[gameIndex++] = new Game(game.id, game.players, game.fen);
     return true;
 };
 //similar to read
@@ -31,7 +31,7 @@ myDatabase.prototype.getGame = function (id) {
             return new Game(
                 this.games[i].id,
                 this.games[i].players,
-                this.games[i].board
+                this.games[i].fen
             );
         }
     }
@@ -45,10 +45,10 @@ myDatabase.prototype.getPlayers = function (id) {
     }
     return null;
 };
-myDatabase.prototype.getBoard = function (id) {
+myDatabase.prototype.getfen = function (id) {
     for (let i = 0; i < this.games.length; i++) {
         if (this.games[i] && id == this.games[i].id) {
-            return String(new Game(this.games[i].board));
+            return String(new Game(this.games[i].fen));
         }
     }
     return null;
@@ -57,7 +57,7 @@ myDatabase.prototype.getBoard = function (id) {
 myDatabase.prototype.putGame = function (game) {
     for (let i = 0; i < this.games.length; i++) {
         if (this.games[i] && this.games[i].id == game.id) {
-            this.games[i] = new Game(game.id, game.players, game.board);
+            this.games[i] = new Game(game.id, game.players, game.fen);
             return true;
         }
     }

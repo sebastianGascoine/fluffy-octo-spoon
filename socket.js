@@ -1,22 +1,46 @@
 const io = require("socket.io");
 
-const shared = require("./shared");
 const logic = require("./logic");
+const shared = require('./shared');
+const database = require('./shared').database;
+const passport = require("passport");
 
-module.exports = function (httpServer) {
+const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
+
+module.exports.setup = function(httpServer) {
     const server = new io.Server(httpServer);
 
-    server.on("connection", function (socket) {
+    gameServer(server);
+}
+
+function gameServer(server) {
+    const namespace = server.of('/game');
+
+    namespace.use((socket, next) => {
+        shared.sessionMiddleware(socket.request, {}, next);
+    });
+
+    namespace.use(wrap(passport.initialize()));
+    namespace.use(wrap(passport.session()));
+
+    namespace.use((socket, next) => {
+        if (socket?.request?.session?.passport?.user) return next();
+    });
+
+    namespace.on("connection", function (socket) {
         socket.on("join", function (data) {
-            const code = data.code;
-            const game = shared.database.getGame(data.game);
+            const game = database.getGame(data.game);
 
             if (!game) return;
 
             const playerIndex = game.players.findIndex(
-                (player) => player.uuid === code
+                (player) => player.name === socket.request.user.username
             );
+
             const player = game.players[playerIndex];
+
+            console.log(socket.request.user);
+            console.log(game);
 
             if (playerIndex < 0) return;
 
@@ -24,11 +48,11 @@ module.exports = function (httpServer) {
             player.socket = socket;
 
             game.players[playerIndex] = player;
-            shared.database.putGame(game);
+            database.putGame(game);
 
             socket.emit("setup", {color: player.color, name: player.name});
 
-            if (game.players.length == 2) {
+            if (game.players.length === 2) {
                 game.players[0].socket?.emit("opponent", {
                     name: game.players[1].name,
                 });
@@ -36,32 +60,31 @@ module.exports = function (httpServer) {
                     name: game.players[0].name,
                 });
 
-                const moves = logic.getPossibleMoves(game.board);
+                const moves = logic.getPossibleMoves(game.fen);
 
                 game.players[0].socket.emit("state", {
-                    fen: game.board,
+                    fen: game.fen,
                     moves: moves,
-                    turn: logic.getCurrentTurn(game.board),
+                    turn: logic.getCurrentTurn(game.fen),
                 });
                 game.players[1].socket.emit("state", {
-                    fen: game.board,
+                    fen: game.fen,
                     moves: moves,
-                    turn: logic.getCurrentTurn(game.board),
+                    turn: logic.getCurrentTurn(game.fen),
                 });
             }
         });
 
         socket.on("move", function (data) {
-            const code = data.code;
-            const game = shared.database.getGame(data.game);
+            const game = database.getGame(data.game);
 
-            const player = game?.players.find((player) => player.uuid === code);
+            const player = game?.players.find((player) => player.name === socket.request.user.username);
 
             if (!player) return;
 
-            if (logic.getCurrentTurn(game.board) !== player.color) return;
+            if (logic.getCurrentTurn(game.fen) !== player.color) return;
 
-            const moves = logic.getPossibleMoves(game.board);
+            const moves = logic.getPossibleMoves(game.fen);
             const move = moves.find(
                 (other) =>
                     other.from.rank == data.move.from.rank &&
@@ -72,10 +95,10 @@ module.exports = function (httpServer) {
 
             if (!move) return;
 
-            const currTurn = logic.getCurrentTurn(game.board);
-            const nextTurn = logic.getCurrentTurn(game.board) == "w" ? "b" : "w";
+            const currTurn = logic.getCurrentTurn(game.fen);
+            const nextTurn = logic.getCurrentTurn(game.fen) == "w" ? "b" : "w";
 
-            let nextFen = game.board;
+            let nextFen = game.fen;
 
             if (move.castle == "K") {
                 nextFen = logic.setBoard(
@@ -119,19 +142,19 @@ module.exports = function (httpServer) {
             }
 
             // Disabling castling when a piece is moved.
-            if (logic.getPiece(game.board, move.from) == "K")
+            if (logic.getPiece(game.fen, move.from) == "K")
                 nextFen = logic.setCastleOptions(
                     nextFen,
                     logic.getCastleOptions(nextFen).replace("K", "").replace("Q", "")
                 );
-            if (logic.getPiece(game.board, move.from) == "k")
+            if (logic.getPiece(game.fen, move.from) == "k")
                 nextFen = logic.setCastleOptions(
                     nextFen,
                     logic.getCastleOptions(nextFen).replace("k", "").replace("q", "")
                 );
 
             if (
-                logic.getPiece(game.board, move.from) == "R" &&
+                logic.getPiece(game.fen, move.from) == "R" &&
                 move.from.rank == 0 &&
                 move.from.file == 0
             )
@@ -140,7 +163,7 @@ module.exports = function (httpServer) {
                     logic.getCastleOptions(nextFen).replace("Q", "")
                 );
             if (
-                logic.getPiece(game.board, move.from) == "R" &&
+                logic.getPiece(game.fen, move.from) == "R" &&
                 move.from.rank == 0 &&
                 move.from.file == 7
             )
@@ -149,7 +172,7 @@ module.exports = function (httpServer) {
                     logic.getCastleOptions(nextFen).replace("K", "")
                 );
             if (
-                logic.getPiece(game.board, move.from) == "r" &&
+                logic.getPiece(game.fen, move.from) == "r" &&
                 move.from.rank == 7 &&
                 move.from.file == 0
             )
@@ -158,7 +181,7 @@ module.exports = function (httpServer) {
                     logic.getCastleOptions(nextFen).replace("q", "")
                 );
             if (
-                logic.getPiece(game.board, move.from) == "r" &&
+                logic.getPiece(game.fen, move.from) == "r" &&
                 move.from.rank == 7 &&
                 move.from.file == 7
             )
@@ -169,7 +192,7 @@ module.exports = function (httpServer) {
 
             nextFen = logic.setCurrentTurn(nextFen, nextTurn);
 
-            if (logic.getPiece(game.board, move.from) == "P" && move.to.rank == 7) {
+            if (logic.getPiece(game.fen, move.from) == "P" && move.to.rank == 7) {
                 nextFen = logic.setBoard(
                     nextFen,
                     logic.setPiece(nextFen, move.to, "Q")
@@ -179,7 +202,7 @@ module.exports = function (httpServer) {
                     logic.setPiece(nextFen, move.from, "")
                 );
             } else if (
-                logic.getPiece(game.board, move.from) == "p" &&
+                logic.getPiece(game.fen, move.from) == "p" &&
                 move.to.rank == 0
             ) {
                 nextFen = logic.setBoard(
@@ -237,9 +260,9 @@ module.exports = function (httpServer) {
                     logic.getFullmoveNumber(nextFen) + 1
                 );
 
-            game.board = nextFen;
+            game.fen = nextFen;
 
-            shared.database.putGame(game);
+            database.putGame(game);
 
             const nextMoves = logic.getPossibleMoves(nextFen);
 
@@ -263,18 +286,17 @@ module.exports = function (httpServer) {
                     player.socket.emit("gameover", {checkmate, winner: currTurn})
                 );
             } else game.players.forEach((player) => player.socket.emit("state", {
-                fen: game.board,
+                fen: game.fen,
                 moves: nextMoves,
                 turn: nextTurn
             }));
         });
 
         socket.on("chat", function (data) {
-            const code = data.code;
             const text = data.text.trim();
-            const game = shared.database.getGame(data.game);
+            const game = database.getGame(data.game);
 
-            const player = game?.players.find((player) => player.uuid === code);
+            const player = game?.players.find((player) => player.name === socket.request.user.username);
 
             if (!player || !text) return;
 

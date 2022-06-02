@@ -2,7 +2,7 @@ const ranks = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 const files = ['1', '2', '3', '4', '5', '6', '7', '8'];
 
 const params = new URLSearchParams(location.search);
-const socket = io();
+const socket = io('/game');
 
 let better = false;
 let color;
@@ -12,7 +12,7 @@ let names = [];
 
 socket.on('setup', function (data) {
     color = data.color;
-    colorFull = color == 'w' ? 'white' : 'black';
+    colorFull = color === 'w' ? 'white' : 'black';
 
     if (color === 'w') {
         for (let rank = ranks.length - 1; rank >= 0; --rank) {
@@ -68,7 +68,7 @@ socket.on('chat', function (data) {
 
 $(document).ready(function () {
     $('#export').click(exportgame);
-
+    
     $('#chat_input').keypress(function (event) {
         if (event.key !== 'Enter') return;
 
@@ -77,7 +77,6 @@ $(document).ready(function () {
         if (!text) return;
 
         socket.emit('chat', {
-            code: params.get('code'),
             game: params.get('game'),
             text,
         });
@@ -85,7 +84,7 @@ $(document).ready(function () {
         $('#chat_input').val('');
     });
 
-    socket.emit('join', {code: params.get('code'), game: params.get('game')});
+    socket.emit('join', { game: params.get('game') });
 });
 
 function createCell(row, rank, file) {
@@ -95,7 +94,7 @@ function createCell(row, rank, file) {
 
     $(cell).prop('id', location);
 
-    $(cell).append('<span class='cell_background'></span>');
+    $(cell).append('<span class="cell_background"></span>');
 
     $(cell).droppable({
         tolerance: 'pointer',
@@ -128,7 +127,6 @@ function createCell(row, rank, file) {
             setTimeout(
                 () =>
                     socket.emit('move', {
-                        code: params.get('code'),
                         game: params.get('game'),
                         move: {from, to},
                     }),

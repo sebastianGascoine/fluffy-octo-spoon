@@ -1,63 +1,30 @@
-function userClicked() {
-    console.log('signup userClicked');
+function attemptSignup(event) {
+    if (event) event.preventDefault();
 
-    $.post(
-        '/signup',
-        {username: $('#username').val(), password: $('#psw').val()},
-        function (data) {
-            if (data.error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: data.errorMessage,
-                });
-                return;
-            }
-            if (data.success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'logged in! redirecting',
-                });
-                return;
-            }
-            console.log('signup callback function');
+    console.log('A');
 
-            window.location = data.redirect;
-        }
-    );
+    $.post('/signup', {
+        username: $('#username').val(),
+        password: $('#password').val()
+    }, function (data) {
+        if (data.error) return Swal.fire({ icon: 'error', title: 'Error', text: data.errorMessage });
+
+        window.location = data.redirect;
+    });
+
     return false;
 }
 
-$(document).ready(function (event) {
-
-    $('#username').keypress(function (event) {
-        console.log('code doo doo');
-        if (event.which === 13) {
-            userClicked();
-            event.preventDefault();
-            return false;
-        }
+$(document).ready(function() {
+    $('#username').keydown((event) => {
+        if (event.which === 13) return attemptSignup(event);
     });
 
-    $('#psw').keypress(function (event) {
-        //console.log('code doo doo ' + event.which);
-        if (event.which === 13) {
-            userClicked();
-            event.preventDefault();
-            return false;
-        } else {
-            //console.log(event.which)
-        }
+    $('#password').keydown((event) => {
+        if (event.which === 13) return attemptSignup(event);
     });
-    $('#submit').click(function (event) {
-        console.log('code doo doo');
-        if (event.which === 1) {
-            userClicked();
-            event.preventDefault();
-            return false;
-        } else {
-            console.log(event.which)
-        }
+
+    $('#submit').click(() => {
+        return attemptSignup();
     });
 });

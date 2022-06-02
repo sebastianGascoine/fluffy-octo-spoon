@@ -1,0 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;300;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto Mono", monospaced;
+  color: red;
+  font-size: 20px;
+}
+
+#main-content {
+  margin: 5vw;
+
+  overflow: scroll;
+
+  display: flex;
+  flex-direction: column;
+  gap: 5vw;
+
+  justify-content: center;
+  align-items: center;
+}
