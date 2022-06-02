@@ -15,8 +15,6 @@ body {
 #main-content {
   margin: 5vw;
 
-  overflow: scroll;
-
   display: flex;
   flex-direction: column;
   gap: 3vw;
@@ -62,7 +60,6 @@ body {
   align-items: center;
   justify-content: center;
 
-  overflow: scroll;
   max-height: 100%;
 }
 
