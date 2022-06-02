@@ -43,6 +43,16 @@ function attemptJoin(gameID) {
 }
 
 $(document).ready(function() {
+    $.ajax({
+        url: "/userInfo",
+        type: "GET",
+        success: function (data) {
+            if (data.error) return;
+
+            $('#user-info').text(`${data.username} (${data.wins} wins)`)
+        },
+    });
+
     $('#logout-button').click(function() {
         $.get('/logout', function(data) {
             window.location = data.redirect;

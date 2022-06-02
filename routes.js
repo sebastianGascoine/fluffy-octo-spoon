@@ -28,6 +28,15 @@ router.get('/signup', function (req, res) {
     res.sendFile(path.resolve(__dirname + '/public/views/signup.html'));
 });
 
+router.get('/userInfo', function(req, res) {
+   if (!req.isAuthenticated()) return res.json({ error: true });
+
+   return res.json({
+      username: req.user.username,
+      wins: req.user.wins
+   });
+});
+
 router.post('/create', function (req, res) {
     let gameID = String(req.body.gameID).trim();
     let name = req.user.username;

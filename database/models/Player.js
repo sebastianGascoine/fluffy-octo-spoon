@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
     username: { type: String, required: true, unique: true },
-    password: { type: String, required: true }
+    password: { type: String, required: true },
+    wins: { type: Number, default: 0 }
 });
 
 schema.pre('save', function(done) {
