@@ -11,7 +11,7 @@ const socket = require('./socket');
 const setupPassport = require('./setupPassport');
 const routes = require('./routes');
 
-mongoose.connect('mongodb://localhost:27017/userdb');
+mongoose.connect('mongodb://127.0.0.1:27017/userdb-group4');
 setupPassport();
 
 const app = express();
@@ -30,7 +30,7 @@ app.use(passport.session());
 app.use('/', express.static('./public'));
 app.use(routes);
 
-const port = 3000;
+const port = 3004;
 app.set('port', process.env.PORT || port);
 
 socket.setup(server);
