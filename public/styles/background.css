@@ -6,10 +6,6 @@ html {
 }
 
 body {
-    overflow: hidden;
-
-    background: linear-gradient(307deg, #000000, #121212);
-
     -webkit-animation: BackgroundAnimation 7s ease infinite;
     -moz-animation: BackgroundAnimation 7s ease infinite;
     animation: BackgroundAnimation 7s ease infinite;
@@ -42,6 +38,8 @@ body {
     }
 }
 .bg-animation-box {
+    background: linear-gradient(307deg, #000000, #121212);
+
     position: fixed;
     top: 0;
     left: 0;

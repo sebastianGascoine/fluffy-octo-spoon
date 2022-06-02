@@ -147,7 +147,7 @@ router.post('/signup', function (req, res, next) {
     Player.findOne({ username }, function (err, player) {
         if (err) return next(err);
 
-        if (player) return res.json({ error: 'User already exists' });
+        if (player) return res.json({ error: true, errorMessage: 'User already exists' });
 
         const createdPlayer = new Player({ username, password });
         createdPlayer.save(next);

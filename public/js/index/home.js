@@ -86,6 +86,17 @@ $(document).ready(function() {
         return false;
     });
 
+    $('#join-state input[name=gameID]').keydown(function(event) {
+        if (event.which !== 13) return;
+
+        const gameID = $('#join-state input[name=gameID]').val();
+
+        attemptJoin(gameID);
+
+        event.preventDefault();
+        return false;
+    });
+
     $('#create-state input[name=submit]').click(function(event) {
         const gameID = $('#create-state input[name=gameID]').val();
 
@@ -95,7 +106,42 @@ $(document).ready(function() {
         return false;
     });
 
+    $('#create-state input[name=gameID]').keydown(function(event) {
+        if (event.which !== 13) return;
+
+        const gameID = $('#create-state input[name=gameID]').val();
+
+        attemptCreate(gameID, '');
+
+        event.preventDefault();
+        return false;
+    });
+
     $('#load-state input[name=submit]').click(function(event) {
+        const gameID = $('#load-state input[name=gameID]').val();
+        const string = $('#load-state input[name=string]').val();
+
+        attemptCreate(gameID, string);
+
+        event.preventDefault();
+        return false;
+    });
+
+    $('#load-state input[name=gameID]').keydown(function(event) {
+        if (event.which !== 13) return;
+
+        const gameID = $('#load-state input[name=gameID]').val();
+        const string = $('#load-state input[name=string]').val();
+
+        attemptCreate(gameID, string);
+
+        event.preventDefault();
+        return false;
+    });
+
+    $('#load-state input[name=string]').keydown(function(event) {
+        if (event.which !== 13) return;
+
         const gameID = $('#load-state input[name=gameID]').val();
         const string = $('#load-state input[name=string]').val();
 

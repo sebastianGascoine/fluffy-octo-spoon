@@ -68,7 +68,9 @@ socket.on('chat', function (data) {
 
 $(document).ready(function () {
     $('#export').click(exportgame);
-    
+
+    $('#back').click(() => window.location = '/');
+
     $('#chat_input').keypress(function (event) {
         if (event.key !== 'Enter') return;
 

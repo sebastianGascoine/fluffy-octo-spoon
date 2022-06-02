@@ -1,8 +1,6 @@
 function attemptSignup(event) {
     if (event) event.preventDefault();
-
-    console.log('A');
-
+    
     $.post('/signup', {
         username: $('#username').val(),
         password: $('#password').val()
