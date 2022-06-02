@@ -5,7 +5,7 @@ const router = express.Router();
 
 const passport = require('passport');
 
-const valid = require('fen-validator').default;
+const valid = require('./valid');
 const database = require('./shared').database;
 const Player = require('./database/models/Player');
 const Game = require('./database/Game');
@@ -62,7 +62,7 @@ router.post('/create', function (req, res) {
 
     if (!fen) fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
-    if (!valid(fen)) {
+    if (valid.ValidateFEN(fen)) {
         res.json({
             error: true,
             errorCode: 4,
