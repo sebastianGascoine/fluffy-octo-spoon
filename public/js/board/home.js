@@ -329,6 +329,9 @@ function betterimg() {
 }
 
 socket.on('gameover', function (data) {
+    $('#player1').text(names[0]);
+    $('#player2').text(names[1]);
+
     state.moves = [];
     state.turn = color == 'w' ? 'b' : 'w';
 
@@ -338,17 +341,17 @@ socket.on('gameover', function (data) {
                 title: 'Done!',
                 text: 'You Win!',
                 icon: 'success',
-                confirmButtonText: 'Cool',
+                confirmButtonText: 'Okay',
                 background: '#000',
-            });
+            }).then(() => window.location = '/');
         } else {
             Swal.fire({
                 title: 'Checkmate!',
                 text: 'You Lose!',
                 icon: 'error',
-                confirmButtonText: 'Cool',
+                confirmButtonText: 'Okay',
                 background: '#000',
-            });
+            }).then(() => window.location = '/');
         }
     } else {
         Swal.fire({
